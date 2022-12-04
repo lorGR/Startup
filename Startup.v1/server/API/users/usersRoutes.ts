@@ -1,10 +1,11 @@
 import express from "express";
-import { login, register } from "./usersCtrl";
+import { getUserByCookie, login, register } from "./usersCtrl";
 
 const router = express.Router();
 
 router
 .post("/register", register)
 .post("/login", login)
+.get("/get-user-by-cookie", getUserByCookie)
 
 export default router;
