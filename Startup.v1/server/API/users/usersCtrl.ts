@@ -25,7 +25,7 @@ export function register(req: express.Request, res: express.Response) {
                 const cookie = { userId: result.insertId };
                 const secret = process.env.JWT_SECRET;
 
-                if(!secret) throw new Error("Couldn't load secret from .env");
+                if (!secret) throw new Error("Couldn't load secret from .env");
 
                 const JWTCookie = jwt.encode(cookie, secret);
 
@@ -36,6 +36,33 @@ export function register(req: express.Request, res: express.Response) {
             }
         });
 
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+}
+
+export function getUserByCookie(req: express.Request, res: express.Response) {
+    try {
+        const secret = process.env.JWT_SECRET;
+        if (!secret) throw new Error("Couldn't load secret from .env");
+
+        const { userID } = req.cookies;
+        if (!userID) throw new Error("Couldn't find cookie named userID in application");
+
+        const decodeUserId = jwt.decode(userID, secret);
+        const { userId } = decodeUserId;
+        if (!userId) throw new Error("Couldn't find userId from decodedUserId");
+
+        const sql = `SELECT * FROM users WHERE user_id = '${userId}'`;
+
+        connection.query(sql, (error, result) => {
+            try {
+                if (error) throw error;
+                res.send({ result });
+            } catch (error) {
+                res.status(500).send({ error: error.message });
+            }
+        });
     } catch (error) {
         res.status(500).send({ error: error.message });
     }
