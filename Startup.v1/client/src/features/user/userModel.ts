@@ -36,5 +36,4 @@ export interface User {
   protein_calc?: number | boolean; //TODO: check tiny Int: is boolean or number?
   profile_image?: string,
   language?: Language
-
 }
