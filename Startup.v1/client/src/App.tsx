@@ -1,6 +1,5 @@
 import React from "react";
 import logo from "./logo.svg";
-import { Counter } from "./features/counter/Counter";
 import "./App.css";
 import { Screen } from "./components/screen/Screen.styled";
 import { Container } from "./components/container/Container.styled";
