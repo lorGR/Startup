@@ -67,3 +67,39 @@ export function getUserByCookie(req: express.Request, res: express.Response) {
         res.status(500).send({ error: error.message });
     }
 }
+
+export async function login(req: express.Request, res: express.Response) {
+    try {
+        const { email,  password} = req.body;
+        if (!email ||  !password ) throw new Error("Couldn't receive email/firstName/lastName/identityNumber/password/confirmPassword from req.body FROM register CNTL");
+
+        const saltRounds = 10;
+        const salt = bycrpt.genSaltSync(saltRounds);
+        const hashPassword = bycrpt.hashSync(password, salt);
+
+        const sql = `SELECT * from users WHERE email='${email}'`;
+
+        connection.query(sql, async (error, result) => {
+            try {
+                if (error) throw error;
+                const isMatch = await bycrpt.compare(password, result[0].password);
+                if (!isMatch) throw new Error("Email or password incorrect");
+        
+                const cookie = { userID: result[0].user_id };
+                const secret = process.env.JWT_SECRET;
+                if (!secret) throw new Error("Couldn't load secret from .env");
+        
+                const JWTCookie = jwt.encode(cookie, secret);
+        
+                res.cookie("userId", JWTCookie);
+                res.send({ ok: true, userArray: result });
+              } catch (error) {
+                console.log(error);
+                res.status(500).send({ ok: false, error: error });
+              }
+        });
+
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+}
