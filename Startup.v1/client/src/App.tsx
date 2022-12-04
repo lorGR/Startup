@@ -1,11 +1,12 @@
 import React from "react";
 import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 import { Screen } from "./components/screen/Screen.styled";
 import { Container } from "./components/container/Container.styled";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "./views/login/Login";
 import { Register } from './views/register/Register';
+import UserAgreement from "./views/userAgreement/UserAgreement";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Screen>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<UserAgreement />}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
         </Routes>

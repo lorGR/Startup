@@ -1,0 +1,59 @@
+.user-agreement {
+    width: 100%;
+    height: 100%;
+    background-image: url(../../assets/images/general/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0.2rem .20rem;
+
+    &__header {
+        position: relative;
+        width: 100%;
+        height: 25%;
+
+        &__logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+
+            img {
+                width: 6rem;
+                position: absolute;
+            }
+        }
+    }
+
+    &__container {
+        padding: 0 1rem;
+        border: 4px solid #2058AE;
+        border-radius: .5rem;
+        background: linear-gradient(180deg, rgba(144, 199, 240, .7) 0%, rgba(255, 255, 255, 1) 100%);
+        height: 75%;
+        position: relative;
+        &__agreement {
+            &__title {
+                color: #1F4C8F;
+                text-align: center;
+                font-weight: 700;
+                margin: 1rem 0;
+            }
+
+            &__subtitle {
+                font-weight: bold;
+            }
+
+            &__text {
+                margin: 1rem 0;
+                line-height: 1.5rem;
+            }
+        }
+        &__button-agreement {
+            padding: 2rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

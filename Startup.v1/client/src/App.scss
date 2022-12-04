@@ -1,0 +1,21 @@
+@import "../src/views/userAgreement/userAgreement.scss";
+
+html {
+  font-size: 18px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Rubik', sans-serif;
+}
+
+.btn-main {
+  font-size: 1.25rem;
+  padding: .2rem 2rem;
+  border: 2px solid #2058AE;
+  border-radius: .5rem;
+  background: linear-gradient(0deg, rgba(144, 199, 240, .7) 0%, rgba(255, 255, 255, 1) 100%);
+  cursor: pointer;
+}
