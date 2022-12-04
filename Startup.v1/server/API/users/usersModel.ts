@@ -5,5 +5,6 @@ export const UserJoi = Joi.object({
     lastName: Joi.string().required(),
     identityNumber: Joi.number().integer().required(),
     email: Joi.string().email().required(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
+    confirmPassword: Joi.ref('password')
 });
