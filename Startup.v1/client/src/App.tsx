@@ -5,6 +5,7 @@ import { Screen } from "./components/screen/Screen.styled";
 import { Container } from "./components/container/Container.styled";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "./views/login/Login";
+import { Register } from './views/register/Register';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login/>}/>
+          <Route path="/register" element={<Register/>}/>
         </Routes>
       </BrowserRouter>
       </Screen>

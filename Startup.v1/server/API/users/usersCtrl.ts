@@ -30,7 +30,7 @@ export function register(req: express.Request, res: express.Response) {
                 const JWTCookie = jwt.encode(cookie, secret);
 
                 res.cookie("userID", JWTCookie);
-                res.send({ register: true, id: result.insertId });
+                res.send({ register: true});
             } catch (error) {
                 res.status(500).send({ error: error.message });
             }
