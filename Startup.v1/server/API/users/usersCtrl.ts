@@ -73,10 +73,6 @@ export async function login(req: express.Request, res: express.Response) {
         const { email,  password} = req.body;
         if (!email ||  !password ) throw new Error("Couldn't receive email/firstName/lastName/identityNumber/password/confirmPassword from req.body FROM register CNTL");
 
-        const saltRounds = 10;
-        const salt = bycrpt.genSaltSync(saltRounds);
-        const hashPassword = bycrpt.hashSync(password, salt);
-
         const sql = `SELECT * from users WHERE email='${email}'`;
 
         connection.query(sql, async (error, result) => {
@@ -91,7 +87,7 @@ export async function login(req: express.Request, res: express.Response) {
         
                 const JWTCookie = jwt.encode(cookie, secret);
         
-                res.cookie("userId", JWTCookie);
+                res.cookie("userID", JWTCookie);
                 res.send({ ok: true, userArray: result });
               } catch (error) {
                 console.log(error);
