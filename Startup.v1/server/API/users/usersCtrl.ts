@@ -1,10 +1,14 @@
 import express from "express";
 import { connection } from "../../DB/databaseSQL";
+import { UserJoi } from "./usersModel";
 
 export function register(req: express.Request, res: express.Response) {
     try {
-        const { email, firstName, lastName, identityNumber, password } = req.body;
-        if (!email || !firstName || !lastName || !identityNumber || !password) throw new Error("Couldn't receive email/firstName/lastName/identityNumber/password from req.body FROM register CNTL");
+        const { email, firstName, lastName, identityNumber, password, confirmPassword } = req.body;
+        if (!email || !firstName || !lastName || !identityNumber || !password || !confirmPassword) throw new Error("Couldn't receive email/firstName/lastName/identityNumber/password/confirmPassword from req.body FROM register CNTL");
+
+        const { error } = UserJoi.validate({firstName, lastName, identityNumber, email, password, confirmPassword});
+        if(error) throw error;
 
         const sql = `INSERT INTO users(first_name, last_name, identity_number, email, password) VALUES ('${firstName}', '${lastName}', '${identityNumber}', '${email}', '${password}')`;
 
