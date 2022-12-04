@@ -1,6 +1,7 @@
 import express from "express";
 import { connection } from "../../DB/databaseSQL";
 import { UserJoi } from "./usersModel";
+import bycrpt from "bcrypt";
 
 export function register(req: express.Request, res: express.Response) {
     try {
@@ -10,7 +11,11 @@ export function register(req: express.Request, res: express.Response) {
         const { error } = UserJoi.validate({firstName, lastName, identityNumber, email, password, confirmPassword});
         if(error) throw error;
 
-        const sql = `INSERT INTO users(first_name, last_name, identity_number, email, password) VALUES ('${firstName}', '${lastName}', '${identityNumber}', '${email}', '${password}')`;
+        const saltRounds = 10;
+        const salt = bycrpt.genSaltSync(saltRounds);
+        const hashPassword = bycrpt.hashSync(password, salt);
+
+        const sql = `INSERT INTO users(first_name, last_name, identity_number, email, password) VALUES ('${firstName}', '${lastName}', '${identityNumber}', '${email}', '${hashPassword}')`;
 
         connection.query(sql, (error, result) => {
             try {
