@@ -1,6 +1,9 @@
 import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Language } from "../../features/user/userModel";
+import hebrew from "../../assets/images/settings/flags/israel.svg"
+
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -32,6 +35,8 @@ export const Register = () => {
         identityNumberInput.value,
       ];
 
+      const language = event.target.elements.language.value
+
       const { data } = await axios.post("/api/users/register", {
         email,
         firstName,
@@ -39,10 +44,11 @@ export const Register = () => {
         password,
         confirmPassword,
         identityNumber,
+        language
       });
       const { register } = data;
 
-      register ? navigate("/home") : console.log("register failed");
+      register ? navigate("/user-inforamtion") : console.log("register failed");
     } catch (error) {
       console.error(error);
     }
@@ -51,6 +57,10 @@ export const Register = () => {
   return (
     <div>
       <form onSubmit={handleRegister}>
+        <select name="language">
+            <option value={Language.HEBREW}>עברית</option>
+            <option value={Language.ENGLISH}>English</option>
+        </select>
         <input
           type="text"
           name="firstNameInput"
@@ -77,7 +87,9 @@ export const Register = () => {
           name="confirmPasswordInput"
           placeholder="Please Repeat Password:"
         />
+        <input type="text" name="image" placeholder="Enter Image Url"/>
         <button type="submit">SIGN UP</button>
+
       </form>
     </div>
   );

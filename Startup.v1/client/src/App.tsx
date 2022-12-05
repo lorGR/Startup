@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "./views/login/Login";
 import { Register } from './views/register/Register';
 import UserAgreement from "./views/userAgreement/UserAgreement";
+import { UserInfo } from './views/userInformation/UserInfo';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<UserAgreement />}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
+          <Route path="/user-inforamtion" element={<UserInfo/>}/>
         </Routes>
       </BrowserRouter>
       </Screen>
