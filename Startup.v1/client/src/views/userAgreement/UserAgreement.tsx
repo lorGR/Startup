@@ -1,5 +1,5 @@
-import logoP1 from "../../assets/images/settings/logoP1.png";
-import logoP2 from "../../assets/images/settings/logoP2.png";
+import logoP1 from "../../assets/images/logo/logoP1.png";
+import logoP2 from "../../assets/images/logo/logoP2.png";
 import background from "../../assets/images/general/background.jpg";
 
 const UserAgreement = () => {

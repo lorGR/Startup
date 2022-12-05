@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "./views/login/Login";
 import { Register } from './views/register/Register';
 import UserAgreement from "./views/userAgreement/UserAgreement";
+import Intro from "./views/intro/Intro";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <Screen>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<UserAgreement />}/>
+          <Route path="/" element={<Intro />}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
         </Routes>
