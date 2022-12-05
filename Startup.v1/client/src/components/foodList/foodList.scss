@@ -1,0 +1,52 @@
+.foodList {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.foodList__item {
+    display: flex;
+
+    p {
+        display: inline;
+    }
+
+    &__start {
+        flex: 3;
+        align-self: flex-start;
+        display: inline;
+    }
+
+    &__center {
+        flex: 1;
+        align-self: center;
+        display: inline;
+
+    }
+
+    &__end {
+        display: inline;
+        flex: 1;
+        align-self: flex-end;
+    }
+}
+
+input[type=checkbox]:checked + .test {
+    border: solid 1px purple;
+          color: purple;
+}
+
+input[type=checkbox] {
+    display: none;
+ }
+
+.test {
+    height: 2rem;
+    width: 100%;
+    // border: 1px solid black;
+    display: block;
+    margin-top: 10px;
+    color: green;
+}
