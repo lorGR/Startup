@@ -11,8 +11,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 import UserRoutes from "./API/users/usersRoutes";
-app.use('/api/users', UserRoutes);
+app.use("/api/users", UserRoutes);
+
+import foodRoutes from "./API/food/foodRoutes";
+app.use("/api/food", foodRoutes);
 
 app.listen(port, () => {
-    console.info(`Server is up and running at http://localhost:${port}`);
+  console.info(`Server is up and running at http://localhost:${port}`);
 });
