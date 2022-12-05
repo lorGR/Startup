@@ -8,6 +8,7 @@ import { Login } from "./views/login/Login";
 import { Register } from './views/register/Register';
 import UserAgreement from "./views/userAgreement/UserAgreement";
 import Intro from "./views/intro/Intro";
+import { UserInfo } from './views/userInformation/UserInfo';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Intro />}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
+          <Route path="/user-information" element={<UserInfo/>}/>
         </Routes>
       </BrowserRouter>
       </Screen>

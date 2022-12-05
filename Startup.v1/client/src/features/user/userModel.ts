@@ -1,20 +1,20 @@
-enum Gender {
+export enum Gender {
   MALE = "male",
   FEMALE = "female",
   OTHER = "other",
 }
 
-enum DiabetesTypes {
+export enum DiabetesTypes {
   ONE = "1",
   TWO = "2",
 }
 
-enum CarbsUnit {
+export enum CarbsUnit {
     GRAM = "gram",
     PORTION = "portion"
 }
 
-enum Language {
+export enum Language {
     HEBREW = "hebrew",
     ENGLISH = "english"
 }

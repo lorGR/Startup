@@ -6,8 +6,8 @@ import jwt from "jwt-simple";
 
 export function register(req: express.Request, res: express.Response) {
     try {
-        const { email, firstName, lastName, identityNumber, password, confirmPassword } = req.body;
-        if (!email || !firstName || !lastName || !identityNumber || !password || !confirmPassword) throw new Error("Couldn't receive email/firstName/lastName/identityNumber/password/confirmPassword from req.body FROM register CNTL");
+        const { email, firstName, lastName, identityNumber, password, confirmPassword, language } = req.body;
+        if (!email || !firstName || !lastName || !identityNumber || !password || !confirmPassword || !language) throw new Error("Couldn't receive email/firstName/lastName/identityNumber/password/confirmPassword from req.body FROM register CNTL");
 
         const { error } = UserJoi.validate({ firstName, lastName, identityNumber, email, password, confirmPassword });
         if (error) throw error;
@@ -16,7 +16,7 @@ export function register(req: express.Request, res: express.Response) {
         const salt = bycrpt.genSaltSync(saltRounds);
         const hashPassword = bycrpt.hashSync(password, salt);
 
-        const sql = `INSERT INTO users(first_name, last_name, identity_number, email, password) VALUES ('${firstName}', '${lastName}', '${identityNumber}', '${email}', '${hashPassword}')`;
+        const sql = `INSERT INTO users(first_name, last_name, identity_number, email, password, language) VALUES ('${firstName}', '${lastName}', '${identityNumber}', '${email}', '${hashPassword}', '${language}')`;
 
         connection.query(sql, (error, result) => {
             try {
