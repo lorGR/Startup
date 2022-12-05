@@ -13,6 +13,9 @@ app.use(cookieParser());
 import UserRoutes from "./API/users/usersRoutes";
 app.use('/api/users', UserRoutes);
 
+import MealsRoutes from "./API/meals/mealsRoutes";
+app.use("/api/meals", MealsRoutes);
+
 app.listen(port, () => {
     console.info(`Server is up and running at http://localhost:${port}`);
 });
