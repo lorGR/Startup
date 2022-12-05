@@ -3,7 +3,7 @@ import Navbar from "../../components/navbar/Navbar"
 
 const Favorites = () => {
   return (
-    <div>
+    <div className="favorites">
         <Header headerType="carbsDisplay"/>
         <Navbar navbarType="main"/>
     </div>

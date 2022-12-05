@@ -3,7 +3,7 @@ import Navbar from "../../components/navbar/Navbar"
 
 const List = () => {
     return (
-        <div>
+        <div className="list">
             <Header headerType="carbsDisplay" />
             <Navbar navbarType="main"/>
         </div>
