@@ -2,10 +2,17 @@ import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
 import professionalHeader from "../../assets/images/logo/professionalHeader.png";
 import logoP1 from "../../assets/images/logo/logoP1.png";
 import logoP2 from "../../assets/images/logo/logoP2.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
+import { userSelector } from "../../features/user/userSlice";
 
 const Intro = () => {
     const navigate = useNavigate();
+
+    const user = useAppSelector(userSelector);
+
+    user !== undefined && navigate("/home");
+    
     return (
         <div className="intro">
             <div className="intro__header">

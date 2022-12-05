@@ -75,23 +75,27 @@ export function getUserByCookie(req: express.Request, res: express.Response) {
     if (!userID)
       throw new Error("Couldn't find cookie named userID in application");
 
-    const decodeUserId = jwt.decode(userID, secret);
-    const { userId } = decodeUserId;
-    if (!userId) throw new Error("Couldn't find userId from decodedUserId");
-
-    const sql = `SELECT * FROM users WHERE user_id = '${userId}'`;
-
-    connection.query(sql, (error, result) => {
-      try {
-        if (error) throw error;
-        res.send({ result });
-      } catch (error) {
+        const decodeUserId = jwt.decode(userID, secret);
+        if(userID && decodeUserId) {
+            const { userID } = decodeUserId;
+            if (!userID) throw new Error("Couldn't find userId from decodedUserId");
+    
+            const sql = `SELECT * FROM users WHERE user_id = '${userID}'`;
+    
+            connection.query(sql, (error, result) => {
+                try {
+                    if (error) throw error;
+                    res.send({ result });
+                } catch (error) {
+                    res.status(500).send({ error: error.message });
+                }
+            });
+        } else {
+            res.status(500).send({error: "No userID from cookies"});
+        }
+    } catch (error) {
         res.status(500).send({ error: error.message });
-      }
-    });
-  } catch (error) {
-    res.status(500).send({ error: error.message });
-  }
+    }
 }
 
 export async function login(req: express.Request, res: express.Response) {
