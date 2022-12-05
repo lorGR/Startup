@@ -1,14 +1,25 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 
 export const UserInfo = () => {
+    const navigate = useNavigate();
   const [date, setDate] = useState<Date>();
   const [age, setAge] = useState<number>();
 
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => {
-    const formData = JSON.stringify(data);
-    console.log(formData)
+
+
+  const onSubmit = async (info: any) => {
+    const formData = JSON.stringify(info);
+    const { data } = await axios.post("/api/users/updated-user-info", {
+      formData, 
+    });
+    const {result} = data;
+    if (result.affectedRows > 0) {
+        navigate("/home")
+    }
   };
 
   function getAge(dateString: Date) {
@@ -72,23 +83,20 @@ export const UserInfo = () => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
-        {...register("birthday")}
+          {...register("birth_date")}
           onChange={handleUpdate}
-          name="birthday"
-          onBlur={handleChangetotext}
-          onClick={handleChangetoDate}
-          type="text"
-          placeholder="גיל"
+          name="birth_date"
+          type="date"
         />
         <input
           {...register("height")}
-          type="number"
+          type="text"
           name="height"
           placeholder="גובה"
         />
         <input
           {...register("weight")}
-          type="number"
+          type="text"
           name="weight"
           placeholder="משקל"
         />
@@ -97,7 +105,7 @@ export const UserInfo = () => {
           <option value="female">נקבה</option>
           <option value="other">אחר</option>
         </select>
-        <select {...register("diabetesType")} name="diabetesType">
+        <select {...register("diabetes_type")} name="diabetes_type">
           <option value="1">1</option>
           <option value="2">2</option>
         </select>
@@ -107,86 +115,93 @@ export const UserInfo = () => {
           name="hmo"
           placeholder="קופת חולים"
         />
-        <div {...register("sugar")} className="switch">
+        <label htmlFor="mgdl" className="switch-label switch-label-off">
           <input
+            {...register("sugar")}
             type="radio"
             className="switch-input"
             name="sugar"
             value="mgdl"
             id="mgdl"
           />
-          <label htmlFor="mgdl" className="switch-label switch-label-off">
-            mg/dl
-          </label>
-          <input
-            type="radio"
-            className="switch-input"
-            name="sugar"
-            value="american"
-            id="american"
-          />
+          mg/dl
+        </label>
+        <div className="blood_sugar">
           <label htmlFor="american" className="switch-label switch-label-on">
+            <input
+              {...register("sugar")}
+              type="radio"
+              className="switch-input"
+              name="sugar"
+              value="american"
+              id="american"
+            />
             american units
           </label>
-          <span className="switch-selection"></span>
-        </div>
-        <div {...register("units")} className="switch-count">
-          <input
-            type="radio"
-            className="switch-count-input"
-            name="units"
-            value="gram"
-            id="gram"
-          />
+
           <label
             htmlFor="gram"
             className="switch-count-label switch-count-label-off"
           >
-        גרם
+            <input
+              {...register("units")}
+              type="radio"
+              className="switch-count-input"
+              name="units"
+              value="gram"
+              id="gram"
+            />
+            גרם
           </label>
-          <input
-            type="radio"
-            className="switch-count-input"
-            name="units"
-            value="portion"
-            id="portion"
-          />
+        </div>
+
+        <div className="measure">
           <label
             htmlFor="unit"
             className="switch-count-label switch-count-label-on"
           >
+            <input
+              {...register("units")}
+              type="radio"
+              className="switch-count-input"
+              name="units"
+              value="portion"
+              id="portion"
+            />
             מנות
           </label>
-          <span className="switch-count-selection"></span>
         </div>
-        <div {...register("protein")} className="switch-protein">
-          <input
-            type="radio"
-            className="switch-protein-input"
-            name="protein"
-            value="include"
-            id="include"
-          />
+
+        <div className="protein_included">
           <label
             htmlFor="include"
             className="switch-protein-label switch-protein-label-off"
           >
+            <input
+              {...register("protein")}
+              type="radio"
+              className="switch-protein-input"
+              name="protein"
+              value="1"
+              id="include"
+            />
             כולל
           </label>
-          <input
-            type="radio"
-            className="switch-protein-input"
-            name="protein"
-            value="notInclude"
-            id="notInclude"
-          />
+
           <label
             htmlFor="notInclude"
             className="switch-protein-label switch-protein-label-on"
           >
+            <input
+              {...register("protein")}
+              type="radio"
+              className="switch-protein-input"
+              name="protein"
+              value="0"
+              id="notInclude"
+            />
             לא כולל
           </label>
-          <span className="switch-protein-selection"></span>
         </div>
         <div className="balance">
           <input
