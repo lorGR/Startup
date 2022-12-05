@@ -1,3 +1,25 @@
 .home {
     height: 100%;
+    position: relative;
+}
+
+.add-meal-container { 
+    position: absolute;   
+    width: 10rem;
+    padding: 1rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid #5171a9;
+    border-radius: .5rem;
+    background: linear-gradient(135deg, rgba(183,214,242,1) 0%, rgba(255,255,255,1) 50%, rgba(183,214,242,1) 100%);
+}
+
+.add-meal {
+    &__form {
+        direction: rtl;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
 }
