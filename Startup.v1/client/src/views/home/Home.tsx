@@ -15,15 +15,17 @@ const Home = () => {
   const handleAddMeal = async (event: any) => {
     try {
       event.preventDefault();
-      const { bloodSugarInput, dateInput, insulinInput, timeInput} = event.target.elements;
+      const { bloodSugarInput, dateInput, insulinInput, timeInput } = event.target.elements;
       const [blood_sugar, insulin, date, time] = [bloodSugarInput.value, insulinInput.value, dateInput.value, timeInput.value];
-      if(user) {
+      if (user) {
         const userId = user.user_id;
-        const { data } = await axios.post("/api/meals/add-meal", {userId, blood_sugar, insulin, date, time});
-        if(!data) throw new Error("Couldn't receive data from axios POST '/add-meal' ");
-        console.log(data);
+        const { data } = await axios.post("/api/meals/add-meal", { userId, blood_sugar, insulin, date, time });
+        if (!data) throw new Error("Couldn't receive data from axios POST '/add-meal' ");
+        const { result } = data;
+        if(result.affectedRows > 0) {
+          setAddMealForm(!addMealForm);
+        }
       }
-      console.log(blood_sugar, insulin, date, time);
     } catch (error) {
       console.error(error);
     }
@@ -37,9 +39,9 @@ const Home = () => {
         <div className="add-meal-container">
           <div className="add-meal">
             <form onSubmit={handleAddMeal} className="add-meal__form">
-              <input type="date" name="dateInput" id="date" placeholder="הזן תאריך"/>
-              <input type="time" name="timeInput" id="time" placeholder="הזן שעת ארוחה"/>
-              <input type="number" name="bloodSugarInput" id="bloodSugar" placeholder="הזן כמות סוכר בדם"/>
+              <input type="date" name="dateInput" id="date" placeholder="הזן תאריך" />
+              <input type="time" name="timeInput" id="time" placeholder="הזן שעת ארוחה" />
+              <input type="number" name="bloodSugarInput" id="bloodSugar" placeholder="הזן כמות סוכר בדם" />
               <input type="number" name="insulinInput" id="insulin" placeholder="הזן כמות אינסולין" />
               <button>✅</button>
             </form>
