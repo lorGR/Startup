@@ -7,10 +7,22 @@ interface FoodItemProps {
   setPickedFoodArray: CallableFunction;
 }
 
-export const FoodListItem: FC<FoodItemProps> = ({ foodItem, pickedFoodArray, setPickedFoodArray }) => {
+export const FoodListItem: FC<FoodItemProps> = ({
+  foodItem,
+  pickedFoodArray,
+  setPickedFoodArray,
+}) => {
   function handleToggleAddFoodToArray() {
     try {
-        setPickedFoodArray((currentState:Food[]) => [...currentState, foodItem]  )
+      if (pickedFoodArray.includes(foodItem)) {
+        const result = pickedFoodArray.filter(food => food != foodItem);
+        setPickedFoodArray(result);
+      } else {
+        setPickedFoodArray((currentState: Food[]) => [
+          ...currentState,
+          foodItem,
+        ]);
+      }
     } catch (error) {
       console.error(error);
     }
