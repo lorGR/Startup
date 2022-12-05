@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { useEffect } from "react";
 import { getUserByCookie } from "./features/user/userAPI";
 import { userSelector } from "./features/user/userSlice";
+import { FoodList } from './components/foodList/FoodList';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/list" element={<List />} />
+            <Route path="/foodlist" element={<FoodList />} />
           </Routes>
         </BrowserRouter>
       </Screen>
