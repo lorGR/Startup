@@ -12,6 +12,7 @@ export const UserInfo = () => {
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
             ageCalc--;
         }
+        console.log(ageCalc)
         setAge(ageCalc);
     }
 
@@ -24,12 +25,21 @@ export const UserInfo = () => {
             console.error(error)
         }
     }
+
+    function changeAge(date:Date) {
+        try {
+            
+        } catch (error) {
+            console.error(error)
+        }
+    }
     function handleChangetotext(event:any) {
         try {
             setDate(event.target.value)
+            getAge(date!);
             if(event.target.type === "date") {
                 event.target.type = "text";
-                event.target.value = "";
+                event.target.value = age;
             }
             console.log(date)
         } catch (error) {

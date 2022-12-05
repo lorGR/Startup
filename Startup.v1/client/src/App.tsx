@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<UserAgreement />}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
-          <Route path="/user-inforamtion" element={<UserInfo/>}/>
+          <Route path="/user-information" element={<UserInfo/>}/>
         </Routes>
       </BrowserRouter>
       </Screen>

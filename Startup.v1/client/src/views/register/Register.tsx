@@ -48,7 +48,7 @@ export const Register = () => {
       });
       const { register } = data;
 
-      register ? navigate("/user-inforamtion") : console.log("register failed");
+      register ? navigate("/user-information") : console.log("register failed");
     } catch (error) {
       console.error(error);
     }
