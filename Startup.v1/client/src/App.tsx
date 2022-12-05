@@ -9,19 +9,25 @@ import { Register } from './views/register/Register';
 import UserAgreement from "./views/userAgreement/UserAgreement";
 import Intro from "./views/intro/Intro";
 import { UserInfo } from './views/userInformation/UserInfo';
+import Home from "./views/home/Home";
+import Favorites from "./views/favorites/Favorites";
+import List from "./views/list/List";
 
 function App() {
   return (
     <Container>
       <Screen>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Intro />}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/register" element={<Register/>}/>
-          <Route path="/user-information" element={<UserInfo/>}/>
-        </Routes>
-      </BrowserRouter>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Intro />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/user-information" element={<UserInfo />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/list" element={<List />} />
+          </Routes>
+        </BrowserRouter>
       </Screen>
     </Container>
   );
