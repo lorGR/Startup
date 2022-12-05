@@ -9,6 +9,8 @@ import { Food } from '../../features/food/foodModel';
 export const FoodList = () => {
   const [foodArray, setFoodArray] = useState<[]>([]);
 
+  const[pickedFoodArray, setPickedFoodArray] = useState<[]>([])
+
   async function getFood() {
     try {
       const { data } = await axios.get("/api/food/get-all-food");
@@ -19,6 +21,9 @@ export const FoodList = () => {
       console.error(error);
     }
   }
+  useEffect(() => {
+    console.log(pickedFoodArray)
+  },[pickedFoodArray])
 
   useEffect(() => {
     getFood();
@@ -27,7 +32,7 @@ export const FoodList = () => {
   return (
     <div dir="rtl" className="foodList">
       {foodArray.map((foodItem:Food) => {
-        return <FoodListItem key={foodItem.food_id} foodItem={foodItem} />;
+        return <FoodListItem key={foodItem.food_id} foodItem={foodItem} pickedFoodArray={pickedFoodArray} setPickedFoodArray={setPickedFoodArray}/>;
       })}
     </div>
   );
