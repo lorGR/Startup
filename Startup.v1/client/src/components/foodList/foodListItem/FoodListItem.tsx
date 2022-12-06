@@ -2,6 +2,7 @@ import React, { FC, useEffect } from "react";
 import { Food } from "./../../../features/food/foodModel";
 import { useAppDispatch, useAppSelector } from './../../../app/hooks';
 import { addFood, foodarraySelector, removeFood } from "../../../features/food/foodArraySlice";
+import { addCarbs, removeCarbs } from "../../../features/carbs/carbsSlice";
 
 interface FoodItemProps {
   foodItem: Food;
@@ -22,10 +23,10 @@ export const FoodListItem: FC<FoodItemProps> = ({
       if (foodArray.includes(foodItem)) {
         const result = foodArray.filter(food => food != foodItem);
         dispatch(removeFood(result))
-        console.log(foodArray)
+        dispatch(removeCarbs(foodItem.carbs_unit))
       } else {
         dispatch(addFood(foodItem))
-        console.log(foodArray)
+        dispatch(addCarbs(foodItem.carbs_unit))
       }
     } catch (error) {
       console.error(error);

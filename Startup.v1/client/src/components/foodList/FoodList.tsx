@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { FoodListItem } from "./foodListItem/FoodListItem";
 import { Food } from '../../features/food/foodModel';
-import Counter from './../../features/counter/Counter';
 
 export const FoodList = () => {
   const [foodArray, setFoodArray] = useState<[]>([]);
@@ -34,8 +33,6 @@ export const FoodList = () => {
       {foodArray.map((foodItem:Food) => {
         return <FoodListItem key={foodItem.food_id} foodItem={foodItem} setCarbsSum={setCarbsSum} carbsSum={carbsSum}/>;
       })}
-
-      <Counter/>
     </div>
 
   );

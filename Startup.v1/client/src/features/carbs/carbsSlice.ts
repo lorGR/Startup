@@ -1,0 +1,28 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
+
+export interface CarbsCounterState {
+    value: number
+}
+
+const initialState: CarbsCounterState = {
+    value: 0
+}
+
+export const carbsCounterSlice = createSlice({
+    name: "carbsCounter",
+    initialState,
+    reducers: {
+        addCarbs: (state, action) => {
+            state.value += action.payload
+        },
+        removeCarbs: (state, action) => {
+            state.value -= action.payload
+        }
+    }
+})
+
+export const {addCarbs, removeCarbs} = carbsCounterSlice.actions;
+export const carbsCounterSelector = (state: RootState) => state.carbsCounter.value;
+
+export default carbsCounterSlice.reducer;

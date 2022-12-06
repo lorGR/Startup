@@ -2,12 +2,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import userReducer from '../features/user/userSlice';
 import counterSlice from './../features/counter/counterSlice';
 import foodArraySlice from './../features/food/foodArraySlice';
+import carbsCounterSlice from './../features/carbs/carbsSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     counter: counterSlice,
-    foodArray: foodArraySlice
+    foodArray: foodArraySlice,
+    carbsCounter: carbsCounterSlice
   },
 });
 
