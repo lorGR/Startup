@@ -1,33 +1,31 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Food } from "./../../../features/food/foodModel";
+import { useAppDispatch, useAppSelector } from './../../../app/hooks';
+import { addFood, foodarraySelector, removeFood } from "../../../features/food/foodArraySlice";
 
 interface FoodItemProps {
   foodItem: Food;
-  pickedFoodArray: Array<Food>;
-  setPickedFoodArray: CallableFunction;
   setCarbsSum: CallableFunction; 
   carbsSum: number
 }
 
 export const FoodListItem: FC<FoodItemProps> = ({
   foodItem,
-  pickedFoodArray,
-  setPickedFoodArray,
   setCarbsSum, 
   carbsSum,
 }) => {
+  const dispatch = useAppDispatch();
+  const foodArray = useAppSelector(foodarraySelector)
+
   function handleToggleAddFoodToArray() {
     try {
-      if (pickedFoodArray.includes(foodItem)) {
-        const result = pickedFoodArray.filter(food => food != foodItem);
-        setPickedFoodArray(result);
-        setCarbsSum(carbsSum - foodItem.carbs_unit)
+      if (foodArray.includes(foodItem)) {
+        const result = foodArray.filter(food => food != foodItem);
+        dispatch(removeFood(result))
+        console.log(foodArray)
       } else {
-        setPickedFoodArray((currentState: Food[]) => [
-          ...currentState,
-          foodItem,
-        ]);
-        setCarbsSum(carbsSum + foodItem.carbs_unit)
+        dispatch(addFood(foodItem))
+        console.log(foodArray)
       }
     } catch (error) {
       console.error(error);
