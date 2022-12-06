@@ -5,23 +5,29 @@ interface FoodItemProps {
   foodItem: Food;
   pickedFoodArray: Array<Food>;
   setPickedFoodArray: CallableFunction;
+  setCarbsSum: CallableFunction; 
+  carbsSum: number
 }
 
 export const FoodListItem: FC<FoodItemProps> = ({
   foodItem,
   pickedFoodArray,
   setPickedFoodArray,
+  setCarbsSum, 
+  carbsSum,
 }) => {
   function handleToggleAddFoodToArray() {
     try {
       if (pickedFoodArray.includes(foodItem)) {
         const result = pickedFoodArray.filter(food => food != foodItem);
         setPickedFoodArray(result);
+        setCarbsSum(carbsSum - foodItem.carbs_unit)
       } else {
         setPickedFoodArray((currentState: Food[]) => [
           ...currentState,
           foodItem,
         ]);
+        setCarbsSum(carbsSum + foodItem.carbs_unit)
       }
     } catch (error) {
       console.error(error);

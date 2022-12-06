@@ -8,8 +8,8 @@ import { Food } from '../../features/food/foodModel';
 
 export const FoodList = () => {
   const [foodArray, setFoodArray] = useState<[]>([]);
-
-  const[pickedFoodArray, setPickedFoodArray] = useState<[]>([])
+  const [pickedFoodArray, setPickedFoodArray] = useState<[]>([]);
+  const [carbsSum, setCarbsSum] = useState<number>(0)
 
   async function getFood() {
     try {
@@ -22,7 +22,7 @@ export const FoodList = () => {
     }
   }
   useEffect(() => {
-    console.log(pickedFoodArray)
+    console.log(carbsSum)
   },[pickedFoodArray])
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export const FoodList = () => {
   return (
     <div dir="rtl" className="foodList">
       {foodArray.map((foodItem:Food) => {
-        return <FoodListItem key={foodItem.food_id} foodItem={foodItem} pickedFoodArray={pickedFoodArray} setPickedFoodArray={setPickedFoodArray}/>;
+        return <FoodListItem key={foodItem.food_id} foodItem={foodItem} pickedFoodArray={pickedFoodArray} setPickedFoodArray={setPickedFoodArray} setCarbsSum={setCarbsSum} carbsSum={carbsSum}/>;
       })}
     </div>
   );
