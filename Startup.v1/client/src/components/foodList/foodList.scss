@@ -38,6 +38,10 @@ input[type=checkbox]:checked + .test {
           color: purple;
 }
 
+// input[type=checkbox]:checked + .flex {
+//          border: solid 1px purple;
+//                color: purple;
+//      }
 input[type=checkbox] {
     display: none;
  }

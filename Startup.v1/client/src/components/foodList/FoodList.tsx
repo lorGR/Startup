@@ -11,6 +11,7 @@ export const FoodList = () => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
   const [carbsSum, setCarbsSum] = useState<number>(0);
   const foodArray = useAppSelector(foodarraySelector);
+  const [foodFavoritesArray,setFoodFavoritesArray] = useState<Food[]>()
 
   async function getFood() {
     try {
@@ -21,18 +22,27 @@ export const FoodList = () => {
       console.error(error);
     }
   }
+
+  async function getUserFavorites() {
+      try {
+          const {data} = await axios.get("/api/user-favorites/get-user-favorites");
+          console.log(data)
+          const {result} = data;
+          setFoodFavoritesArray(result);
+      } catch (error) {
+          console.error(error)
+      }
+  }
   useEffect(() => {
-    
+      getUserFavorites();
+      getFood();
   },[])
 
-  useEffect(() => {
-    getFood();
-  }, []);
 
   return (
     <div dir="rtl" className="foodList">
       {allFoodArray.map((foodItem:Food) => {
-        return <FoodListItem key={foodItem.food_id} foodItem={foodItem}/>;
+        return <FoodListItem key={foodItem.food_id} foodItem={foodItem} foodFavoritesArray={foodFavoritesArray}/>;
       })}
     </div>
 
