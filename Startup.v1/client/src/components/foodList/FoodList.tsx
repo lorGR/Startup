@@ -4,25 +4,26 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { FoodListItem } from "./foodListItem/FoodListItem";
 import { Food } from '../../features/food/foodModel';
+import { useAppSelector } from "../../app/hooks";
+import { foodarraySelector } from "../../features/food/foodArraySlice";
 
 export const FoodList = () => {
-  const [foodArray, setFoodArray] = useState<[]>([]);
-  const [pickedFoodArray, setPickedFoodArray] = useState<[]>([]);
-  const [carbsSum, setCarbsSum] = useState<number>(0)
+  const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
+  const [carbsSum, setCarbsSum] = useState<number>(0);
+  const foodArray = useAppSelector(foodarraySelector);
 
   async function getFood() {
     try {
       const { data } = await axios.get("/api/food/get-all-food");
       const { result } = data;
-      await setFoodArray(result);
-      console.log(data);
+      await setAllFoodArray(result);
     } catch (error) {
       console.error(error);
     }
   }
   useEffect(() => {
-    console.log(carbsSum)
-  },[pickedFoodArray])
+    
+  },[])
 
   useEffect(() => {
     getFood();
@@ -30,8 +31,8 @@ export const FoodList = () => {
 
   return (
     <div dir="rtl" className="foodList">
-      {foodArray.map((foodItem:Food) => {
-        return <FoodListItem key={foodItem.food_id} foodItem={foodItem} setCarbsSum={setCarbsSum} carbsSum={carbsSum}/>;
+      {allFoodArray.map((foodItem:Food) => {
+        return <FoodListItem key={foodItem.food_id} foodItem={foodItem} foodList={allFoodArray}/>;
       })}
     </div>
 

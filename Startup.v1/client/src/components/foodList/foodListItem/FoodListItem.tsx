@@ -1,37 +1,59 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Food } from "./../../../features/food/foodModel";
-import { useAppDispatch, useAppSelector } from './../../../app/hooks';
-import { addFood, foodarraySelector, removeFood } from "../../../features/food/foodArraySlice";
+import { useAppDispatch, useAppSelector } from "./../../../app/hooks";
+import {
+  addFood,
+  foodarraySelector,
+  removeFood,
+} from "../../../features/food/foodArraySlice";
 import { addCarbs, removeCarbs } from "../../../features/carbs/carbsSlice";
 
 interface FoodItemProps {
   foodItem: Food;
-  setCarbsSum: CallableFunction; 
-  carbsSum: number
+  foodList: Food[];
 }
 
-export const FoodListItem: FC<FoodItemProps> = ({
-  foodItem,
-  setCarbsSum, 
-  carbsSum,
-}) => {
+export const FoodListItem: FC<FoodItemProps> = ({ foodItem, foodList }) => {
   const dispatch = useAppDispatch();
-  const foodArray = useAppSelector(foodarraySelector)
+  const foodArray = useAppSelector(foodarraySelector);
+
+  const [checked, setChecked] = useState<boolean>(false);
 
   function handleToggleAddFoodToArray() {
     try {
       if (foodArray.includes(foodItem)) {
-        const result = foodArray.filter(food => food != foodItem);
-        dispatch(removeFood(result))
-        dispatch(removeCarbs(foodItem.carbs_unit))
+        const result = foodArray.filter((food) => food != foodItem);
+        dispatch(removeFood(result));
+        dispatch(removeCarbs(foodItem.carbs_unit));
       } else {
-        dispatch(addFood(foodItem))
-        dispatch(addCarbs(foodItem.carbs_unit))
+        dispatch(addFood(foodItem));
+        dispatch(addCarbs(foodItem.carbs_unit));
       }
     } catch (error) {
       console.error(error);
     }
   }
+  useEffect(() => {
+    checkIfFoodIsAdded();
+  }, []);
+
+  function checkIfFoodIsAdded() {
+    try {
+      foodArray.forEach((food) => {
+        if (foodItem.food_id === food.food_id) {
+          const input = document.getElementById(
+            `${foodItem.food_id}`
+          ) as HTMLInputElement;
+          if (input) {
+            input.checked = true;
+          }
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <>
       <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
