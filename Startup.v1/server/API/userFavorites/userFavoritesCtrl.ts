@@ -18,22 +18,22 @@ export async function getUserFavorites(
     if (userID && decodeUserId) {
       const { userID } = decodeUserId;
       if (!userID) throw new Error("Couldn't find userId from decodedUserId");
-      const sql = `SELECT food.food_name, food.carbs_unit, food.unit FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userID}'`
+      const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protien, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userID}'`;
 
-    connection.query(sql, (error, result) => {
+      connection.query(sql, (error, result) => {
         try {
           if (error) throw error;
-          res.send({result})
+          res.send({ result });
         } catch (error) {
+            console.log(error)
           res.status(500).send({ error: error.message });
         }
       });
+    } else {
+      res.send({ failed: "no userID found" });
     }
-    else {
-        res.send({failed: "no userID found"})
-    }
-    
   } catch (error) {
+    console.log(error)
     res.status(500).send({ error: error });
   }
 }
