@@ -27,11 +27,13 @@ export const FoodListItem: FC<FoodItemProps> = ({
     checkIfFoodIsfavorite();
   }, []);
 
-  function handleToggleAddFoodToArray() {
+  function handleAddFoodToArray() {
     try {
       const exist = foodArray.find((food) => foodItem.food_id === food.food_id);
       if (exist) {
-        const result = foodArray.filter((food) => food.food_id != foodItem.food_id);
+        const result = foodArray.filter(
+          (food) => food.food_id != foodItem.food_id
+        );
         dispatch(removeFood(result));
         dispatch(removeCarbs(foodItem.carbs_unit));
       } else {
@@ -73,17 +75,29 @@ export const FoodListItem: FC<FoodItemProps> = ({
     }
   }
 
-  async function handleAddToFavorite(event: any) {
+  async function handletoggleFavorite(event: any) {
     try {
       event.preventDefault();
       event.stopPropagation();
       const foodId = event.target.id.replace("span", "");
       console.log(foodId);
-      const { data } = await axios.post(
-        "/api/user-favorites/add-to-favorites",
-        { foodId }
-      );
-      console.log(data);
+
+      if (foodFavoritesArray) {
+        const exist = foodFavoritesArray.find(
+          (food) => foodItem.food_id === food.food_id
+        );
+        if (exist) {
+          const foodId = foodItem.food_id;
+          const {data} = await axios.post("/api/user-favorites/delete-from-favorites", {foodId})
+          console.log(data)
+        } else if (!exist) {
+          const { data } = await axios.post(
+            "/api/user-favorites/add-to-favorites",
+            { foodId }
+          );
+          console.log(data);
+        }
+      }
     } catch (error) {
       console.error(error);
     }
@@ -93,13 +107,13 @@ export const FoodListItem: FC<FoodItemProps> = ({
     <div className="flex" style={{ display: "flex", alignItems: "center" }}>
       <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
       <label
-        onClick={handleToggleAddFoodToArray}
+        onClick={handleAddFoodToArray}
         className="test"
         htmlFor={`${foodItem.food_id}`}
       >
         <div className="foodList__item">
           <span
-            onClick={handleAddToFavorite}
+            onClick={handletoggleFavorite}
             id={`span${foodItem.food_id}`}
             className="material-symbols-outlined"
           >

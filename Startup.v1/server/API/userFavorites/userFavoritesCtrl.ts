@@ -71,3 +71,37 @@ export function addToFavorites(req: express.Request, res: express.Response) {
     res.status(500).send({ error: error });
   }
 }
+
+export async function deleteFromFavorite(req:express.Request, res:express.Response) {
+  try {
+    const {foodId} = req.body;
+    const secret = process.env.JWT_SECRET;
+    if (!secret) throw new Error("Couldn't load secret from .env");
+
+    const { userID } = req.cookies;
+    if (!userID)
+      throw new Error("Couldn't find cookie named userID in application");
+
+    const decodeUserId = jwt.decode(userID, secret);
+    if (userID && decodeUserId) {
+      const { userID } = decodeUserId;
+      if (!userID) throw new Error("Couldn't find userId from decodedUserId");
+      const sql = `DELETE FROM user_favorite WHERE user_id = '${userID}'AND food_id = ${foodId}`;
+
+      connection.query(sql, (error, result) => {
+        try {
+          if (error) throw error;
+          res.send({ result });
+        } catch (error) {
+          console.log(error);
+          res.status(500).send({ error: error.message });
+        }
+      });
+    } else {
+      res.send({ failed: "no userID found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: error });
+  }
+}
