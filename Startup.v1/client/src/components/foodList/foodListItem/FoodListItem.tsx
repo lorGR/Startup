@@ -21,7 +21,8 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, foodList }) => {
 
   function handleToggleAddFoodToArray() {
     try {
-      if (foodArray.includes(foodItem)) {
+      const exist = foodArray.find((food) => foodItem.food_id === food.food_id);
+      if (exist) {
         const result = foodArray.filter((food) => food != foodItem);
         dispatch(removeFood(result));
         dispatch(removeCarbs(foodItem.carbs_unit));
