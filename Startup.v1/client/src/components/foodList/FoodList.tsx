@@ -32,7 +32,7 @@ export const FoodList = () => {
   return (
     <div dir="rtl" className="foodList">
       {allFoodArray.map((foodItem:Food) => {
-        return <FoodListItem key={foodItem.food_id} foodItem={foodItem} foodList={allFoodArray}/>;
+        return <FoodListItem key={foodItem.food_id} foodItem={foodItem}/>;
       })}
     </div>
 

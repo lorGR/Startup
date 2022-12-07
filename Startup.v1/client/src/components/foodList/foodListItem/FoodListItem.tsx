@@ -10,10 +10,9 @@ import { addCarbs, removeCarbs } from "../../../features/carbs/carbsSlice";
 
 interface FoodItemProps {
   foodItem: Food;
-  foodList: Food[];
 }
 
-export const FoodListItem: FC<FoodItemProps> = ({ foodItem, foodList }) => {
+export const FoodListItem: FC<FoodItemProps> = ({ foodItem }) => {
   const dispatch = useAppDispatch();
   const foodArray = useAppSelector(foodarraySelector);
 
