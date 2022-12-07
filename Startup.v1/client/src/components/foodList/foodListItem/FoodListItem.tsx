@@ -31,7 +31,7 @@ export const FoodListItem: FC<FoodItemProps> = ({
     try {
       const exist = foodArray.find((food) => foodItem.food_id === food.food_id);
       if (exist) {
-        const result = foodArray.filter((food) => food != foodItem);
+        const result = foodArray.filter((food) => food.food_id != foodItem.food_id);
         dispatch(removeFood(result));
         dispatch(removeCarbs(foodItem.carbs_unit));
       } else {
