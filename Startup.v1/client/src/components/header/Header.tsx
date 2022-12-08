@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { useAppSelector } from "../../app/hooks";
-import { carbsCounterSelector, resetCarbs } from "../../features/carbs/carbsSlice";
+import {
+  carbsCounterSelector,
+  resetCarbs,
+} from "../../features/carbs/carbsSlice";
 import { empthyArray } from "../../features/food/foodArraySlice";
-import { useAppDispatch } from './../../app/hooks';
+import { useAppDispatch } from "./../../app/hooks";
+import { AddMealForm } from './../addMealForm/AddMealForm';
 
 interface HeaderProps {
   headerType: string;
   addMealForm?: boolean;
   setAddMealForm?: Function;
+}
+export enum DisplaySetting {
+    NONE = "none",
+    FLEX = "flex",
+    BLOCK = "block"
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -17,6 +26,8 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const carbsCount = useAppSelector(carbsCounterSelector);
   const dispatch = useAppDispatch();
+const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
+
   const handleAddMealForm = () => {
     try {
       setAddMealForm!(!addMealForm);
@@ -25,17 +36,22 @@ const Header: React.FC<HeaderProps> = ({
     }
   };
 
-
   const handleCancelMeal = () => {
-try {
-    //TODO: function should empry the foodArray (redux);
-    //TODO: function should delete the meal ???
-    dispatch(empthyArray());
-    dispatch(resetCarbs());
-    window.location.reload();
-} catch (error) {
-    console.error(error)
-}
+    try {
+      //TODO: function should empry the foodArray (redux);
+      dispatch(empthyArray());
+      dispatch(resetCarbs());
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleAddMeal = () => {
+    try {
+        setDisplay(DisplaySetting.FLEX)
+    } catch (error) {
+        console.error(error)
+    }
   }
 
   return (
@@ -47,9 +63,11 @@ try {
         <div className="flex" dir="rtl">
           <button onClick={handleCancelMeal}>X</button>
           <p> {carbsCount} פחמימות</p>
-          <button>V</button>
+          <button onClick={handleAddMeal}>V</button>
         </div>
       )}
+
+      <AddMealForm displayType={display} setDisplay={setDisplay}/>
     </div>
   );
 };

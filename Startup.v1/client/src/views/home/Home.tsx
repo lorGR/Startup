@@ -14,23 +14,23 @@ const Home = () => {
   const user = useAppSelector(userSelector);
   const carbs = useAppSelector(carbsCounterSelector)
 
-  const handleAddMeal = async (event: any) => {
-    try {
-      event.preventDefault();
-      const { bloodSugarInput, dateInput, insulinInput, timeInput } = event.target.elements;
-      const [blood_sugar, insulin, date, time] = [bloodSugarInput.value, insulinInput.value, dateInput.value, timeInput.value];
+  // const handleAddMeal = async (event: any) => {
+  //   try {
+  //     event.preventDefault();
+  //     const { bloodSugarInput, dateInput, insulinInput, timeInput } = event.target.elements;
+  //     const [blood_sugar, insulin, date, time] = [bloodSugarInput.value, insulinInput.value, dateInput.value, timeInput.value];
 
-      const { data } = await axios.post("/api/meals/add-meal", { blood_sugar, insulin, date, time });
-      if (!data) throw new Error("Couldn't receive data from axios POST '/add-meal' ");
-      const { result } = data;
-      if(result.affectedRows > 0) {
-        setAddMealForm(!addMealForm);
-      }
+  //     const { data } = await axios.post("/api/meals/add-meal", { blood_sugar, insulin, date, time });
+  //     if (!data) throw new Error("Couldn't receive data from axios POST '/add-meal' ");
+  //     const { result } = data;
+  //     if(result.affectedRows > 0) {
+  //       setAddMealForm(!addMealForm);
+  //     }
       
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   return (
     <div className="home">
@@ -39,7 +39,7 @@ const Home = () => {
       {addMealForm &&
         <div className="add-meal-container">
           <div className="add-meal">
-            <form onSubmit={handleAddMeal} className="add-meal__form">
+            <form className="add-meal__form">
               <input type="date" name="dateInput" id="date" placeholder="הזן תאריך" />
               <input type="time" name="timeInput" id="time" placeholder="הזן שעת ארוחה" />
               <input type="number" name="bloodSugarInput" id="bloodSugar" placeholder="הזן כמות סוכר בדם" />
