@@ -20,12 +20,17 @@ export const FoodListItem: FC<FoodItemProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const foodArray = useAppSelector(foodarraySelector);
-  const [favorite, setFavorite] = useState();
+  const [fill, setFill] = useState<boolean>();
 
   useEffect(() => {
     checkIfFoodIsAdded();
     checkIfFoodIsfavorite();
   }, []);
+
+  // useEffect(() => {
+  //   checkIfFoodIsfavorite();
+  //   console.log("check if favorite on useEffect")
+  // }, [favorite])
 
   function handleAddFoodToArray() {
     try {

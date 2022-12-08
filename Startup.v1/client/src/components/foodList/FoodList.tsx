@@ -33,6 +33,7 @@ export const FoodList = () => {
           console.error(error)
       }
   }
+
   useEffect(() => {
       getUserFavorites();
       getFood();
