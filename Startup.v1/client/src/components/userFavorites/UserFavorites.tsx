@@ -20,6 +20,7 @@ export const UserFavorites = () => {
     }
     useEffect(() => {
         getUserFavorites();
+
     },[])
 
   return (

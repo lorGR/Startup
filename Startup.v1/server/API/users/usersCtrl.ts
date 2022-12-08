@@ -68,31 +68,25 @@ export function register(req: express.Request, res: express.Response) {
 
 export function getUserByCookie(req: express.Request, res: express.Response) {
   try {
-    const secret = process.env.JWT_SECRET;
-    if (!secret) throw new Error("Couldn't load secret from .env");
-
     const { userID } = req.cookies;
     if (!userID)
       throw new Error("Couldn't find cookie named userID in application");
+    const userId = decodeCookie(userID);
+    if (!userId)
+      throw new Error(
+        "Couldn't find userId from decodeCookie on FUNCTION getUserByCookie IN FILE userCtrl"
+      );
 
-    const decodeUserId = jwt.decode(userID, secret);
-    if (userID && decodeUserId) {
-      const { userID } = decodeUserId;
-      if (!userID) throw new Error("Couldn't find userId from decodedUserId");
+    const sql = `SELECT * FROM users WHERE user_id = '${userId}'`;
 
-      const sql = `SELECT * FROM users WHERE user_id = '${userID}'`;
-
-      connection.query(sql, (error, result) => {
-        try {
-          if (error) throw error;
-          res.send({ result });
-        } catch (error) {
-          res.status(500).send({ error: error.message });
-        }
-      });
-    } else {
-      res.status(500).send({ error: "No userID from cookies" });
-    }
+    connection.query(sql, (error, result) => {
+      try {
+        if (error) throw error;
+        res.send({ result });
+      } catch (error) {
+        res.status(500).send({ error: error.message });
+      }
+    });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
@@ -114,7 +108,7 @@ export async function login(req: express.Request, res: express.Response) {
         const isMatch = await bycrpt.compare(password, result[0].password);
         if (!isMatch) throw new Error("Email or password incorrect");
 
-        const cookie = { userID: result[0].user_id };
+        const cookie = { userId: result[0].user_id };
         const secret = process.env.JWT_SECRET;
         if (!secret) throw new Error("Couldn't load secret from .env");
 
@@ -139,15 +133,12 @@ export async function updateUserInfo(
   try {
     const { formData } = req.body;
     const parsedFormData = JSON.parse(formData);
-    const secret = process.env.JWT_SECRET;
-    if (!secret) throw new Error("Couldn't load secret from .env");
 
     const { userID } = req.cookies;
     if (!userID)
-      throw new Error("Couldn't find cookie named userID in application");
+      throw new Error("Couldn't find cookie named userID in updateUserInfo");
 
-    const decodeUserId = jwt.decode(userID, secret);
-    const { userId } = decodeUserId;
+    const userId = decodeCookie(userID);
     if (!userId) throw new Error("Couldn't find userId from decodedUserId");
 
     const sql = `UPDATE users SET birth_date = '${parsedFormData.birth_date}', height = '${parsedFormData.height}', weight = '${parsedFormData.weight}', diabetes_type = '${parsedFormData.diabetes_type}', hmo = '${parsedFormData.hmo}', balance_min = '${parsedFormData.balance_min}', balance_max = '${parsedFormData.balance_max}', carbs_unit = '${parsedFormData.units}', protein_calc = '${parsedFormData.protein}' WHERE (user_id = '${userId}')`;
@@ -163,5 +154,25 @@ export async function updateUserInfo(
     });
   } catch (error) {
     res.status(500).send({ error: error.message });
+  }
+}
+
+export function decodeCookie(userID: string): number {
+  try {
+    const secret = process.env.JWT_SECRET;
+    if (!secret)
+      throw new Error(
+        "Couldn't load secret from .env on FUNCTION decodeCookie IN FILE userCtrl"
+      );
+
+    const decodeUserId = jwt.decode(userID, secret);
+    const { userId } = decodeUserId;
+    if (!userId)
+      throw new Error(
+        "Couldn't find userId from decodedUserId on FUNCTION decodeCookie IN FILE userCtrl"
+      );
+    return userId;
+  } catch (error) {
+    console.log(error);
   }
 }
