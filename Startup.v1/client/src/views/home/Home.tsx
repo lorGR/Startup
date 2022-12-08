@@ -17,15 +17,14 @@ const Home = () => {
       event.preventDefault();
       const { bloodSugarInput, dateInput, insulinInput, timeInput } = event.target.elements;
       const [blood_sugar, insulin, date, time] = [bloodSugarInput.value, insulinInput.value, dateInput.value, timeInput.value];
-      if (user) {
-        const userId = user.user_id;
-        const { data } = await axios.post("/api/meals/add-meal", { userId, blood_sugar, insulin, date, time });
-        if (!data) throw new Error("Couldn't receive data from axios POST '/add-meal' ");
-        const { result } = data;
-        if(result.affectedRows > 0) {
-          setAddMealForm(!addMealForm);
-        }
+
+      const { data } = await axios.post("/api/meals/add-meal", { blood_sugar, insulin, date, time });
+      if (!data) throw new Error("Couldn't receive data from axios POST '/add-meal' ");
+      const { result } = data;
+      if(result.affectedRows > 0) {
+        setAddMealForm(!addMealForm);
       }
+      
     } catch (error) {
       console.error(error);
     }

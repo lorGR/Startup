@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useAppSelector } from "../../app/hooks";
+import { carbsCounterSelector } from "../../features/carbs/carbsSlice";
 
 interface HeaderProps {
     headerType: string,
@@ -7,7 +9,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ headerType, addMealForm, setAddMealForm }) => {
-
+    const carbsCount = useAppSelector(carbsCounterSelector)
     const handleAddMealForm = () => {
         try {
             setAddMealForm!(!addMealForm);
@@ -19,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ headerType, addMealForm, setAddMealForm
     return (
         <div className="header">
             {headerType === "addVals" && <div onClick={handleAddMealForm}>הזן ערכים</div>}
-            {headerType === "carbsDisplay" && <div>פחמימות</div>}
+            {headerType === "carbsDisplay" && <div dir="rtl"> {carbsCount} פחמימות  </div>}
         </div>
     )
 }
