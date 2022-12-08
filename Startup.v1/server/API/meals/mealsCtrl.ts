@@ -4,8 +4,8 @@ import { decodeCookie } from './../users/usersCtrl';
 
 export async function addMeal(req: express.Request, res: express.Response) {
     try {
-        const {  blood_sugar, insulin, date, time } = req.body;
-        if ( !date || !time || !blood_sugar || !insulin) throw new Error("Couldn't receive date/time/insulin/blood_sugar from req.body mealsCtrl");
+        const {  blood_sugar, insulin, date, time, carbs } = req.body;
+        if ( !date || !time || !blood_sugar || !insulin || !carbs) throw new Error("Couldn't receive date/time/insulin/blood_sugar/carbs from req.body mealsCtrl");
 
         const {userID} = req.cookies;
         if(!userID) throw new Error("Couldn't extract userID from req.cookies ON FUNCTION addMeal IN FILE mealsCtrl");

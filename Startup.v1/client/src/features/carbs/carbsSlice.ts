@@ -27,10 +27,13 @@ export const carbsCounterSlice = createSlice({
     removeCarbs: (state, action) => {
       state.value -= action.payload;
     },
+    resetCarbs: (state) => {
+      state.value = initialState.value
+    }
   },
 });
 
-export const { addCarbs, removeCarbs } = carbsCounterSlice.actions;
+export const { addCarbs, removeCarbs, resetCarbs } = carbsCounterSlice.actions;
 export const carbsCounterSelector = (state: RootState) =>
   state.carbsCounter.value;
 

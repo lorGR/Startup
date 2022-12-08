@@ -19,11 +19,14 @@ export const foodArraySlice = createSlice({
         },
         removeFood: (state, action) => {
             state.value = action.payload;
+        },
+        empthyArray: (state) => {
+            state.value = initialState.value;
         }
     }
 });
 
-export const {addFood, removeFood} = foodArraySlice.actions;
+export const {addFood, removeFood, empthyArray} = foodArraySlice.actions;
 export const foodarraySelector = (state:RootState) => state.foodArray.value;
 
 export default foodArraySlice.reducer;

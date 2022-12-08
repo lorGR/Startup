@@ -8,6 +8,10 @@ import {
 } from "../../../features/food/foodArraySlice";
 import { addCarbs, removeCarbs } from "../../../features/carbs/carbsSlice";
 import axios from "axios";
+import { useDispatch } from 'react-redux';
+import { favoriteFoodarraySelector } from './../../../features/favoriteFood/favoriteFoodArraySlice';
+import { removeFoodToUserFavorite } from "../../../features/favoriteFood/favoriteFoodArrayAPI";
+import { addFoodToUserFavorites, getAllUserFavoriteFood } from './../../../features/favoriteFood/favoriteFoodArrayAPI';
 
 interface FoodItemProps {
   foodItem: Food;
@@ -15,22 +19,16 @@ interface FoodItemProps {
 }
 
 export const FoodListItem: FC<FoodItemProps> = ({
-  foodItem,
-  foodFavoritesArray,
+  foodItem
 }) => {
   const dispatch = useAppDispatch();
   const foodArray = useAppSelector(foodarraySelector);
-  const [fill, setFill] = useState<boolean>();
+  const FavoriteFoodArray = useAppSelector(favoriteFoodarraySelector);
 
   useEffect(() => {
     checkIfFoodIsAdded();
     checkIfFoodIsfavorite();
   }, []);
-
-  // useEffect(() => {
-  //   checkIfFoodIsfavorite();
-  //   console.log("check if favorite on useEffect")
-  // }, [favorite])
 
   function handleAddFoodToArray() {
     try {
@@ -69,7 +67,7 @@ export const FoodListItem: FC<FoodItemProps> = ({
 
   function checkIfFoodIsfavorite() {
     try {
-      foodFavoritesArray?.forEach((favFood) => {
+      FavoriteFoodArray?.forEach((favFood) => {
         if (favFood.food_id === foodItem.food_id) {
           const starSpan = document.getElementById(`span${foodItem.food_id}`);
           starSpan?.classList.add("fill");
@@ -82,27 +80,28 @@ export const FoodListItem: FC<FoodItemProps> = ({
 
   async function handletoggleFavorite(event: any) {
     try {
-      event.preventDefault();
       event.stopPropagation();
       const foodId = event.target.id.replace("span", "");
       console.log(foodId);
+      const star = (event.target.className);
+      if(star.includes("fill")) {
+        event.target.classList.remove("fill")
+      } else {
+        event.target.classList.add("fill")
+      }
 
-      if (foodFavoritesArray) {
-        const exist = foodFavoritesArray.find(
+      if (FavoriteFoodArray) {
+        const exist = FavoriteFoodArray.find(
           (food) => foodItem.food_id === food.food_id
         );
         if (exist) {
           const foodId = foodItem.food_id;
-          const {data} = await axios.post("/api/user-favorites/delete-from-favorites", {foodId})
-          console.log(data)
+          dispatch(removeFoodToUserFavorite({foodId}));
         } else if (!exist) {
-          const { data } = await axios.post(
-            "/api/user-favorites/add-to-favorites",
-            { foodId }
-          );
-          console.log(data);
+          dispatch(addFoodToUserFavorites({foodId}));
         }
       }
+
     } catch (error) {
       console.error(error);
     }
@@ -120,7 +119,7 @@ export const FoodListItem: FC<FoodItemProps> = ({
           <span
             onClick={handletoggleFavorite}
             id={`span${foodItem.food_id}`}
-            className="material-symbols-outlined"
+            className={`material-symbols-outlined`}
           >
             star
           </span>
