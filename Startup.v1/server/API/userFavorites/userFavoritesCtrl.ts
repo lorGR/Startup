@@ -53,7 +53,17 @@ export function addToFavorites(req: express.Request, res: express.Response) {
     connection.query(sql, (error, result) => {
       try {
         if (error) throw error;
-        res.send({ result });
+        if (result.affectedRows > 0) {
+          const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protien, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}'`;
+          connection.query(sql, (error, result) => {
+            try {
+              if (error) throw error;
+              res.send({result})
+            } catch (error) {
+              res.status(500).send({error: error.message});
+            }
+          })
+        }
       } catch (error) {
         console.log(error);
         res.status(500).send({ error: error.message });
@@ -86,7 +96,17 @@ export async function deleteFromFavorite(
     connection.query(sql, (error, result) => {
       try {
         if (error) throw error;
-        res.send({ result });
+        if (result.affectedRows > 0) {
+          const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protien, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}'`;
+          connection.query(sql, (error,result) => {
+            try {
+              if (error) throw error
+              res.send({result})
+            } catch (error) {
+              res.status(500).send({error:error.message})
+            }
+          })
+        }
       } catch (error) {
         console.log(error);
         res.status(500).send({ error: error.message });
