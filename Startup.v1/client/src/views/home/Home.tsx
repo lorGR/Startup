@@ -43,7 +43,7 @@ const Home = () => {
               <input type="date" name="dateInput" id="date" placeholder="הזן תאריך" />
               <input type="time" name="timeInput" id="time" placeholder="הזן שעת ארוחה" />
               <input type="number" name="bloodSugarInput" id="bloodSugar" placeholder="הזן כמות סוכר בדם" />
-              <input type="number" name="carbsInput" id="carbsInput" placeholder="הזן כמות פחמימות" value={carbs}/>
+              <input type="number" name="carbsInput" id="carbsInput" placeholder="הזן כמות פחמימות"/>
               <input type="number" name="insulinInput" id="insulin" placeholder="הזן כמות אינסולין" />
               <button>✅</button>
             </form>

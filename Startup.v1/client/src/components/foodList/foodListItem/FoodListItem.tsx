@@ -24,6 +24,7 @@ export const FoodListItem: FC<FoodItemProps> = ({
   const dispatch = useAppDispatch();
   const foodArray = useAppSelector(foodarraySelector);
   const FavoriteFoodArray = useAppSelector(favoriteFoodarraySelector);
+
   useEffect(() => {
     checkIfFoodIsAdded();
     checkIfFoodIsfavorite();
@@ -79,7 +80,6 @@ export const FoodListItem: FC<FoodItemProps> = ({
 
   async function handletoggleFavorite(event: any) {
     try {
-      event.preventDefault();
       event.stopPropagation();
       const foodId = event.target.id.replace("span", "");
       console.log(foodId);
