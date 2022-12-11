@@ -1,14 +1,15 @@
 import express from "express";
 import { connection } from "../../DB/databaseSQL";
+import { getCurrentDate } from "../helpers/helpers";
 import { decodeCookie } from './../users/usersCtrl';
 
 export async function addMeal(req: express.Request, res: express.Response) {
     try {
-        const {  blood_sugar, insulin, date, time, carbs } = req.body;
-        if ( !date || !time || !blood_sugar || !insulin || !carbs) throw new Error("Couldn't receive date/time/insulin/blood_sugar/carbs from req.body mealsCtrl");
+        const { blood_sugar, insulin, date, time, carbs } = req.body;
+        if (!date || !time || !blood_sugar || !insulin || !carbs) throw new Error("Couldn't receive date/time/insulin/blood_sugar/carbs from req.body mealsCtrl");
 
-        const {userID} = req.cookies;
-        if(!userID) throw new Error("Couldn't extract userID from req.cookies ON FUNCTION addMeal IN FILE mealsCtrl");
+        const { userID } = req.cookies;
+        if (!userID) throw new Error("Couldn't extract userID from req.cookies ON FUNCTION addMeal IN FILE mealsCtrl");
 
         const userId = decodeCookie(userID);
         if (!userId) throw new Error("Couldn't decode userId from decodeCookie ON FUNCTION addMeal IN FILE mealsCtrl")
@@ -24,6 +25,15 @@ export async function addMeal(req: express.Request, res: express.Response) {
             }
         })
 
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+}
+
+export async function getTodayMeals(req: express.Request, res: express.Response) {
+    try {
+        const date = getCurrentDate();
+        
     } catch (error) {
         res.status(500).send({ error: error.message });
     }
