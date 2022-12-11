@@ -10,7 +10,13 @@ const MealItem: React.FC<MealItemProps> = ({meal}) => {
     const handleClickMeal = (event: any) => {
         try {
             event.stopPropagation();
-            console.dir(event.target.id);
+            let mealId = null;
+            if(event.target.nodeName === 'P') {
+                mealId = event.target.parentNode.id;
+            } else {
+                mealId = event.target.id;
+            }
+            console.log(mealId);
         } catch (error) {
             console.error(error);
         }
