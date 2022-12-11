@@ -11,7 +11,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
     const [carbsGoal, setCarbsGoal] = useState<number>(220);
     const [barPrecentages, setBarPrecentages] = useState<number>(0);
 
-
+    const [barPrecentagesWhatEver , setBarPrecentagesWhatEver] = useState<number>(0);
 
     const getTotalCarbs = () => {
         try {
@@ -20,7 +20,12 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
                 myCarbs += meal.carbs;
             });
             setTotalCarbs(myCarbs);
-            console.log('finished')
+            setBarPrecentages(Math.round((myCarbs * 100)/carbsGoal));
+            if(Math.round((myCarbs * 100)/carbsGoal) > 100) {
+                setBarPrecentagesWhatEver(100);
+            } else {
+                setBarPrecentagesWhatEver(Math.round((myCarbs * 100)/carbsGoal));
+            }
         } catch (error) {
             console.error(error);
         }
@@ -28,9 +33,13 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
 
     const getBarPrecentages = () => {
         try {
-            console.log("hello");
-            console.log(totalCarbs);
+            console.log("get bar prace")
             setBarPrecentages(Math.round((totalCarbs * 100)/carbsGoal));
+            if(Math.round((totalCarbs * 100)/carbsGoal) > 100) {
+                setBarPrecentagesWhatEver(100);
+            } else {
+                setBarPrecentagesWhatEver(Math.round((totalCarbs * 100)/carbsGoal));
+            }
         } catch (error) {
             console.error(error);
         }
@@ -38,7 +47,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
 
     useEffect(() => {
         getTotalCarbs();
-        getBarPrecentages();
+        // getBarPrecentages();
     }, [meals]);
 
     return (
@@ -49,7 +58,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
                         <span className="progress-bar__amount">{totalCarbs}/{carbsGoal}</span>
                         <span className="progress-bar__precenteges">{barPrecentages}%</span>
                     </div>
-                <div style={{width: `${barPrecentages}%`}} id="myBar">
+                <div style={{width: `${barPrecentagesWhatEver}%`}} id="myBar">
                 </div>
             </div>
         </div>
