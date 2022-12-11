@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { Meal } from "../../views/home/Home"
 
@@ -7,7 +8,7 @@ interface MealItemProps {
 
 const MealItem: React.FC<MealItemProps> = ({meal}) => {
 
-    const handleClickMeal = (event: any) => {
+    const handleClickMeal = async (event: any) => {
         try {
             event.stopPropagation();
             let mealId = null;
@@ -16,7 +17,10 @@ const MealItem: React.FC<MealItemProps> = ({meal}) => {
             } else {
                 mealId = event.target.id;
             }
-            console.log(mealId);
+            const { data } = await axios.post("/api/meals/get-meals-servings", {mealId});
+            if(!data) throw new Error("Coudln't receive data from axios POST ON FUNCTION handleClickMeal IN FILE MealItem.tsx ");
+            console.log(data);
+
         } catch (error) {
             console.error(error);
         }
