@@ -61,7 +61,7 @@ export async function getMealsServings(req: express.Request, res: express.Respon
         const { mealId } = req.body;
         if (!mealId) throw new Error("Couldn't receive mealId from req.body ON FUNCTION getMealsServings IN FILE mealsCtrl");
 
-        const sql = `SELECT * FROM food WHERE food_id IN (SELECT food_id FROM servings WHERE meal_id = '${mealId}')`;
+        const sql = `SELECT * FROM servings JOIN food ON servings.food_id = food.food_id WHERE servings.meal_id = '${mealId}'`;
 
         connection.query(sql, (err, result) => {
             try {
@@ -72,6 +72,7 @@ export async function getMealsServings(req: express.Request, res: express.Respon
             }
         });
     } catch (error) {
+        console.error(error)
         res.status(500).send({ error: error.message });
     }
 }
