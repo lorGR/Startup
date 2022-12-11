@@ -6,8 +6,9 @@ import Header from "../../components/header/Header"
 import Navbar from "../../components/navbar/Navbar"
 import { carbsCounterSelector } from "../../features/carbs/carbsSlice";
 import { userSelector } from "../../features/user/userSlice";
+import MealItem from "../../components/mealItem/MealItem";
 
-interface Meal {
+export interface Meal {
   meal_id: number,
   blood_sugar: number,
   carbs: number,
@@ -63,16 +64,8 @@ const Home = () => {
     <div className="home">
       <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} />
       <Navbar navbarType="main" />
-      {meals.map(meal => {
-        return (
-          <div style={{display: "flex", justifyContent: "space-around"}} key={meal.meal_id}>
-            <p>אינס׳ {meal.insulin}</p>
-            <p> פחמ׳ {meal.carbs}</p>
-            <p>{meal.time.slice(0,5)}</p>
-          </div>
-        );
-      }) 
-      }
+      {meals.map(meal => <MealItem meal={meal} key={meal.meal_id}/>)}
+      
       {/* {addMealForm &&
         <div className="add-meal-container">
           <div className="add-meal">
