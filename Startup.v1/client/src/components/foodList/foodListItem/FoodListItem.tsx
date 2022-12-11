@@ -11,7 +11,6 @@ import { favoriteFoodarraySelector } from "./../../../features/favoriteFood/favo
 import { removeFoodToUserFavorite } from "../../../features/favoriteFood/favoriteFoodArrayAPI";
 import {
   addFoodToUserFavorites,
-  getAllUserFavoriteFood,
 } from "./../../../features/favoriteFood/favoriteFoodArrayAPI";
 import { userSelector } from "../../../features/user/userSlice";
 import { CarbsUnit } from "../../../features/user/userModel";
