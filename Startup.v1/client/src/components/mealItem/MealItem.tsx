@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Food } from "../../features/food/foodModel";
 import { Meal } from "../../views/home/Home"
 
 interface MealItemProps {
@@ -8,7 +9,7 @@ interface MealItemProps {
 
 const MealItem: React.FC<MealItemProps> = ({meal}) => {
 
-    const [mealServings, setMealServings] = useState();
+    const [mealServings, setMealServings] = useState<Food[]>([]);
 
     const handleClickMeal = async (event: any) => {
         try {
@@ -23,6 +24,9 @@ const MealItem: React.FC<MealItemProps> = ({meal}) => {
             if(!data) throw new Error("Coudln't receive data from axios POST ON FUNCTION handleClickMeal IN FILE MealItem.tsx ");
             const { result } = data;
             console.log(result);
+
+            console.dir(event.target);
+
             setMealServings(result);
             // TODO: create dropdown menu when click on meal and render the mealServings
         } catch (error) {
@@ -31,10 +35,19 @@ const MealItem: React.FC<MealItemProps> = ({meal}) => {
     }
 
     return (
-        <div onClick={handleClickMeal} className="meal-item" id={meal.meal_id.toString()}>
+        <div onClick={handleClickMeal} className="meal-item dropbtn" id={meal.meal_id.toString()}>
             <p>אינס׳ {meal.insulin}</p>
             <p> פחמ׳ {meal.carbs}</p>
             <p>{meal.time.slice(0, 5)}</p>
+            <div className="dropdown-content">
+                {mealServings.length > 0 && mealServings.map(mealServ => {
+                    return (
+                        <div className="meal-item__serving-item" key={mealServ.food_id}>
+                            {mealServ.food_name}
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     )
 }
