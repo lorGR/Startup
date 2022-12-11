@@ -56,10 +56,6 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
         }
       }
 
-      // if (result.affectedRows > 0) {
-      //   setDisplay(DisplaySetting.NONE);
-      // }
-
     } catch (error) {
       console.error(error);
     }
