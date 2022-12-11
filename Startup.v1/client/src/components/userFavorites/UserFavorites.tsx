@@ -1,8 +1,6 @@
 import axios from 'axios'
 import React from 'react'
 import { useEffect } from 'react';
-import { useState } from 'react';
-import { Food } from './../../features/food/foodModel';
 import { FoodListItem } from './../foodList/foodListItem/FoodListItem';
 import { useAppDispatch, useAppSelector } from './../../app/hooks';
 import { favoriteFoodarraySelector } from './../../features/favoriteFood/favoriteFoodArraySlice';

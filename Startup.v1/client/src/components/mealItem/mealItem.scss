@@ -4,6 +4,11 @@
     justify-content: space-between;
     border: 1px solid #eee;
     cursor: pointer;
+
+    &__serving-item {
+        display: flex;
+        justify-content: space-between;
+    }
     
     &__content{
         padding: 1rem;
