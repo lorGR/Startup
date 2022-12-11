@@ -1,6 +1,12 @@
 .home {
     height: 100%;
     position: relative;
+    &__container {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: .25rem;
+    }
 }
 
 .add-meal-container { 

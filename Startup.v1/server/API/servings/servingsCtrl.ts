@@ -7,7 +7,7 @@ export async function addServingToMeal(req: express.Request, res: express.Respon
         if (!mealId || !foodArray) throw new Error("Couldn't receive mealId/foodArray from req.body ON addServingToMeal IN servingsCtrl");
 
         await foodArray.forEach(async (food) => {
-            const sql = `INSERT INTO servings(food_id, meal_id, amount) VALUES ('${food.food_id}', '${mealId}', '0')`;
+            const sql = `INSERT INTO servings(food_id, meal_id, amount) VALUES ('${food.food_id}', '${mealId}', '1')`;
 
             await connection.query(sql, (err, result) => {
                 try {
