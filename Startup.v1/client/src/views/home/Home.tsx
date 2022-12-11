@@ -64,8 +64,10 @@ const Home = () => {
     <div className="home">
       <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} />
       <Navbar navbarType="main" />
-      {meals.map(meal => <MealItem meal={meal} key={meal.meal_id}/>)}
-      
+      <div className="home__container">
+        {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} />)}
+      </div>
+
       {/* {addMealForm &&
         <div className="add-meal-container">
           <div className="add-meal">
