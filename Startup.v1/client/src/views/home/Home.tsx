@@ -7,6 +7,7 @@ import Navbar from "../../components/navbar/Navbar"
 import { carbsCounterSelector } from "../../features/carbs/carbsSlice";
 import { userSelector } from "../../features/user/userSlice";
 import MealItem from "../../components/mealItem/MealItem";
+import ProgressBar from "../../components/progressBar/ProgressBar";
 
 export interface Meal {
   meal_id: number,
@@ -66,8 +67,9 @@ const Home = () => {
       <Navbar navbarType="main" />
       <div className="home__container">
         {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} />)}
+        
       </div>
-
+      <ProgressBar meals={meals}/>
       {/* {addMealForm &&
         <div className="add-meal-container">
           <div className="add-meal">
