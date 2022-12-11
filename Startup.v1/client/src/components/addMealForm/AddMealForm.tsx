@@ -17,19 +17,14 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
 
   useEffect(() => {
     const dateTime = new Date();
-
-    const day = dateTime.getDate();
-    const month = dateTime.getMonth() + 1;
-    const year = dateTime.getFullYear();
-    const fullDate = `${year}-${month}-${day}`;
+    const fullDate = `${dateTime.getFullYear()}-${dateTime.getMonth() + 1}-${dateTime.getDate()}`;
     setCurrentDate(fullDate);
 
     let hours: any = dateTime.getHours();
     if(hours.toString().length < 2) {
       hours = `0${hours}`;
     }
-    const minutes = dateTime.getMinutes();
-    const fullTime = `${hours}:${minutes}`;
+    const fullTime = `${hours}:${dateTime.getMinutes()}`;
     setCurrentTime(fullTime);
   }, []);
 
@@ -71,7 +66,10 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
             <input type="number" name="bloodSugarInput" id="bloodSugar" placeholder="הזן כמות סוכר בדם" />
             <input type="number" name="carbsInput" id="carbsInput" disabled placeholder="הזן כמות פחמימות" value={totalCarbs} />
             <input type="number" name="insulinInput" id="insulin" placeholder="הזן כמות אינסולין" />
-            <button>✅</button>
+            <div className="add-meal__form__buttons">
+              <button onClick={() => {setDisplay(DisplaySetting.NONE)}}>X</button>
+              <button >✅</button>
+            </div>
           </form>
         </div>
       </div>
