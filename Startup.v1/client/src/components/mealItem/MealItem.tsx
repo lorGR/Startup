@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { Meal } from "../../views/home/Home"
 
 interface MealItemProps {
@@ -7,6 +7,8 @@ interface MealItemProps {
 }
 
 const MealItem: React.FC<MealItemProps> = ({meal}) => {
+
+    const [mealServings, setMealServings] = useState();
 
     const handleClickMeal = async (event: any) => {
         try {
@@ -19,8 +21,8 @@ const MealItem: React.FC<MealItemProps> = ({meal}) => {
             }
             const { data } = await axios.post("/api/meals/get-meals-servings", {mealId});
             if(!data) throw new Error("Coudln't receive data from axios POST ON FUNCTION handleClickMeal IN FILE MealItem.tsx ");
-            console.log(data);
-
+            const { result } = data;
+            setMealServings(result);
         } catch (error) {
             console.error(error);
         }
