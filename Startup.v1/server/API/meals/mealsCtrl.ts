@@ -13,7 +13,7 @@ export async function addMeal(req: express.Request, res: express.Response) {
         const userId = decodeCookie(userID);
         if (!userId) throw new Error("Couldn't decode userId from decodeCookie ON FUNCTION addMeal IN FILE mealsCtrl")
 
-        const sql = `INSERT INTO meals (blood_sugar, insulin, date, time, user_id) VALUES ('${blood_sugar}', '${insulin}', '${date}', '${time}', '${userId}')`;
+        const sql = `INSERT INTO meals (blood_sugar, carbs, insulin, date, time, user_id) VALUES ('${blood_sugar}', '${carbs}', '${insulin}', '${date}', '${time}', '${userId}')`;
 
         connection.query(sql, (error, result) => {
             try {
