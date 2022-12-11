@@ -48,7 +48,8 @@ const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
   };
   const handleAddMeal = () => {
     try {
-        setDisplay(DisplaySetting.FLEX)
+
+        setDisplay(DisplaySetting.FLEX);
     } catch (error) {
         console.error(error)
     }

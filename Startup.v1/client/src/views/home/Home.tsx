@@ -1,18 +1,31 @@
 import axios from "axios";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { formatDiagnosticsWithColorAndContext } from "typescript";
 import { useAppSelector } from "../../app/hooks";
 import Header from "../../components/header/Header"
 import Navbar from "../../components/navbar/Navbar"
 import { carbsCounterSelector } from "../../features/carbs/carbsSlice";
 import { userSelector } from "../../features/user/userSlice";
+import MealItem from "../../components/mealItem/MealItem";
+
+export interface Meal {
+  meal_id: number,
+  blood_sugar: number,
+  carbs: number,
+  insulin: number,
+  date: string,
+  time: string,
+  user_id: number
+}
 
 const Home = () => {
 
   const [addMealForm, setAddMealForm] = useState(false);
 
   const user = useAppSelector(userSelector);
-  const carbs = useAppSelector(carbsCounterSelector)
+  const carbs = useAppSelector(carbsCounterSelector);
+
+  const [meals, setMeals] = useState<Meal[]>([]);
 
   // const handleAddMeal = async (event: any) => {
   //   try {
@@ -26,30 +39,47 @@ const Home = () => {
   //     if(result.affectedRows > 0) {
   //       setAddMealForm(!addMealForm);
   //     }
-      
+
   //   } catch (error) {
   //     console.error(error);
   //   }
   // }
 
+  const getTodayMeals = async () => {
+    try {
+      const { data } = await axios.get("/api/meals/get-today-meals");
+      if (!data) throw new Error("Couldn't receive data from axios GET '/api/meals/get-today-meals' ON FUNCTION getTodayMeals ON FILE Home.tsx ");
+      const { result } = data;
+      setMeals(result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getTodayMeals();
+  }, []);
+
   return (
     <div className="home">
       <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} />
       <Navbar navbarType="main" />
-      {addMealForm &&
+      {meals.map(meal => <MealItem meal={meal} key={meal.meal_id}/>)}
+      
+      {/* {addMealForm &&
         <div className="add-meal-container">
           <div className="add-meal">
             <form className="add-meal__form">
               <input type="date" name="dateInput" id="date" placeholder="הזן תאריך" />
               <input type="time" name="timeInput" id="time" placeholder="הזן שעת ארוחה" />
               <input type="number" name="bloodSugarInput" id="bloodSugar" placeholder="הזן כמות סוכר בדם" />
-              <input type="number" name="carbsInput" id="carbsInput" placeholder="הזן כמות פחמימות"/>
+              <input type="number" name="carbsInput" id="carbsInput" placeholder="הזן כמות פחמימות" />
               <input type="number" name="insulinInput" id="insulin" placeholder="הזן כמות אינסולין" />
               <button>✅</button>
             </form>
           </div>
         </div>
-      }
+      } */}
     </div>
   )
 }

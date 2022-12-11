@@ -20,7 +20,10 @@ import MealsRoutes from "./API/meals/mealsRoutes";
 app.use("/api/meals", MealsRoutes);
 
 import userFavoriteRoutes from "./API/userFavorites/userFavoriteRoutes";
-app.use("/api/user-favorites", userFavoriteRoutes)
+app.use("/api/user-favorites", userFavoriteRoutes);
+
+import servingsRoutes from "./API/servings/servingsRoutes";
+app.use("/api/servings", servingsRoutes);
 
 app.listen(port, () => {
   console.info(`Server is up and running at http://localhost:${port}`);
