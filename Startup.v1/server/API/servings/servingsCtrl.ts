@@ -6,9 +6,6 @@ export async function addServingToMeal(req: express.Request, res: express.Respon
         const { mealId, foodArray } = req.body;
         if (!mealId || !foodArray) throw new Error("Couldn't receive mealId/foodArray from req.body ON addServingToMeal IN servingsCtrl");
 
-        const { userID } = req.cookies;
-        if (!userID) throw new Error("Couldn't receive userID from cookies ON addServingToMeal IN servingsCtrl");
-
         await foodArray.forEach(async (food) => {
             const sql = `INSERT INTO servings(food_id, meal_id, amount) VALUES ('${food.food_id}', '${mealId}', '0')`;
 

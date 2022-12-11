@@ -32,8 +32,25 @@ export async function addMeal(req: express.Request, res: express.Response) {
 
 export async function getTodayMeals(req: express.Request, res: express.Response) {
     try {
+        const { userID } = req.cookies;
+        if (!userID) throw new Error("Couldn't extract userID from req.cookies ON FUNCTION getTodayMeals IN FILE mealsCtrl");
+
+        const user_id = decodeCookie(userID);
+        if (!user_id) throw new Error("Couldn't decode userId from decodeCookie ON FUNCTION getTodayMeals IN FILE mealsCtrl");
+
         const date = getCurrentDate();
-        
+        if (!date) throw new Error("Coulnd't receive date from getCurrentDate ON FUNCTION getTodayMeals IN FILE mealsCtrl");
+
+        const sql = `SELECT * FROM meals WHERE user_id = '${user_id}' AND date = '${date}'`;
+
+        connection.query(sql, (err, result) => {
+            try {
+                if(err) throw err;
+                res.send({result});
+            } catch (error) {
+                res.status(500).send({ error: error.message });
+            }
+        });
     } catch (error) {
         res.status(500).send({ error: error.message });
     }

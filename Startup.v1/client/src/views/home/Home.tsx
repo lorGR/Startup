@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { formatDiagnosticsWithColorAndContext } from "typescript";
 import { useAppSelector } from "../../app/hooks";
 import Header from "../../components/header/Header"
@@ -26,11 +26,25 @@ const Home = () => {
   //     if(result.affectedRows > 0) {
   //       setAddMealForm(!addMealForm);
   //     }
-      
+
   //   } catch (error) {
   //     console.error(error);
   //   }
   // }
+
+  const getTodayMeals = async () => {
+    try {
+      const { data } = await axios.get("/api/meals/get-today-meals");
+      if(!data) throw new Error("Couldn't receive data from axios GET '/api/meals/get-today-meals' ON FUNCTION getTodayMeals ON FILE Home.tsx ");
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getTodayMeals();  
+  }, []);
 
   return (
     <div className="home">
@@ -43,7 +57,7 @@ const Home = () => {
               <input type="date" name="dateInput" id="date" placeholder="הזן תאריך" />
               <input type="time" name="timeInput" id="time" placeholder="הזן שעת ארוחה" />
               <input type="number" name="bloodSugarInput" id="bloodSugar" placeholder="הזן כמות סוכר בדם" />
-              <input type="number" name="carbsInput" id="carbsInput" placeholder="הזן כמות פחמימות"/>
+              <input type="number" name="carbsInput" id="carbsInput" placeholder="הזן כמות פחמימות" />
               <input type="number" name="insulinInput" id="insulin" placeholder="הזן כמות אינסולין" />
               <button>✅</button>
             </form>
