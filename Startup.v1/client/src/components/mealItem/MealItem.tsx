@@ -23,6 +23,7 @@ const MealItem: React.FC<MealItemProps> = ({meal}) => {
             if(!data) throw new Error("Coudln't receive data from axios POST ON FUNCTION handleClickMeal IN FILE MealItem.tsx ");
             const { result } = data;
             setMealServings(result);
+            // TODO: create dropdown menu when click on meal and render the mealServings
         } catch (error) {
             console.error(error);
         }
