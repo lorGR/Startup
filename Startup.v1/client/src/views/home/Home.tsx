@@ -7,12 +7,24 @@ import Navbar from "../../components/navbar/Navbar"
 import { carbsCounterSelector } from "../../features/carbs/carbsSlice";
 import { userSelector } from "../../features/user/userSlice";
 
+interface Meal {
+  meal_id: number,
+  blood_sugar: number,
+  carbs: number,
+  insulin: number,
+  date: string,
+  time: string,
+  user_id: number
+}
+
 const Home = () => {
 
   const [addMealForm, setAddMealForm] = useState(false);
 
   const user = useAppSelector(userSelector);
-  const carbs = useAppSelector(carbsCounterSelector)
+  const carbs = useAppSelector(carbsCounterSelector);
+
+  const [meals, setMeals] = useState<Meal[]>([]);
 
   // const handleAddMeal = async (event: any) => {
   //   try {
@@ -35,22 +47,34 @@ const Home = () => {
   const getTodayMeals = async () => {
     try {
       const { data } = await axios.get("/api/meals/get-today-meals");
-      if(!data) throw new Error("Couldn't receive data from axios GET '/api/meals/get-today-meals' ON FUNCTION getTodayMeals ON FILE Home.tsx ");
-      console.log(data);
+      if (!data) throw new Error("Couldn't receive data from axios GET '/api/meals/get-today-meals' ON FUNCTION getTodayMeals ON FILE Home.tsx ");
+      const { result } = data;
+      console.log(result);
+      setMeals(result);
     } catch (error) {
       console.error(error);
     }
   }
 
   useEffect(() => {
-    getTodayMeals();  
+    getTodayMeals();
   }, []);
 
   return (
     <div className="home">
       <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} />
       <Navbar navbarType="main" />
-      {addMealForm &&
+      {meals.map(meal => {
+        return (
+          <div style={{display: "flex", justifyContent: "space-around"}} key={meal.meal_id}>
+            <p>אינס׳ {meal.insulin}</p>
+            <p> פחמ׳ {meal.carbs}</p>
+            <p>{meal.time.slice(0,5)}</p>
+          </div>
+        );
+      }) 
+      }
+      {/* {addMealForm &&
         <div className="add-meal-container">
           <div className="add-meal">
             <form className="add-meal__form">
@@ -63,7 +87,7 @@ const Home = () => {
             </form>
           </div>
         </div>
-      }
+      } */}
     </div>
   )
 }
