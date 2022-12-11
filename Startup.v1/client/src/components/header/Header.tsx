@@ -48,10 +48,7 @@ const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
   };
   const handleAddMeal = () => {
     try {
-        //TODO: get current time + date
-        //TODO: display current time and date in values
-        //TODO: create meal with the user id
-        //TODO: create serving for the meal with the meal id that was created
+
         setDisplay(DisplaySetting.FLEX);
     } catch (error) {
         console.error(error)
