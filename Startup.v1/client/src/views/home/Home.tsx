@@ -49,7 +49,6 @@ const Home = () => {
       const { data } = await axios.get("/api/meals/get-today-meals");
       if (!data) throw new Error("Couldn't receive data from axios GET '/api/meals/get-today-meals' ON FUNCTION getTodayMeals ON FILE Home.tsx ");
       const { result } = data;
-      console.log(result);
       setMeals(result);
     } catch (error) {
       console.error(error);
