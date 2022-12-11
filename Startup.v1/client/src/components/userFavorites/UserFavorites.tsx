@@ -30,7 +30,7 @@ export const UserFavorites = () => {
 
   return (
     <div dir='rtl'>
-        {favoriteFoodArray?.map(food => {return (<FoodListItem key={food.food_id} foodItem={food} foodFavoritesArray={foodFavoritesArray}/>)})}
+        {favoriteFoodArray?.map(food => {return (<FoodListItem key={food.food_id} foodItem={food} foodFavoritesArray={foodFavoritesArray} unit={"portion"}/>)})}
     </div>
   )
 }

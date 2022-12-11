@@ -7,24 +7,27 @@ import {
   removeFood,
 } from "../../../features/food/foodArraySlice";
 import { addCarbs, removeCarbs } from "../../../features/carbs/carbsSlice";
-import axios from "axios";
-import { useDispatch } from 'react-redux';
-import { favoriteFoodarraySelector } from './../../../features/favoriteFood/favoriteFoodArraySlice';
+import { favoriteFoodarraySelector } from "./../../../features/favoriteFood/favoriteFoodArraySlice";
 import { removeFoodToUserFavorite } from "../../../features/favoriteFood/favoriteFoodArrayAPI";
-import { addFoodToUserFavorites, getAllUserFavoriteFood } from './../../../features/favoriteFood/favoriteFoodArrayAPI';
+import {
+  addFoodToUserFavorites,
+  getAllUserFavoriteFood,
+} from "./../../../features/favoriteFood/favoriteFoodArrayAPI";
+import { userSelector } from "../../../features/user/userSlice";
+import { CarbsUnit } from "../../../features/user/userModel";
 
 interface FoodItemProps {
   foodItem: Food;
   foodFavoritesArray?: Food[];
+  unit: string
 }
 
-export const FoodListItem: FC<FoodItemProps> = ({
-  foodItem
-}) => {
+export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
   const dispatch = useAppDispatch();
   const foodArray = useAppSelector(foodarraySelector);
   const FavoriteFoodArray = useAppSelector(favoriteFoodarraySelector);
-
+  const user = useAppSelector(userSelector);
+  
   useEffect(() => {
     checkIfFoodIsAdded();
     checkIfFoodIsfavorite();
@@ -38,10 +41,20 @@ export const FoodListItem: FC<FoodItemProps> = ({
           (food) => food.food_id != foodItem.food_id
         );
         dispatch(removeFood(result));
-        dispatch(removeCarbs(foodItem.carbs_unit));
+        if (user?.carbs_unit === CarbsUnit.PORTION) {
+          dispatch(removeCarbs(foodItem.carbs_unit));
+        } else if (user?.carbs_unit === CarbsUnit.GRAM) {
+          dispatch(removeCarbs(foodItem.carbs));
+        }
+       
       } else {
         dispatch(addFood(foodItem));
-        dispatch(addCarbs(foodItem.carbs_unit));
+        if (user?.carbs_unit === CarbsUnit.PORTION) {
+          dispatch(addCarbs(foodItem.carbs_unit));
+        } else if (user?.carbs_unit === "gram") {
+          dispatch(addCarbs(foodItem.carbs));
+        }
+       
       }
     } catch (error) {
       console.error(error);
@@ -80,14 +93,15 @@ export const FoodListItem: FC<FoodItemProps> = ({
 
   async function handletoggleFavorite(event: any) {
     try {
+      event.preventDefault();
       event.stopPropagation();
       const foodId = event.target.id.replace("span", "");
       console.log(foodId);
-      const star = (event.target.className);
-      if(star.includes("fill")) {
-        event.target.classList.remove("fill")
+      const star = event.target.className;
+      if (star.includes("fill")) {
+        event.target.classList.remove("fill");
       } else {
-        event.target.classList.add("fill")
+        event.target.classList.add("fill");
       }
 
       if (FavoriteFoodArray) {
@@ -96,17 +110,17 @@ export const FoodListItem: FC<FoodItemProps> = ({
         );
         if (exist) {
           const foodId = foodItem.food_id;
-          dispatch(removeFoodToUserFavorite({foodId}));
+          dispatch(removeFoodToUserFavorite({ foodId }));
         } else if (!exist) {
-          dispatch(addFoodToUserFavorites({foodId}));
+          dispatch(addFoodToUserFavorites({ foodId }));
         }
       }
-
     } catch (error) {
       console.error(error);
     }
   }
 
+  if(unit === "portion") {
   return (
     <div className="flex" style={{ display: "flex", alignItems: "center" }}>
       <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
@@ -129,5 +143,29 @@ export const FoodListItem: FC<FoodItemProps> = ({
         </div>
       </label>
     </div>
-  );
+  ); } else {
+    return (
+      <div className="flex" style={{ display: "flex", alignItems: "center" }}>
+        <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
+        <label
+          onClick={handleAddFoodToArray}
+          className="test"
+          htmlFor={`${foodItem.food_id}`}
+        >
+          <div className="foodList__item">
+            <span
+              onClick={handletoggleFavorite}
+              id={`span${foodItem.food_id}`}
+              className={`material-symbols-outlined`}
+            >
+              star
+            </span>
+            <p className="foodList__item__start">{foodItem.food_name}</p>
+            <p className="foodList__item__center">100 גרם</p>
+            <p className="foodList__item__end">{foodItem.carbs} גרם</p>
+          </div>
+        </label>
+      </div>
+    )
+  }
 };
