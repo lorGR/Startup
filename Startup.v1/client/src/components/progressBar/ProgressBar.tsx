@@ -20,7 +20,6 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
                 myCarbs += meal.carbs;
             });
             setTotalCarbs(myCarbs);
-            console.log('finished')
         } catch (error) {
             console.error(error);
         }
@@ -28,7 +27,6 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
 
     const getBarPrecentages = () => {
         try {
-            console.log("hello");
             console.log(totalCarbs);
             setBarPrecentages(Math.round((totalCarbs * 100)/carbsGoal));
         } catch (error) {
