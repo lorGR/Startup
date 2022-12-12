@@ -1,6 +1,8 @@
 .set-bar-progress-form {
     background: linear-gradient(135deg, rgba(183,214,242,1) 0%, rgba(255,255,255,1) 50%, rgba(183,214,242,1) 100%);
     padding: 1rem;
+    border-radius: .5rem;
+    border: 3px solid #5171a9;
     form {
         display: flex;
         gap: .5rem;

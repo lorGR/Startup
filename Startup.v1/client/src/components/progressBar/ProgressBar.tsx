@@ -12,7 +12,6 @@ interface ProgressBarProps {
 const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
 
     const [totalCarbs, setTotalCarbs] = useState<number>(0);
-    // const [carbsGoal, setCarbsGoal] = useState<number>(220);
     const [barPrecentages, setBarPrecentages] = useState<number>(0);
 
     const [barPrecentagesWhatEver , setBarPrecentagesWhatEver] = useState<number>(0);

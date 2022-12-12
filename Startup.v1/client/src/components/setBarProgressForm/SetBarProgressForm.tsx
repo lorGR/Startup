@@ -26,7 +26,7 @@ const SetBarProgressForm = () => {
       <form onSubmit={handleChangeBarProgressGoal}>
         <button type="button" onClick={() => { dispatch(setBarProgressFormDisplay(DisplaySetting.NONE)) }}>X</button>
         <button>✅</button>
-        <input type="number" name="carbsGoal" placeholder="הגדר את היעד היומי" />
+        <input type="number" name="carbsGoal" placeholder="הגדר את היעד היומי" min={1}/>
       </form>
     </div>
   )
