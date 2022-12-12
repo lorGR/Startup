@@ -67,7 +67,7 @@ const Home = () => {
       <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} />
       <Navbar navbarType="main" />
       <div className="home__container">
-        {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} />)}
+        {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals}/>)}
         
       </div>
       <ProgressBar meals={meals}/>
