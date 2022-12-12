@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { barProgressFormSelector, setBarProgressFormDisplay } from "../../features/barProgressForm/barProgressFormSlice";
+import { setCarbsGoal } from "../../features/carbsGoal/carbsGoalSlice";
 import { DisplaySetting } from "../header/Header";
 
 
@@ -10,11 +11,13 @@ const SetBarProgressForm = () => {
 
   const dispatch = useAppDispatch();
 
-  const handleChangeBarProgressGoal = () => {
+  const handleChangeBarProgressGoal = (event: any) => {
     try {
-      
+      event.preventDefault();
+      dispatch(setCarbsGoal(event.target.elements.carbsGoal.value));
+      dispatch(setBarProgressFormDisplay(DisplaySetting.NONE));
     } catch (error) {
-
+      console.log(event);
     }
   }
 

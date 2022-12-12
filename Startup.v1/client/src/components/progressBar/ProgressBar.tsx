@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { barProgressFormSelector, setBarProgressFormDisplay } from "../../features/barProgressForm/barProgressFormSlice";
+import { carbsGoalSelector } from "../../features/carbsGoal/carbsGoalSlice";
 import { Meal } from "../../views/home/Home";
 import { DisplaySetting } from "../header/Header";
 
@@ -11,12 +12,14 @@ interface ProgressBarProps {
 const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
 
     const [totalCarbs, setTotalCarbs] = useState<number>(0);
-    const [carbsGoal, setCarbsGoal] = useState<number>(220);
+    // const [carbsGoal, setCarbsGoal] = useState<number>(220);
     const [barPrecentages, setBarPrecentages] = useState<number>(0);
 
     const [barPrecentagesWhatEver , setBarPrecentagesWhatEver] = useState<number>(0);
 
     const barProgressFormDisplay = useAppSelector(barProgressFormSelector);
+    const carbsGoal = useAppSelector(carbsGoalSelector);
+
     const dispatch = useAppDispatch();
 
     const getTotalCarbs = () => {
@@ -51,7 +54,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
 
     useEffect(() => {
         getTotalCarbs();
-    }, [meals]);
+    }, [meals,barProgressFormDisplay]);
 
     return (
         <div className="progress-bar">
