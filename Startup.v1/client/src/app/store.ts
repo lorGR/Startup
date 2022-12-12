@@ -4,6 +4,7 @@ import counterSlice from './../features/counter/counterSlice';
 import foodArraySlice from './../features/food/foodArraySlice';
 import carbsCounterSlice from './../features/carbs/carbsSlice';
 import favoriteFoodArraySlice from '../features/favoriteFood/favoriteFoodArraySlice';
+import barProgressFormReducer from "../features/barProgressForm/barProgressFormSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     counter: counterSlice,
     foodArray: foodArraySlice,
     favoriteFoodArray: favoriteFoodArraySlice,
-    carbsCounter: carbsCounterSlice
+    carbsCounter: carbsCounterSlice,
+    barProgressForm : barProgressFormReducer
   },
 });
 

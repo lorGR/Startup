@@ -34,7 +34,8 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
     setCurrentTime(fullTime);
   }, []);
 
-  const totalCarbs = useAppSelector(carbsCounterSelector)
+  const totalCarbs = useAppSelector(carbsCounterSelector);
+
   const handleAddMeal = async (event: any) => {
     try {
       event.preventDefault();
@@ -72,8 +73,8 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
             <input type="number" name="carbsInput" id="carbsInput" disabled placeholder="הזן כמות פחמימות" value={totalCarbs} />
             <input type="number" name="insulinInput" id="insulin" placeholder="הזן כמות אינסולין" />
             <div className="add-meal__form__buttons">
-              <button onClick={() => { setDisplay(DisplaySetting.NONE) }}>X</button>
-              <button >✅</button>
+              <button type='button' onClick={() => { setDisplay(DisplaySetting.NONE) }}>X</button>
+              <button type='submit' >✅</button>
             </div>
           </form>
         </div>
