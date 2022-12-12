@@ -57,7 +57,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal }) => {
           mealServings.length > 0 &&
           mealServings.map((mealServ) => {
             return (
-              <ServingItem mealServ={mealServ} setMealServings={setMealServings}/>
+              <ServingItem key={mealServ.serving_id} mealServ={mealServ} setMealServings={setMealServings}/>
             );
           })}
       </div>
