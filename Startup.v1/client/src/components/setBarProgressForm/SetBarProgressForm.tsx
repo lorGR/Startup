@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { barProgressFormSelector, setBarProgressFormDisplay } from "../../features/barProgressForm/barProgressFormSlice";
 import { setCarbsGoal } from "../../features/carbsGoal/carbsGoalSlice";
@@ -20,7 +19,7 @@ const SetBarProgressForm = () => {
       console.log(event);
     }
   }
-  
+
   //TODO: big one 
   // - add to user table col named carbsGoal
   // - when changing carbsGoal change it to the user as well 
