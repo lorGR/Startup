@@ -31,23 +31,8 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
         }
     }
 
-    const getBarPrecentages = () => {
-        try {
-            console.log("get bar prace")
-            setBarPrecentages(Math.round((totalCarbs * 100)/carbsGoal));
-            if(Math.round((totalCarbs * 100)/carbsGoal) > 100) {
-                setBarPrecentagesWhatEver(100);
-            } else {
-                setBarPrecentagesWhatEver(Math.round((totalCarbs * 100)/carbsGoal));
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
     useEffect(() => {
         getTotalCarbs();
-        // getBarPrecentages();
     }, [meals]);
 
     return (
