@@ -1,23 +1,30 @@
 import { useState } from "react";
-import { useAppSelector } from "../../app/hooks";
-import { barProgressFormSelector } from "../../features/barProgressForm/barProgressFormSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { barProgressFormSelector, setBarProgressFormDisplay } from "../../features/barProgressForm/barProgressFormSlice";
 import { DisplaySetting } from "../header/Header";
 
 
 const SetBarProgressForm = () => {
 
   const barProgressFormDisplay = useAppSelector(barProgressFormSelector);
-  let display = "none"
 
-  if(barProgressFormDisplay === "none") {
-    display = 'block';
-  } else { 
-    display = 'none';
+  const dispatch = useAppDispatch();
+
+  const handleChangeBarProgressGoal = () => {
+    try {
+      
+    } catch (error) {
+
+    }
   }
 
   return (
-    <div className="set-bar-progress-form" style={{display : `${display}`}}>
-      SetBarProgressForm
+    <div className="set-bar-progress-form" style={{ display: `${barProgressFormDisplay}` }}>
+      <form onSubmit={handleChangeBarProgressGoal}>
+        <button type="button" onClick={() => { dispatch(setBarProgressFormDisplay(DisplaySetting.NONE)) }}>X</button>
+        <button>✅</button>
+        <input type="number" name="carbsGoal" placeholder="הגדר את היעד היומי" />
+      </form>
     </div>
   )
 }
