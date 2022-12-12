@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { barProgressFormSelector, setBarProgressFormDisplay } from "../../features/barProgressForm/barProgressFormSlice";
+import { carbsGoalSelector } from "../../features/carbsGoal/carbsGoalSlice";
 import { Meal } from "../../views/home/Home";
+import { DisplaySetting } from "../header/Header";
 
 interface ProgressBarProps {
     meals: Array<Meal>
@@ -8,10 +12,14 @@ interface ProgressBarProps {
 const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
 
     const [totalCarbs, setTotalCarbs] = useState<number>(0);
-    const [carbsGoal, setCarbsGoal] = useState<number>(220);
     const [barPrecentages, setBarPrecentages] = useState<number>(0);
 
+    const [barPrecentagesWhatEver , setBarPrecentagesWhatEver] = useState<number>(0);
 
+    const barProgressFormDisplay = useAppSelector(barProgressFormSelector);
+    const carbsGoal = useAppSelector(carbsGoalSelector);
+
+    const dispatch = useAppDispatch();
 
     const getTotalCarbs = () => {
         try {
@@ -20,17 +28,24 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
                 myCarbs += meal.carbs;
             });
             setTotalCarbs(myCarbs);
-            console.log('finished')
+            setBarPrecentages(Math.round((myCarbs * 100)/carbsGoal));
+            if(Math.round((myCarbs * 100)/carbsGoal) > 100) {
+                setBarPrecentagesWhatEver(100);
+            } else {
+                setBarPrecentagesWhatEver(Math.round((myCarbs * 100)/carbsGoal));
+            }
         } catch (error) {
             console.error(error);
         }
     }
 
-    const getBarPrecentages = () => {
+    const handleOpenProgressForm = () => {
         try {
-            console.log("hello");
-            console.log(totalCarbs);
-            setBarPrecentages(Math.round((totalCarbs * 100)/carbsGoal));
+            if(barProgressFormDisplay === "none") {
+                dispatch(setBarProgressFormDisplay(DisplaySetting.BLOCK));
+            } else {
+                dispatch(setBarProgressFormDisplay(DisplaySetting.NONE));
+            }
         } catch (error) {
             console.error(error);
         }
@@ -38,18 +53,17 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
 
     useEffect(() => {
         getTotalCarbs();
-        getBarPrecentages();
-    }, [meals]);
+    }, [meals,barProgressFormDisplay]);
 
     return (
         <div className="progress-bar">
-            <div id="myProgress">
+            <div id="myProgress" onClick={handleOpenProgressForm}>
                     <div className="progress-bar__info">
                         <span className="progress-bar__icon">🍎</span>
                         <span className="progress-bar__amount">{totalCarbs}/{carbsGoal}</span>
                         <span className="progress-bar__precenteges">{barPrecentages}%</span>
                     </div>
-                <div style={{width: `${barPrecentages}%`}} id="myBar">
+                <div style={{width: `${barPrecentagesWhatEver}%`}} id="myBar">
                 </div>
             </div>
         </div>

@@ -8,6 +8,7 @@ import { carbsCounterSelector } from "../../features/carbs/carbsSlice";
 import { userSelector } from "../../features/user/userSlice";
 import MealItem from "../../components/mealItem/MealItem";
 import ProgressBar from "../../components/progressBar/ProgressBar";
+import SetBarProgressForm from "../../components/setBarProgressForm/SetBarProgressForm";
 
 export interface Meal {
   meal_id: number,
@@ -70,6 +71,7 @@ const Home = () => {
         
       </div>
       <ProgressBar meals={meals}/>
+      <SetBarProgressForm />
       {/* {addMealForm &&
         <div className="add-meal-container">
           <div className="add-meal">
