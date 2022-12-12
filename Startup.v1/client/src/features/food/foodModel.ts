@@ -9,5 +9,7 @@ export interface Food {
   protien: number,
   unit: string,
   weight: number,
-  serving_id?: number
+  serving_id?: number,
+  amount?:number,
+  meal_id?:number
 }

@@ -76,3 +76,24 @@ export async function getMealsServings(req: express.Request, res: express.Respon
         res.status(500).send({ error: error.message });
     }
 }
+
+export async function updateMealServing(req:express.Request, res:express.Response) {
+    try {
+        const {servingId, amount} = req.body;
+        if ( !servingId || !amount) throw new Error("Could'nt receive servingId or amount from client on FUCTION updateMealServing IN mealCtrl")
+        const sql = `UPDATE servings SET amount = '${amount}' WHERE (serving_id = '${servingId}')`;
+        connection.query(sql, (error, result) => {
+            if (error) throw error;
+            console.log(result)
+            if (result.affectedRows > 0) {
+                const sql = `SELECT * FROM servings JOIN food ON food.food_id = servings.food_id WHERE serving_id = '${servingId}'`;
+                connection.query(sql, (error, result) => {
+                    if (error) throw error;
+                    res.send({result})
+                })
+            }
+        })
+    } catch (error) {
+     res.status(500).send({error: error})   
+    }
+}

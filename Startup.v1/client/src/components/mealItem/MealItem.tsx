@@ -3,6 +3,7 @@ import { stringify } from "querystring";
 import React, { useState } from "react";
 import { Food } from "../../features/food/foodModel";
 import { Meal } from "../../views/home/Home";
+import ServingItem from './servingItem/ServingItem';
 
 interface MealItemProps {
   meal: Meal;
@@ -11,7 +12,6 @@ interface MealItemProps {
 const MealItem: React.FC<MealItemProps> = ({ meal }) => {
   const [mealServings, setMealServings] = useState<Food[]>([]);
   const [dropDown, setDropDown] = useState<boolean>(false);
-  const [unitCounter, setUnitCounter] = useState<number>(1);
 
   const handleClickMeal = async (event: any) => {
     try {
@@ -41,27 +41,6 @@ const MealItem: React.FC<MealItemProps> = ({ meal }) => {
     }
   };
 
-  const handleChangeCounter = async (event: any) => {
-    try {
-        const buttonValue = event.target.value.toString();
-        
-        console.log(buttonValue)
-      if (buttonValue.search("add") != -1) {
-        console.log("add");
-        const servingId = event.target.id.replace("add", "");
-        console.log(servingId)
-        // const {data} = await axios.post("/api/meals/update-meal-serving-amount", {servingId, unitCounter})
-      } else if (buttonValue.search("remove") != -1) {
-        const servingId = event.target.id.replace("remove", "");
-        console.log("remove");
-      } else {
-        console.log("nope")
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <div className="meal-item dropbtn">
       <div
@@ -78,19 +57,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal }) => {
           mealServings.length > 0 &&
           mealServings.map((mealServ) => {
             return (
-              <div className="meal-item__serving-item" key={mealServ.food_id}>
-                <div>{mealServ.food_name}</div>
-                <div>
-                  <button onClick={handleChangeCounter} value={`add${mealServ.serving_id}`}>
-                    +
-                  </button>
-                  {unitCounter} {mealServ.unit}
-                  <button onClick={handleChangeCounter} value={`remove${mealServ.serving_id}`}>
-                    -
-                  </button>
-                </div>
-                <div>ג' {mealServ.carbs}</div>
-              </div>
+              <ServingItem key={mealServ.serving_id} mealServ={mealServ} setMealServings={setMealServings}/>
             );
           })}
       </div>
