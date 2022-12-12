@@ -120,11 +120,6 @@ export async function updateMealServing(
         if (error) throw error;
 
         if (result.affectedRows > 0) {
-          // const sql = `SELECT * FROM servings JOIN food ON food.food_id = servings.food_id WHERE serving_id = '${servingId}'`;
-          // connection.query(sql, (error, result) => {
-          //     if (error) throw error;
-          //     res.send({result})
-          // })
           const sql2 = `SELECT * FROM meals JOIN servings ON servings.meal_id = meals.meal_id JOIN food ON servings.food_id = food.food_id WHERE meals.meal_id = '${mealId}'`;
           connection.query(sql2, (error, results) => {
             try {
@@ -155,10 +150,58 @@ export async function updateMealServing(
   }
 }
 
-// export async function getMealById(req:express.Request, res:express.Response) {
-//     try {
-//         const mealId = 
-//     } catch (error) {
-//         res.status(500).send({error:error})
-//     }
-// }
+export async function deleteMealById(
+  req: express.Request,
+  res: express.Response
+) {
+  try {
+    const { mealId } = req.body;
+    if (!mealId)
+      throw new Error(
+        "could'nt find mealId from clien on FUNCTION deleteMealById IN FILE mealsCtrl"
+      );
+    const { userID } = req.cookies;
+    if (!userID)
+      throw new Error(
+        "Couldn't extract userID from req.cookies ON FUNCTION getTodayMeals IN FILE mealsCtrl"
+      );
+
+    const user_id = decodeCookie(userID);
+    if (!user_id)
+      throw new Error(
+        "Couldn't decode userId from decodeCookie ON FUNCTION getTodayMeals IN FILE mealsCtrl"
+      );
+
+    const date = getCurrentDate();
+    if (!date)
+      throw new Error(
+        "Coulnd't receive date from getCurrentDate ON FUNCTION getTodayMeals IN FILE mealsCtrl"
+      );
+
+    const sql = `DELETE FROM servings WHERE meal_id = '${mealId}'`;
+
+    connection.query(sql, (error, result) => {
+      if (error) throw error;
+      if (result.affectedRows > 0) {
+        const sql = `DELETE FROM meals WHERE (meal_id = '${mealId}')`;
+        connection.query(sql, (error, result) => {
+          if (error) throw error;
+          if (result.affectedRows > 0) {
+            const sql = `SELECT * FROM meals WHERE user_id = '${user_id}' AND date = '${date}'`;
+
+            connection.query(sql, (err, result) => {
+              try {
+                if (err) throw err;
+                res.send({ result });
+              } catch (error) {
+                res.status(500).send({ error: error.message });
+              }
+            });
+          }
+        });
+      }
+    });
+  } catch (error) {
+    res.status(500).send({ error: error });
+  }
+}
