@@ -20,6 +20,12 @@ const SetBarProgressForm = () => {
       console.log(event);
     }
   }
+  
+  //TODO: big one 
+  // - add to user table col named carbsGoal
+  // - when changing carbsGoal change it to the user as well 
+  // - because the refresh returns the state to it's default (200)
+  // - need to save the carbs goal in user table to make more dynamic
 
   return (
     <div className="set-bar-progress-form" style={{ display: `${barProgressFormDisplay}` }}>
