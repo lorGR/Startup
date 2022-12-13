@@ -6,20 +6,41 @@ export async function addServingToMeal(req: express.Request, res: express.Respon
         const { mealId, foodArray } = req.body;
         if (!mealId || !foodArray) throw new Error("Couldn't receive mealId/foodArray from req.body ON addServingToMeal IN servingsCtrl");
 
-        await foodArray.forEach(async (food) => {
-            const sql = `INSERT INTO servings(food_id, meal_id, amount) VALUES ('${food.food_id}', '${mealId}', '1')`;
-
-            await connection.query(sql, (err, result) => {
-                try {
-                    if(err) throw err;
-                } catch (error) {
-                    console.log(error);
-                    res.status(500).send({ error: error.message });
-                }
-            })
-        })
+        const sql = `SELECT * FROM meals WHERE meal_id = ${mealId}`; 
         
-        res.send({status: true, msg: "Meal sucssecfully added"});
+        connection.query(sql, async (error, result) => {
+            try {
+                if (error) throw error;
+                const mealCarbsUnit = result[0].carbs_unit_type;
+                let amountType;
+                let amount;
+                if(mealCarbsUnit === "gram") {
+                    amountType = "amount_gram";
+                    amount = 100;
+                } else {
+                    amountType = "amount_portion";
+                    amount = 1;
+                }
+                await foodArray.forEach(async (food) => {
+                    const sql = `INSERT INTO servings(food_id, meal_id, ${amountType}) VALUES ('${food.food_id}', '${mealId}', '${amount}')`;
+        
+                    await connection.query(sql, (err, result) => {
+                        try {
+                            if(err) throw err;
+                        } catch (error) {
+                            console.log(error);
+                            res.status(500).send({ error: error.message });
+                        }
+                    })
+                })
+                
+                res.send({status: true, msg: "Meal sucssecfully added"});
+            } catch (error) {
+                res.status(500).send({error: error.message})
+            }
+        })
+
+       
 
     } catch (error) {
         res.status(500).send({ error: error.message });

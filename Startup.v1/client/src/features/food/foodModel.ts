@@ -10,6 +10,7 @@ export interface Food {
   unit: string,
   weight: number,
   serving_id?: number,
-  amount?:number,
+  amount_gram?:number,
+  amount_portion?:number,
   meal_id?:number
 }
