@@ -29,11 +29,15 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
     const fullDate = `${dateTime.getFullYear()}-${dateTime.getMonth() + 1}-${dateTime.getDate()}`;
     setCurrentDate(fullDate);
 
-    let hours: any = dateTime.getHours();
+    let hours: string | number  = dateTime.getHours();
     if (hours.toString().length < 2) {
       hours = `0${hours}`;
+    } 
+    let minutes: string | number = dateTime.getMinutes();
+    if(minutes.toString().length < 2) {
+      minutes =`0${minutes}`;
     }
-    const fullTime = `${hours}:${dateTime.getMinutes()}`;
+    const fullTime = `${hours}:${minutes}`;
     setCurrentTime(fullTime);
   }, []);
 
