@@ -22,15 +22,24 @@ export async function addMeal(req: express.Request, res: express.Response) {
       throw new Error(
         "Couldn't decode userId from decodeCookie ON FUNCTION addMeal IN FILE mealsCtrl"
       );
+    const userSql = `SELECT * FROM users where user_id = '${userId}'`;
 
-    const sql = `INSERT INTO meals (blood_sugar, carbs, insulin, date, time, user_id) VALUES ('${blood_sugar}', '${carbs}', '${insulin}', '${date}', '${time}', '${userId}')`;
-
-    connection.query(sql, (error, result) => {
+    connection.query(userSql, (error, result) => {
       try {
         if (error) throw error;
-        res.send({ result });
+        const userCarbsUnit = result[0].carbs_unit;
+        const sql = `INSERT INTO meals (blood_sugar, carbs, insulin, date, time, user_id, carbs_unit_type) VALUES ('${blood_sugar}', '${carbs}', '${insulin}', '${date}', '${time}', '${userId}', '${userCarbsUnit}')`;
+
+        connection.query(sql, (error, result) => {
+          try {
+            if (error) throw error;
+            res.send({ result });
+          } catch (error) {
+            res.status(500).send({ error: error.message });
+          }
+        });
       } catch (error) {
-        res.status(500).send({ error: error.message });
+        res.status(500).send({ error: error });
       }
     });
   } catch (error) {
@@ -49,8 +58,8 @@ export async function getTodayMeals(
         "Couldn't extract userID from req.cookies ON FUNCTION getTodayMeals IN FILE mealsCtrl"
       );
 
-    const user_id = decodeCookie(userID);
-    if (!user_id)
+    const userId = decodeCookie(userID);
+    if (!userId)
       throw new Error(
         "Couldn't decode userId from decodeCookie ON FUNCTION getTodayMeals IN FILE mealsCtrl"
       );
@@ -61,7 +70,7 @@ export async function getTodayMeals(
         "Coulnd't receive date from getCurrentDate ON FUNCTION getTodayMeals IN FILE mealsCtrl"
       );
 
-    const sql = `SELECT * FROM meals WHERE user_id = '${user_id}' AND date = '${date}'`;
+    const sql = `SELECT * FROM meals WHERE user_id = '${userId}' AND date = '${date}'`;
 
     connection.query(sql, (err, result) => {
       try {
