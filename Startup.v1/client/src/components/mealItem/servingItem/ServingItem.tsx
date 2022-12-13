@@ -5,14 +5,14 @@ import { Food } from "./../../../features/food/foodModel";
 interface ServingItemProps {
   mealServ: Food;
   setMealServings: CallableFunction;
+  setMeals: CallableFunction
 }
 
-const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings }) => {
+const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings, setMeals }) => {
   const [unitCounter, setUnitCounter] = useState<number>(1);
 
   useEffect(() => {
     checkMealAmount();
-    console.log("check loop");
   }, []);
 
   async function updateMealView() {
@@ -24,6 +24,17 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings }) => {
       });
       const {result} = data;
       setMealServings(result)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const getTodayMeals = async () => {
+    try {
+      const { data } = await axios.get("/api/meals/get-today-meals");
+      if (!data) throw new Error("Couldn't receive data from axios GET '/api/meals/get-today-meals' ON FUNCTION getTodayMeals ON FILE Home.tsx ");
+      const { result } = data;
+      setMeals(result);
     } catch (error) {
       console.error(error);
     }
@@ -42,15 +53,11 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings }) => {
       const buttonValue = event.target.value.toString();
       let servingId;
       let amount = mealServ.amount;
-      console.log("amount 1");
-      console.log(amount);
+      const mealId = mealServ.meal_id
       if (amount) {
-        console.log("entered if amount exist");
         if (buttonValue.search("add") != -1) {
           servingId = event.target.value.replace("add", "");
           amount++;
-          console.log("amount 2");
-          console.log(amount);
           setUnitCounter(amount);
         } else if (buttonValue.search("remove") != -1) {
           servingId = event.target.value.replace("remove", "");
@@ -61,10 +68,10 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings }) => {
         }
         const { data } = await axios.post(
           "/api/meals/update-meal-serving-amount",
-          { servingId, amount }
+          { servingId, amount, mealId }
         );
-        console.log(data);
         updateMealView();
+        getTodayMeals();
       }
     } catch (error) {
       console.error(error);
@@ -89,7 +96,7 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings }) => {
           -
         </button>
       </div>
-      <div>ג' {mealServ.carbs}</div>
+      <div>ג' {mealServ.carbs_unit * mealServ.amount!}</div>
     </div>
   );
 };
