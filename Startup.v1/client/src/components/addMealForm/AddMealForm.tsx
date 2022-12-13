@@ -2,10 +2,11 @@ import { current } from '@reduxjs/toolkit';
 import axios from 'axios';
 import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
-import { foodarraySelector } from '../../features/food/foodArraySlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { emptyArray, foodarraySelector } from '../../features/food/foodArraySlice';
 import { DisplaySetting } from '../header/Header';
 import { carbsCounterSelector } from './../../features/carbs/carbsSlice';
+import { resetCarbs } from './../../features/carbs/carbsSlice';
 
 interface AddMealFormProps {
   displayType: string;
@@ -18,6 +19,8 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
   const [currentTime, setCurrentTime] = useState<string>();
 
   const foodArray = useAppSelector(foodarraySelector);
+
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
@@ -53,6 +56,8 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
         const { status } = data;
         if(status === true) {
           setDisplay(DisplaySetting.NONE);
+          dispatch(emptyArray());
+          dispatch(resetCarbs());
           navigate("/home");
         }
       }
