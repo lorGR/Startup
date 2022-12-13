@@ -2,10 +2,11 @@ import { current } from '@reduxjs/toolkit';
 import axios from 'axios';
 import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
-import { foodarraySelector } from '../../features/food/foodArraySlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { emptyArray, foodarraySelector } from '../../features/food/foodArraySlice';
 import { DisplaySetting } from '../header/Header';
 import { carbsCounterSelector } from './../../features/carbs/carbsSlice';
+import { resetCarbs } from './../../features/carbs/carbsSlice';
 
 interface AddMealFormProps {
   displayType: string;
@@ -19,6 +20,8 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
 
   const foodArray = useAppSelector(foodarraySelector);
 
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,11 +29,15 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
     const fullDate = `${dateTime.getFullYear()}-${dateTime.getMonth() + 1}-${dateTime.getDate()}`;
     setCurrentDate(fullDate);
 
-    let hours: any = dateTime.getHours();
+    let hours: string | number  = dateTime.getHours();
     if (hours.toString().length < 2) {
       hours = `0${hours}`;
+    } 
+    let minutes: string | number = dateTime.getMinutes();
+    if(minutes.toString().length < 2) {
+      minutes =`0${minutes}`;
     }
-    const fullTime = `${hours}:${dateTime.getMinutes()}`;
+    const fullTime = `${hours}:${minutes}`;
     setCurrentTime(fullTime);
   }, []);
 
@@ -53,6 +60,8 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
         const { status } = data;
         if(status === true) {
           setDisplay(DisplaySetting.NONE);
+          dispatch(emptyArray());
+          dispatch(resetCarbs());
           navigate("/home");
         }
       }

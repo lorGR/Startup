@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { getUserByCookie } from "./features/user/userAPI";
 import { userSelector } from "./features/user/userSlice";
 import { FoodList } from './components/foodList/FoodList';
+import Calendar from "./views/calendar/Calendar";
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/list" element={<List />} />
             <Route path="/foodlist" element={<FoodList />} />
+            <Route path="/calendar" element={<Calendar />}></Route>
           </Routes>
         </BrowserRouter>
       </Screen>
