@@ -2,14 +2,12 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { barProgressFormSelector, setBarProgressFormDisplay } from "../../features/barProgressForm/barProgressFormSlice";
 import { getUserByCookie } from "../../features/user/userAPI";
-import { userSelector } from "../../features/user/userSlice";
 import { DisplaySetting } from "../header/Header";
 
 
 const SetBarProgressForm = () => {
 
   const barProgressFormDisplay = useAppSelector(barProgressFormSelector);
-  const user = useAppSelector(userSelector);
 
   const dispatch = useAppDispatch();
 
@@ -29,12 +27,6 @@ const SetBarProgressForm = () => {
       console.log(event);
     }
   }
-
-  //TODO: big one 
-  // - add to user table col named carbsGoal
-  // - when changing carbsGoal change it to the user as well 
-  // - because the refresh returns the state to it's default (200)
-  // - need to save the carbs goal in user table to make more dynamic
 
   return (
     <div className="set-bar-progress-form" style={{ display: `${barProgressFormDisplay}` }}>
