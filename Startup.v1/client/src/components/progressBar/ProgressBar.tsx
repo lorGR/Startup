@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { barProgressFormSelector, setBarProgressFormDisplay } from "../../features/barProgressForm/barProgressFormSlice";
-import { carbsGoalSelector } from "../../features/carbsGoal/carbsGoalSlice";
+import { userSelector } from "../../features/user/userSlice";
 import { Meal } from "../../views/home/Home";
 import { DisplaySetting } from "../header/Header";
 
@@ -17,7 +17,8 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
     const [barPrecentagesWhatEver , setBarPrecentagesWhatEver] = useState<number>(0);
 
     const barProgressFormDisplay = useAppSelector(barProgressFormSelector);
-    const carbsGoal = useAppSelector(carbsGoalSelector);
+    const user = useAppSelector(userSelector);
+    const carbsGoal = user!.carbs_goal;
 
     const dispatch = useAppDispatch();
 
@@ -60,7 +61,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
             <div id="myProgress" onClick={handleOpenProgressForm}>
                     <div className="progress-bar__info">
                         <span className="progress-bar__icon">🍎</span>
-                        <span className="progress-bar__amount">{totalCarbs}/{carbsGoal}</span>
+                        <span className="progress-bar__amount">{totalCarbs}/{user?.carbs_goal}</span>
                         <span className="progress-bar__precenteges">{barPrecentages}%</span>
                     </div>
                 <div style={{width: `${barPrecentagesWhatEver}%`}} id="myBar">
