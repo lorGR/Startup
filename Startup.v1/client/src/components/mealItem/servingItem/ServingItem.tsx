@@ -112,7 +112,7 @@ const ServingItem: FC<ServingItemProps> = ({
         >
           +
         </button>
-        {unitCounter} {mealServ.amount_gram ? "גרם" : mealServ.carbs_unit}
+        {unitCounter} {mealServ.amount_gram ? "גרם" : mealServ.unit}
         <button
           onClick={handleChangeCounter}
           value={`remove${mealServ.serving_id}`}
