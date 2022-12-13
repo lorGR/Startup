@@ -184,6 +184,7 @@ const ServingItem: FC<ServingItemProps> = ({
               type="number"
               name="enterGram"
               id="enterGram"
+              //TODO: replace id with entreGram+servingId than parse it to be the serving id
             />
             <div className="unit_counter">{unitCounter}</div> גרם
           </div>
