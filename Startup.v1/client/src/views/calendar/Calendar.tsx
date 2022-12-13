@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import { getCurrentDate } from "../../helpers/helpers";
+import moment from "moment";
 
 const Calendar = () => {
 
-    const [date , setDate] = useState<string | undefined>(getCurrentDate());
+    const [date , setDate] = useState<any>(moment().format().slice(0,10));
 
     const getMealsByDate =  async () => {
         try {
@@ -25,7 +26,7 @@ const Calendar = () => {
     const handleDayBack = () => {
         try {
             console.log("Day Back");
-            //TODO: make logic to change date to day backwards
+            setDate(moment(date).subtract(1, 'days').format().slice(0,10));
         } catch (error) {
             console.error(error);   
         }
@@ -33,8 +34,7 @@ const Calendar = () => {
 
     const handleDayFoward = () => {
         try {
-            console.log("Day Foward");
-            //TODO: make logic to change date to day forwards
+            setDate(moment(date).add(1, 'days').format().slice(0,10));
         } catch (error) {
             console.error(error);
         }
