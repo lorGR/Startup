@@ -87,6 +87,9 @@ const ServingItem: FC<ServingItemProps> = ({
           servingId = event.target.value.replace("remove", "");
           amount--;
           setUnitCounter(amount);
+          if (amount === 0) {
+            InititeDelete()
+          }
         } else {
           console.log("nope");
         }
@@ -139,6 +142,29 @@ const ServingItem: FC<ServingItemProps> = ({
     }
   }
 
+  function InititeDelete() {
+    try {
+      const messege = document.getElementById(`${mealServ.serving_id}`) as HTMLDivElement;
+      messege.style.display = "block";
+      
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function handleDeleteServing(event:any) {
+    try {
+      event.preventDefault();
+      const servingId = mealServ.serving_id;
+      const {data} = await axios.post("/api/servings/delete-serving-by-id", {servingId});
+      updateMealView();
+        getTodayMeals();
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+
   return (
     <div className="meal-item__serving-item" key={mealServ.food_id}>
       <div>{mealServ.food_name}</div>
@@ -180,6 +206,13 @@ const ServingItem: FC<ServingItemProps> = ({
       ) : (
         <div>ג' {mealServ.carbs_unit * mealCarbsUnit!}</div>
       )}
+
+      <form onSubmit={handleDeleteServing} className="messege_container" id={`${mealServ.serving_id}`}>
+        <h5>Are you sure you want to delete this item?</h5>
+        <h5>{mealServ.food_name}</h5>
+        <button type="submit">V</button>
+        <button type="button" >X</button>
+      </form>
     </div>
   );
 };
