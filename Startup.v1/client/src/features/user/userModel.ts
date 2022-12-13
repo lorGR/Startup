@@ -36,5 +36,6 @@ export interface User {
   carbs_unit?: CarbsUnit;
   protein_calc?: number | boolean; //TODO: check tiny Int: is boolean or number?
   profile_image?: string,
-  language?: Language
+  language?: Language,
+  carbs_goal: number
 }

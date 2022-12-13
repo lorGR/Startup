@@ -157,6 +157,34 @@ export async function updateUserInfo(
   }
 }
 
+export function updateCarbsGoal(req: express.Request, res: express.Response) {
+  try {
+    const { userCarbsGoal } = req.body;
+    if (!userCarbsGoal) throw new Error("Couldn't receive userCarbsGoal from req.body ON FUNCTION updateCarbsGoal IN FILE usersCtrl");
+
+    const { userID } = req.cookies;
+    if (!userID)
+      throw new Error("Couldn't find cookie named userID in updateUserInfo ON FUNCTION updateCarbsGoal IN FILE usersCtrl");
+
+    const userId = decodeCookie(userID);
+    if (!userId) throw new Error("Couldn't find userId from decodedUserId ON FUNCTION updateCarbsGoal IN FILE usersCtrl");
+
+    //UPDATE `sugarbit`.`users` SET `carbs_goal` = '200' WHERE (`user_id` = '3');
+    const sql = ` UPDATE users SET carbs_goal = '${userCarbsGoal}' WHERE user_id = '${userId}'`;
+
+    connection.query(sql, (err, result) => {
+      try {
+        if(err) throw err;
+        res.send({result});
+      } catch (error) {
+        res.status(500).send({ error: error.message });
+      }
+    })
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+}
+
 export function decodeCookie(userID: string): number {
   try {
     const secret = process.env.JWT_SECRET;
@@ -176,3 +204,4 @@ export function decodeCookie(userID: string): number {
     console.log(error);
   }
 }
+

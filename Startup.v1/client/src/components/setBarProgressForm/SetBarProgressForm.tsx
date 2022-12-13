@@ -1,19 +1,29 @@
+import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { barProgressFormSelector, setBarProgressFormDisplay } from "../../features/barProgressForm/barProgressFormSlice";
-import { setCarbsGoal } from "../../features/carbsGoal/carbsGoalSlice";
+import { getUserByCookie } from "../../features/user/userAPI";
+import { userSelector } from "../../features/user/userSlice";
 import { DisplaySetting } from "../header/Header";
 
 
 const SetBarProgressForm = () => {
 
   const barProgressFormDisplay = useAppSelector(barProgressFormSelector);
+  const user = useAppSelector(userSelector);
 
   const dispatch = useAppDispatch();
 
-  const handleChangeBarProgressGoal = (event: any) => {
+  const handleChangeBarProgressGoal = async (event: any) => {
     try {
       event.preventDefault();
-      dispatch(setCarbsGoal(event.target.elements.carbsGoal.value));
+      const userCarbsGoal = event.target.elements.carbsGoal.value;
+      const { data } = await axios.patch("/api/users/update-user-carbs-goal", { userCarbsGoal });
+      if(!data) throw new Error("Couldn't receive data from axios PATCH 'update-user-carbs-goal' ");
+      const { result } = data;
+      if(result.affectedRows > 0) {
+        dispatch(getUserByCookie());
+      }
+
       dispatch(setBarProgressFormDisplay(DisplaySetting.NONE));
     } catch (error) {
       console.log(event);

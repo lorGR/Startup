@@ -4,7 +4,7 @@ import {
   carbsCounterSelector,
   resetCarbs,
 } from "../../features/carbs/carbsSlice";
-import { empthyArray } from "../../features/food/foodArraySlice";
+import { emptyArray } from "../../features/food/foodArraySlice";
 import { useAppDispatch } from "./../../app/hooks";
 import { AddMealForm } from './../addMealForm/AddMealForm';
 
@@ -39,7 +39,7 @@ const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
   const handleCancelMeal = () => {
     try {
       //TODO: function should empry the foodArray (redux);
-      dispatch(empthyArray());
+      dispatch(emptyArray());
       dispatch(resetCarbs());
       window.location.reload();
     } catch (error) {
