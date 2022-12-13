@@ -5,10 +5,14 @@ import { Food } from "./../../../features/food/foodModel";
 interface ServingItemProps {
   mealServ: Food;
   setMealServings: CallableFunction;
-  setMeals: CallableFunction
+  setMeals: CallableFunction;
 }
 
-const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings, setMeals }) => {
+const ServingItem: FC<ServingItemProps> = ({
+  mealServ,
+  setMealServings,
+  setMeals,
+}) => {
   const [unitCounter, setUnitCounter] = useState<number>(1);
   const mealCarbsUnit = getMealTypeUnit();
 
@@ -23,8 +27,8 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings, setMeals
       const { data } = await axios.post("/api/meals/get-meals-servings", {
         mealId,
       });
-      const {result} = data;
-      setMealServings(result)
+      const { result } = data;
+      setMealServings(result);
     } catch (error) {
       console.error(error);
     }
@@ -33,34 +37,36 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings, setMeals
   const getTodayMeals = async () => {
     try {
       const { data } = await axios.get("/api/meals/get-today-meals");
-      if (!data) throw new Error("Couldn't receive data from axios GET '/api/meals/get-today-meals' ON FUNCTION getTodayMeals ON FILE Home.tsx ");
+      if (!data)
+        throw new Error(
+          "Couldn't receive data from axios GET '/api/meals/get-today-meals' ON FUNCTION getTodayMeals ON FILE Home.tsx "
+        );
       const { result } = data;
       setMeals(result);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   function getMealTypeUnit() {
     try {
-      if(mealServ.amount_gram) {
+      if (mealServ.amount_gram) {
         return mealServ.amount_gram;
       } else if (mealServ.amount_portion) {
         return mealServ.amount_portion;
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
   function checkMealAmount() {
     try {
-      if(mealServ.amount_gram) {
+      if (mealServ.amount_gram) {
         setUnitCounter(mealServ.amount_gram);
       } else if (mealServ.amount_portion) {
-        setUnitCounter(mealServ.amount_portion)
+        setUnitCounter(mealServ.amount_portion);
       }
-     
     } catch (error) {
       console.error(error);
     }
@@ -71,7 +77,7 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings, setMeals
       const buttonValue = event.target.value.toString();
       let servingId;
       let amount = mealCarbsUnit;
-      const mealId = mealServ.meal_id
+      const mealId = mealServ.meal_id;
       if (amount) {
         if (buttonValue.search("add") != -1) {
           servingId = event.target.value.replace("add", "");
@@ -106,7 +112,7 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings, setMeals
         >
           +
         </button>
-        {unitCounter} {mealServ.unit}
+        {unitCounter} {mealServ.amount_gram ? "גרם" : mealServ.carbs_unit}
         <button
           onClick={handleChangeCounter}
           value={`remove${mealServ.serving_id}`}
@@ -114,7 +120,12 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings, setMeals
           -
         </button>
       </div>
-      <div>ג' {mealServ.carbs_unit * mealCarbsUnit!}</div>
+
+      {mealServ.amount_gram ? (
+        <div>{(mealServ.carbs * mealCarbsUnit!) / 100}</div>
+      ) : (
+        <div>ג' {mealServ.carbs_unit * mealCarbsUnit!}</div>
+      )}
     </div>
   );
 };
