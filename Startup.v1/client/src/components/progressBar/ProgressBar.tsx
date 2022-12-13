@@ -4,23 +4,30 @@ import { barProgressFormSelector, setBarProgressFormDisplay } from "../../featur
 import { userSelector } from "../../features/user/userSlice";
 import { Meal } from "../../views/home/Home";
 import { DisplaySetting } from "../header/Header";
+import { getUserByCookie } from './../../features/user/userAPI';
 
 interface ProgressBarProps {
     meals: Array<Meal>
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
-
+    const dispatch = useAppDispatch();
     const [totalCarbs, setTotalCarbs] = useState<number>(0);
     const [barPrecentages, setBarPrecentages] = useState<number>(0);
 
     const [barPrecentagesWhatEver , setBarPrecentagesWhatEver] = useState<number>(0);
 
     const barProgressFormDisplay = useAppSelector(barProgressFormSelector);
+    // useEffect(() => {
+    //     dispatch(getUserByCookie());
+    // },[])
     const user = useAppSelector(userSelector);
-    const carbsGoal = user!.carbs_goal;
+    // let carbsGoal:number;
+    // if(user !== null) {
+    //     carbsGoal = user!.carbs_goal;
+    // }
 
-    const dispatch = useAppDispatch();
+
 
     const getTotalCarbs = () => {
         try {
@@ -29,11 +36,11 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ meals }) => {
                 myCarbs += meal.carbs;
             });
             setTotalCarbs(myCarbs);
-            setBarPrecentages(Math.round((myCarbs * 100)/carbsGoal));
-            if(Math.round((myCarbs * 100)/carbsGoal) > 100) {
+            setBarPrecentages(Math.round((myCarbs * 100)/user?.carbs_goal!));
+            if(Math.round((myCarbs * 100)/user?.carbs_goal!) > 100) {
                 setBarPrecentagesWhatEver(100);
             } else {
-                setBarPrecentagesWhatEver(Math.round((myCarbs * 100)/carbsGoal));
+                setBarPrecentagesWhatEver(Math.round((myCarbs * 100)/user?.carbs_goal!));
             }
         } catch (error) {
             console.error(error);

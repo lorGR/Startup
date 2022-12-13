@@ -10,6 +10,7 @@ interface ServingItemProps {
 
 const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings, setMeals }) => {
   const [unitCounter, setUnitCounter] = useState<number>(1);
+  const mealCarbsUnit = getMealTypeUnit();
 
   useEffect(() => {
     checkMealAmount();
@@ -40,9 +41,26 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings, setMeals
     }
   }
 
+  function getMealTypeUnit() {
+    try {
+      if(mealServ.amount_gram) {
+        return mealServ.amount_gram;
+      } else if (mealServ.amount_portion) {
+        return mealServ.amount_portion;
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   function checkMealAmount() {
     try {
-      if (mealServ.amount) setUnitCounter(mealServ.amount);
+      if(mealServ.amount_gram) {
+        setUnitCounter(mealServ.amount_gram);
+      } else if (mealServ.amount_portion) {
+        setUnitCounter(mealServ.amount_portion)
+      }
+     
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +70,7 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings, setMeals
     try {
       const buttonValue = event.target.value.toString();
       let servingId;
-      let amount = mealServ.amount;
+      let amount = mealCarbsUnit;
       const mealId = mealServ.meal_id
       if (amount) {
         if (buttonValue.search("add") != -1) {
@@ -96,7 +114,7 @@ const ServingItem: FC<ServingItemProps> = ({ mealServ, setMealServings, setMeals
           -
         </button>
       </div>
-      <div>ג' {mealServ.carbs_unit * mealServ.amount!}</div>
+      <div>ג' {mealServ.carbs_unit * mealCarbsUnit!}</div>
     </div>
   );
 };
