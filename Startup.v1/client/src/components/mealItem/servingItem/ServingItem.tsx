@@ -101,6 +101,43 @@ const ServingItem: FC<ServingItemProps> = ({
       console.error(error);
     }
   };
+  function handleEnterGram() {
+    try {
+      const input = document.getElementById("enterGram") as HTMLInputElement;
+      input.style.display = "inline";
+      const unitCounter = document.querySelector(
+        ".unit_counter"
+      ) as HTMLDivElement;
+      unitCounter.style.display = "none";
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function handleSubmit(event: any) {
+    try {
+      console.log(event.target.value);
+      let amount = event.target.value;
+      const mealId = mealServ.meal_id;
+      const servingId = mealServ.serving_id;
+      setUnitCounter(amount);
+
+      const { data } = await axios.post(
+        "/api/meals/update-meal-serving-amount",
+        { servingId, amount, mealId }
+      );
+      updateMealView();
+      getTodayMeals();
+      const input = document.getElementById("enterGram") as HTMLInputElement;
+      input.style.display = "none";
+      const unitCounter = document.querySelector(
+        ".unit_counter"
+      ) as HTMLDivElement;
+      unitCounter.style.display = "inline";
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div className="meal-item__serving-item" key={mealServ.food_id}>
@@ -112,7 +149,24 @@ const ServingItem: FC<ServingItemProps> = ({
         >
           +
         </button>
-        {unitCounter} {mealServ.amount_gram ? "גרם" : mealServ.unit}
+
+        {mealServ.amount_gram ? (
+          <div onClick={handleEnterGram}>
+            <input
+              onSubmit={handleSubmit}
+              onBlur={handleSubmit}
+              type="number"
+              name="enterGram"
+              id="enterGram"
+            />
+            <div className="unit_counter">{unitCounter}</div> גרם
+          </div>
+        ) : (
+          <div>
+            {unitCounter} {mealServ.unit}
+          </div>
+        )}
+
         <button
           onClick={handleChangeCounter}
           value={`remove${mealServ.serving_id}`}
