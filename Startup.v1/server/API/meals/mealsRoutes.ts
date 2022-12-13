@@ -5,6 +5,7 @@ import {
   getTodayMeals,
   updateMealServing,
   deleteMealById,
+  getMealsByDate,
 } from "./mealsCtrl";
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router
   .get("/get-today-meals", getTodayMeals)
   .post("/get-meals-servings", getMealsServings)
   .post("/update-meal-serving-amount", updateMealServing)
-  .post("/delete-meal-by-id", deleteMealById);
+  .post("/delete-meal-by-id", deleteMealById)
+  .post("/get-meals-by-date", getMealsByDate)
 export default router;

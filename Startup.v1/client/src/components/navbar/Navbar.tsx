@@ -14,6 +14,13 @@ const Navbar: React.FC<NavbarProps> = ({ navbarType }) => {
                     <NavLink to="/home">בית</NavLink>
                 </nav>
             }
+            {navbarType === "calendar" &&
+                <nav>
+                    <NavLink to="/graph">תרשים</NavLink>
+                    <NavLink to="/calendar">דו״ח יומי</NavLink>
+                    <NavLink to="/home">בית</NavLink>
+                </nav>
+            }
         </div>
     )
 }
