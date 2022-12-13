@@ -2,7 +2,6 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { barProgressFormSelector, setBarProgressFormDisplay } from "../../features/barProgressForm/barProgressFormSlice";
 import { getUserByCookie } from "../../features/user/userAPI";
-import { userSelector } from "../../features/user/userSlice";
 import { DisplaySetting } from "../header/Header";
 
 

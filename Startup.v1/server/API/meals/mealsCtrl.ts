@@ -214,3 +214,30 @@ export async function deleteMealById(
     res.status(500).send({ error: error });
   }
 }
+
+export async function getMealsByDate(req: express.Request, res: express.Response) {
+  try {
+    const { date } = req.body;
+    if (!date) throw new Error("Couldn't receive date from req.body ON FUNCTION getMealsByDate IN FILE mealsCtrl");
+
+    const { userID } = req.cookies;
+    if (!userID)
+      throw new Error("Couldn't find cookie named userID in updateUserInfo ON FUNCTION getMealsByDate IN FILE mealsCtrl");
+
+    const userId = decodeCookie(userID);
+    if (!userId) throw new Error("Couldn't find userId from decodedUserId ON FUNCTION getMealsByDate IN FILE mealsCtrl");
+
+    const sql = `SELECT * FROM meals WHERE user_id = '${userId}' AND date = '${date}' `
+
+    connection.query(sql, (err, result) => {
+      try {
+        if (err) throw err;
+        res.send({ result });
+      } catch (error) {
+        res.status(500).send({ error: error.message });
+      }
+    });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+}

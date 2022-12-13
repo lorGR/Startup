@@ -38,7 +38,6 @@ const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
 
   const handleCancelMeal = () => {
     try {
-      //TODO: function should empry the foodArray (redux);
       dispatch(emptyArray());
       dispatch(resetCarbs());
       window.location.reload();
@@ -67,6 +66,9 @@ const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
           <button onClick={handleAddMeal}>V</button>
         </div>
       )}
+      {headerType === "calendar" && 
+        <div>יומן</div>
+      }
 
       <AddMealForm displayType={display} setDisplay={setDisplay}/>
     </div>
