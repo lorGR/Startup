@@ -17,7 +17,8 @@ export interface Meal {
   insulin: number,
   date: string,
   time: string,
-  user_id: number
+  user_id: number,
+  carbs_unit_type: string
 }
 
 const Home = () => {

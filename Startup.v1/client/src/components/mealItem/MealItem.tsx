@@ -42,29 +42,35 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals }) => {
     }
   };
 
-  const handleDeleteMeal = async (event:any) => {
+  const handleDeleteMeal = async (event: any) => {
     try {
       event.preventDefault();
       event.stopPropagation();
       console.log("trying To delete");
       const mealId = meal.meal_id;
-      const {data} = await axios.post("/api/meals/delete-meal-by-id", {mealId});
-      console.log(data)
-      const {result} = data;
-      setMeals(result)
+      const { data } = await axios.post("/api/meals/delete-meal-by-id", {
+        mealId,
+      });
+      console.log(data);
+      const { result } = data;
+      setMeals(result);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
+
+
 
   return (
-    <div className="meal-item dropbtn">
+    <div  className="meal-item dropbtn">
       <div
         onClick={handleClickMeal}
         className="meal-item__content"
         id={meal.meal_id.toString()}
       >
-        <span onClick={handleDeleteMeal} className="material-symbols-outlined">delete</span>
+        <span onClick={handleDeleteMeal} className="material-symbols-outlined">
+          delete
+        </span>
         <p>אינס׳ {meal.insulin}</p>
         <p> פחמ׳ {meal.carbs}</p>
         <p>{meal.time.slice(0, 5)}</p>
