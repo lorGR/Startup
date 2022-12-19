@@ -71,7 +71,7 @@ const ServingItem: FC<ServingItemProps> = ({
       console.error(error);
     }
   }
-
+  //TODO: edit servingId = mealServ.serving_id; and edit to make function look better
   const handleChangeCounter = async (event: any) => {
     try {
       const buttonValue = event.target.value.toString();
@@ -190,9 +190,9 @@ const ServingItem: FC<ServingItemProps> = ({
       ) as HTMLDivElement;
       messege.style.display = "none";
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   return (
     <div className="meal-item__serving-item" key={mealServ.food_id}>
@@ -243,7 +243,9 @@ const ServingItem: FC<ServingItemProps> = ({
         <div>ג' {mealServ.carbs_unit * mealCarbsUnit!}</div>
       )}
 
-      <span onClick={InititeDelete} className="material-symbols-outlined">close</span>
+      <span onClick={InititeDelete} className="material-symbols-outlined">
+        close
+      </span>
 
       <form
         onSubmit={handleDeleteServing}
@@ -253,7 +255,9 @@ const ServingItem: FC<ServingItemProps> = ({
         <h5>Are you sure you want to delete this item?</h5>
         <h5>{mealServ.food_name}</h5>
         <button type="submit">V</button>
-        <button onClick={handleCloseForm} type="button">X</button>
+        <button onClick={handleCloseForm} type="button">
+          X
+        </button>
       </form>
     </div>
   );
