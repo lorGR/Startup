@@ -46,3 +46,25 @@ export async function addServingToMeal(req: express.Request, res: express.Respon
         res.status(500).send({ error: error.message });
     }
 }
+
+export async function deleteServing(req:express.Request, res:express.Response) {
+    try {
+        const {servingId} = req.body;
+        if(!servingId) throw new Error("Couldn't recieve servingId from client on FUNCTION seleteServing IN FILE servingCtrl");
+
+        const sql = `DELETE FROM servings WHERE serving_id = '${servingId}'`;
+
+        connection.query(sql, (error, result) => {
+            try {
+                if (error) throw error
+                if (result.affectedRows > 0) {
+                    res.send({result});
+                }
+            } catch (error) {
+                res.status(500).send({error: error.message})
+            }
+        })
+    } catch (error) {
+        res.status(500).send({error: error.message})
+    }
+}

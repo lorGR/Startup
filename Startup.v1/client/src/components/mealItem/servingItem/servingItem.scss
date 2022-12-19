@@ -1,6 +1,9 @@
 #enterGram {
     display: none;
 }
+.enterGram {
+    display: none;
+}
 
 .messege_container {
     position: absolute;
@@ -11,4 +14,12 @@
     width: 15rem;
     height: 5rem;
     display: none;
+}
+
+.none {
+  display:none;
+}
+
+.inline {
+  display: inline;
 }
