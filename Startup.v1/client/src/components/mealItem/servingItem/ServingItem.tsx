@@ -88,7 +88,7 @@ const ServingItem: FC<ServingItemProps> = ({
           amount--;
           setUnitCounter(amount);
           if (amount === 0) {
-            InititeDelete()
+            InititeDelete();
           }
         } else {
           console.log("nope");
@@ -106,10 +106,12 @@ const ServingItem: FC<ServingItemProps> = ({
   };
   function handleEnterGram() {
     try {
-      const input = document.getElementById("enterGram") as HTMLInputElement;
+      const input = document.getElementById(
+        `enterGram${mealServ.serving_id}`
+      ) as HTMLInputElement;
       input.style.display = "inline";
       const unitCounter = document.querySelector(
-        ".unit_counter"
+        `#unit_counter${mealServ.serving_id}`
       ) as HTMLDivElement;
       unitCounter.style.display = "none";
     } catch (error) {
@@ -123,6 +125,18 @@ const ServingItem: FC<ServingItemProps> = ({
       let amount = event.target.value;
       const mealId = mealServ.meal_id;
       const servingId = mealServ.serving_id;
+
+      if (amount === "") {
+        const input = document.getElementById(
+          `enterGram${mealServ.serving_id}`
+        ) as HTMLInputElement;
+        input.style.display = "none";
+        const unitCounter = document.querySelector(
+          `#unit_counter${mealServ.serving_id}`
+        ) as HTMLDivElement;
+        unitCounter.style.display = "inline";
+        return;
+      }
       setUnitCounter(amount);
 
       const { data } = await axios.post(
@@ -131,10 +145,12 @@ const ServingItem: FC<ServingItemProps> = ({
       );
       updateMealView();
       getTodayMeals();
-      const input = document.getElementById("enterGram") as HTMLInputElement;
+      const input = document.getElementById(
+        `enterGram${mealServ.serving_id}`
+      ) as HTMLInputElement;
       input.style.display = "none";
       const unitCounter = document.querySelector(
-        ".unit_counter"
+        `#unit_counter${mealServ.serving_id}`
       ) as HTMLDivElement;
       unitCounter.style.display = "inline";
     } catch (error) {
@@ -144,26 +160,39 @@ const ServingItem: FC<ServingItemProps> = ({
 
   function InititeDelete() {
     try {
-      const messege = document.getElementById(`${mealServ.serving_id}`) as HTMLDivElement;
+      const messege = document.getElementById(
+        `${mealServ.serving_id}`
+      ) as HTMLDivElement;
       messege.style.display = "block";
-      
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
-  async function handleDeleteServing(event:any) {
+  async function handleDeleteServing(event: any) {
     try {
       event.preventDefault();
       const servingId = mealServ.serving_id;
-      const {data} = await axios.post("/api/servings/delete-serving-by-id", {servingId});
+      const { data } = await axios.post("/api/servings/delete-serving-by-id", {
+        servingId,
+      });
       updateMealView();
-        getTodayMeals();
+      getTodayMeals();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleCloseForm = () => {
+    try {
+      const messege = document.getElementById(
+        `${mealServ.serving_id}`
+      ) as HTMLDivElement;
+      messege.style.display = "none";
     } catch (error) {
       console.error(error)
     }
   }
-
 
   return (
     <div className="meal-item__serving-item" key={mealServ.food_id}>
@@ -179,13 +208,20 @@ const ServingItem: FC<ServingItemProps> = ({
         {mealServ.amount_gram ? (
           <div onClick={handleEnterGram}>
             <input
+              className="enterGram"
               onSubmit={handleSubmit}
               onBlur={handleSubmit}
               type="number"
               name="enterGram"
-              id="enterGram"
+              id={`enterGram${mealServ.serving_id}`}
             />
-            <div className="unit_counter">{unitCounter}</div> גרם
+            <div
+              id={`unit_counter${mealServ.serving_id}`}
+              className="unit_counter"
+            >
+              {unitCounter}
+            </div>{" "}
+            גרם
           </div>
         ) : (
           <div>
@@ -207,11 +243,17 @@ const ServingItem: FC<ServingItemProps> = ({
         <div>ג' {mealServ.carbs_unit * mealCarbsUnit!}</div>
       )}
 
-      <form onSubmit={handleDeleteServing} className="messege_container" id={`${mealServ.serving_id}`}>
+      <span onClick={InititeDelete} className="material-symbols-outlined">close</span>
+
+      <form
+        onSubmit={handleDeleteServing}
+        className="messege_container"
+        id={`${mealServ.serving_id}`}
+      >
         <h5>Are you sure you want to delete this item?</h5>
         <h5>{mealServ.food_name}</h5>
         <button type="submit">V</button>
-        <button type="button" >X</button>
+        <button onClick={handleCloseForm} type="button">X</button>
       </form>
     </div>
   );
