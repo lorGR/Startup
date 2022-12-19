@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { formatDiagnosticsWithColorAndContext } from "typescript";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import Header from "../../components/header/Header"
 import Navbar from "../../components/navbar/Navbar"
 import { carbsCounterSelector } from "../../features/carbs/carbsSlice";
@@ -9,6 +9,7 @@ import { userSelector } from "../../features/user/userSlice";
 import MealItem from "../../components/mealItem/MealItem";
 import ProgressBar from "../../components/progressBar/ProgressBar";
 import SetBarProgressForm from "../../components/setBarProgressForm/SetBarProgressForm";
+import { getUserByCookie } from "../../features/user/userAPI";
 
 export interface Meal {
   meal_id: number,
@@ -28,6 +29,8 @@ const Home = () => {
   const user = useAppSelector(userSelector);
   const carbs = useAppSelector(carbsCounterSelector);
 
+  const dispatch = useAppDispatch();
+
   const [meals, setMeals] = useState<Meal[]>([]);
 
   const getTodayMeals = async () => {
@@ -42,6 +45,7 @@ const Home = () => {
   }
 
   useEffect(() => {
+    dispatch(getUserByCookie());
     getTodayMeals();
   }, []);
 
