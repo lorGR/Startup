@@ -9,8 +9,10 @@ import MealItem from "../../components/mealItem/MealItem";
 
 const Calendar = () => {
 
-    const [date , setDate] = useState<any>(moment().format().slice(0,10));
+    console.log('rendering calendar');
 
+    const [date , setDate] = useState<any>(moment().format().slice(0,10));
+    
     const [meals, setMeals] = useState<Meal[]>([]);
 
     const getMealsByDate =  async () => {
