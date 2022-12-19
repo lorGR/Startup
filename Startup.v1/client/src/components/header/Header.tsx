@@ -14,9 +14,9 @@ interface HeaderProps {
   setAddMealForm?: Function;
 }
 export enum DisplaySetting {
-    NONE = "none",
-    FLEX = "flex",
-    BLOCK = "block"
+  NONE = "none",
+  FLEX = "flex",
+  BLOCK = "block"
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const carbsCount = useAppSelector(carbsCounterSelector);
   const dispatch = useAppDispatch();
-const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
+  const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
 
   const handleAddMealForm = () => {
     try {
@@ -48,9 +48,9 @@ const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
   const handleAddMeal = () => {
     try {
 
-        setDisplay(DisplaySetting.FLEX);
+      setDisplay(DisplaySetting.FLEX);
     } catch (error) {
-        console.error(error)
+      console.error(error)
     }
   }
 
@@ -63,14 +63,18 @@ const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
         <div className="flex" dir="rtl">
           <button onClick={handleCancelMeal}>X</button>
           <p> {carbsCount} פחמימות</p>
-          <button onClick={handleAddMeal}>V</button>
+          {carbsCount === 0 ?
+            <button disabled onClick={handleAddMeal}>V</button>
+            :
+            <button onClick={handleAddMeal}>V</button>
+          }
         </div>
       )}
-      {headerType === "calendar" && 
+      {headerType === "calendar" &&
         <div>יומן</div>
       }
 
-      <AddMealForm displayType={display} setDisplay={setDisplay}/>
+      <AddMealForm displayType={display} setDisplay={setDisplay} />
     </div>
   );
 };
