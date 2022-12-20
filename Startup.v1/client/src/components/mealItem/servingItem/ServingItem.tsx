@@ -121,8 +121,8 @@ const ServingItem: FC<ServingItemProps> = ({
 
   async function handleSubmit(event: any) {
     try {
-      console.log(event.target.value);
       let amount = event.target.value;
+      console.log(amount)
       const mealId = mealServ.meal_id;
       const servingId = mealServ.serving_id;
 
@@ -136,6 +136,10 @@ const ServingItem: FC<ServingItemProps> = ({
         ) as HTMLDivElement;
         unitCounter.style.display = "inline";
         return;
+      }
+      if (amount == 0) {
+        InititeDelete();
+        return
       }
       setUnitCounter(amount);
 
