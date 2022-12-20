@@ -58,6 +58,26 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals }) => {
       console.error(error);
     }
   };
+  function InititeDelete() {
+    try {
+      const messege = document.getElementById(
+        `${meal.meal_id}message`
+      ) as HTMLDivElement;
+      messege.style.display = "block";
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  const handleCloseForm = () => {
+    try {
+      const messege = document.getElementById(
+        `${meal.meal_id}message`
+      ) as HTMLDivElement;
+      messege.style.display = "none";
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
 
@@ -68,7 +88,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals }) => {
         className="meal-item__content"
         id={meal.meal_id.toString()}
       >
-        <span onClick={handleDeleteMeal} className="material-symbols-outlined">
+        <span onClick={InititeDelete} className="material-symbols-outlined">
           delete
         </span>
         <p>אינס׳ {meal.insulin}</p>
@@ -89,6 +109,17 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals }) => {
             );
           })}
       </div>
+      <form
+        onSubmit={handleDeleteMeal}
+        className="messege_container"
+        id={`${meal.meal_id}message`}
+      >
+        <h5>Are you sure you want to delete this meal?</h5>
+        <button type="submit">V</button>
+        <button onClick={handleCloseForm} type="button">
+          X
+        </button>
+      </form>
     </div>
   );
 };
