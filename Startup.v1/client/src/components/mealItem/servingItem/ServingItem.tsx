@@ -28,7 +28,19 @@ const ServingItem: FC<ServingItemProps> = ({
         mealId,
       });
       const { result } = data;
-      setMealServings(result);
+      if (result.length > 0) {
+        setMealServings(result);
+      } else if (result.length === 0) {
+        console.log("meal is empty");
+        const mealId = mealServ.meal_id;
+        const { data } = await axios.post("/api/meals/delete-meal-by-id", {
+          mealId,
+        });
+        console.log("this is after delete axios post")
+        console.log(data);
+        const { result } = data;
+        setMeals(result);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -122,7 +134,7 @@ const ServingItem: FC<ServingItemProps> = ({
   async function handleSubmit(event: any) {
     try {
       let amount = event.target.value;
-      console.log(amount)
+      console.log(amount);
       const mealId = mealServ.meal_id;
       const servingId = mealServ.serving_id;
 
@@ -139,7 +151,7 @@ const ServingItem: FC<ServingItemProps> = ({
       }
       if (amount == 0) {
         InititeDelete();
-        return
+        return;
       }
       setUnitCounter(amount);
 
