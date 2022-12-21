@@ -36,19 +36,27 @@ const DayContainer: React.FC<DayContainerProps> = ({ displayDay, day, summaryTyp
         }
     }
 
+    const getDailyAverageBloodSugar = async () => {
+        try {
+            const { data } = await axios.post("/api/graph/get-daily-average-blood-sugar", { day });
+            if(!data) throw new Error("Couldn't receive data from axios POST '/get-daily-average-blood-sugar' ");
+            const { result } = data;
+            const { bloodSugar } = result[0];         
+            setDaySum(bloodSugar);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         if (summaryTypeDisplay === SummaryTypeDisplay.BLOOD_SUGAR) {
-            // console.log(`Calc blood sugar at: ${day}`);
-
+            getDailyAverageBloodSugar();
         } else if (summaryTypeDisplay === SummaryTypeDisplay.CARBS) {
-            // console.log(`Calc Carbs at: ${day}`);
             getDailyCarbs();
         } else {
-            // console.log(`Calc Insuline at: ${day}`);
             getDailyInsulin();
         }
-
-    }, []);
+    }, [day]);
 
     return (
         <div className="day-container">
