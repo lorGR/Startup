@@ -23,7 +23,7 @@ export const Login = () => {
     <div>
       <form onSubmit={handleLogin}>
         <input type="email" name="email" placeholder="Enter Email" />
-        <input type="password" name="password" placeholder="Enter Password" />
+        <input type="password" name="password" placeholder="Enter Password" autoComplete="false" />
         <button type="submit">LOG IN</button>
       </form>
     </div>
