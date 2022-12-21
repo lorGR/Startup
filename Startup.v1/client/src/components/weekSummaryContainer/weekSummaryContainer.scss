@@ -1,0 +1,12 @@
+.week-summary-container {
+    border: 1px solid black;
+    flex: 1;
+    text-align: center;
+
+    .days {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-around;
+    }
+
+}

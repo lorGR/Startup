@@ -15,6 +15,7 @@ import { getUserByCookie } from "./features/user/userAPI";
 import { userSelector } from "./features/user/userSlice";
 import { FoodList } from './components/foodList/FoodList';
 import Calendar from "./views/calendar/Calendar";
+import Graph from "./views/graph/Graph";
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
   useEffect(() => {
     dispatch(getUserByCookie());
   }, []);
-  
+
   return (
     <Container>
       <Screen>
@@ -37,7 +38,8 @@ function App() {
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/list" element={<List />} />
             <Route path="/foodlist" element={<FoodList />} />
-            <Route path="/calendar" element={<Calendar />}></Route>
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/graph" element={<Graph />} />
           </Routes>
         </BrowserRouter>
       </Screen>
