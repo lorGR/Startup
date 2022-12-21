@@ -1,17 +1,21 @@
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
 import { Food } from "./../../../features/food/foodModel";
+import moment from "moment";
+
 
 interface ServingItemProps {
   mealServ: Food;
   setMealServings: CallableFunction;
   setMeals: CallableFunction;
+  date: string
 }
 
 const ServingItem: FC<ServingItemProps> = ({
   mealServ,
   setMealServings,
   setMeals,
+  date
 }) => {
   const [unitCounter, setUnitCounter] = useState<number>(1);
   const mealCarbsUnit = getMealTypeUnit();
@@ -28,25 +32,47 @@ const ServingItem: FC<ServingItemProps> = ({
         mealId,
       });
       const { result } = data;
-      setMealServings(result);
+      if (result.length > 0) {
+        setMealServings(result);
+      } else if (result.length === 0) {
+        console.log("meal is empty");
+        const mealId = mealServ.meal_id;
+        const { data } = await axios.post("/api/meals/delete-meal-by-id", {
+          mealId
+        });
+        console.log("this is after delete axios post")
+        console.log(data);
+        const { result } = data;
+        setMeals(result);
+      }
     } catch (error) {
       console.error(error);
     }
   }
 
-  const getTodayMeals = async () => {
+  const getMealsByDate =  async () => {
     try {
-      const { data } = await axios.get("/api/meals/get-today-meals");
-      if (!data)
-        throw new Error(
-          "Couldn't receive data from axios GET '/api/meals/get-today-meals' ON FUNCTION getTodayMeals ON FILE Home.tsx "
-        );
-      const { result } = data;
-      setMeals(result);
+        const { data } = await axios.post("/api/meals/get-meals-by-date", {date});
+        if(!data) throw new Error("Couldn't receive date from axios POST 'get-meals-by-date' ");
+        const { result } = data;
+        setMeals(result); 
     } catch (error) {
-      console.error(error);
+        console.error(error);
     }
-  };
+}
+  // const getTodayMeals = async () => {
+  //   try {
+  //     const { data } = await axios.get("/api/meals/get-today-meals");
+  //     if (!data)
+  //       throw new Error(
+  //         "Couldn't receive data from axios GET '/api/meals/get-today-meals' ON FUNCTION getTodayMeals ON FILE Home.tsx "
+  //       );
+  //     const { result } = data;
+  //     setMeals(result);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   function getMealTypeUnit() {
     try {
@@ -71,7 +97,7 @@ const ServingItem: FC<ServingItemProps> = ({
       console.error(error);
     }
   }
-
+  //TODO: edit servingId = mealServ.serving_id; and edit to make function look better
   const handleChangeCounter = async (event: any) => {
     try {
       const buttonValue = event.target.value.toString();
@@ -98,7 +124,8 @@ const ServingItem: FC<ServingItemProps> = ({
           { servingId, amount, mealId }
         );
         updateMealView();
-        getTodayMeals();
+        // getTodayMeals();
+        getMealsByDate();
       }
     } catch (error) {
       console.error(error);
@@ -121,7 +148,6 @@ const ServingItem: FC<ServingItemProps> = ({
 
   async function handleSubmit(event: any) {
     try {
-      console.log(event.target.value);
       let amount = event.target.value;
       const mealId = mealServ.meal_id;
       const servingId = mealServ.serving_id;
@@ -137,6 +163,10 @@ const ServingItem: FC<ServingItemProps> = ({
         unitCounter.style.display = "inline";
         return;
       }
+      if (amount == 0) {
+        InititeDelete();
+        return;
+      }
       setUnitCounter(amount);
 
       const { data } = await axios.post(
@@ -144,7 +174,8 @@ const ServingItem: FC<ServingItemProps> = ({
         { servingId, amount, mealId }
       );
       updateMealView();
-      getTodayMeals();
+      // getTodayMeals();
+      getMealsByDate();
       const input = document.getElementById(
         `enterGram${mealServ.serving_id}`
       ) as HTMLInputElement;
@@ -177,7 +208,8 @@ const ServingItem: FC<ServingItemProps> = ({
         servingId,
       });
       updateMealView();
-      getTodayMeals();
+      // getTodayMeals();
+      getMealsByDate();
     } catch (error) {
       console.error(error);
     }
@@ -190,9 +222,9 @@ const ServingItem: FC<ServingItemProps> = ({
       ) as HTMLDivElement;
       messege.style.display = "none";
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   return (
     <div className="meal-item__serving-item" key={mealServ.food_id}>
@@ -243,7 +275,9 @@ const ServingItem: FC<ServingItemProps> = ({
         <div>ג' {mealServ.carbs_unit * mealCarbsUnit!}</div>
       )}
 
-      <span onClick={InititeDelete} className="material-symbols-outlined">close</span>
+      <span onClick={InititeDelete} className="material-symbols-outlined">
+        close
+      </span>
 
       <form
         onSubmit={handleDeleteServing}
@@ -253,7 +287,9 @@ const ServingItem: FC<ServingItemProps> = ({
         <h5>Are you sure you want to delete this item?</h5>
         <h5>{mealServ.food_name}</h5>
         <button type="submit">V</button>
-        <button onClick={handleCloseForm} type="button">X</button>
+        <button onClick={handleCloseForm} type="button">
+          X
+        </button>
       </form>
     </div>
   );
