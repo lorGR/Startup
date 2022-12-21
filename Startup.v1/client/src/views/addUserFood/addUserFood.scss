@@ -1,0 +1,16 @@
+.add-user-food {
+    height: 100%;
+}
+
+.user-food {
+    &__select {
+        display: block;
+    }
+    &__portion-input {
+        display: none;
+    }
+}
+
+.add-portion-type {
+    display: none;
+}
