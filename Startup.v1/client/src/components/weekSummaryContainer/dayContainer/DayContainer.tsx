@@ -10,11 +10,27 @@ interface DayContainerProps {
 
 const DayContainer: React.FC<DayContainerProps> = ({ displayDay, day, summaryTypeDisplay }) => {
 
+    const [daySum, setDaySum] = useState();
+
     const getDailyCarbs = async () => {
         try {
             const { data } = await axios.post("/api/graph/get-daily-carbs", { day });
-            if(!data) throw new Error("Couldn't receive data from axios POST 'get-daily-carbs' ");
-            console.log(data);
+            if (!data) throw new Error("Couldn't receive data from axios POST 'get-daily-carbs' ");
+            const { result } = data;
+            const { carbs } = result[0];
+            setDaySum(carbs);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const getDailyInsulin = async () => {
+        try {
+            const { data } = await axios.post("/api/graph/get-daily-insulin", { day });
+            if (!data) throw new Error("Couldn't receive data from axios POST 'get-daily-insulin' ");
+            const { result } = data;
+            const { insulin } = result[0];
+            setDaySum(insulin);
         } catch (error) {
             console.error(error);
         }
@@ -29,13 +45,19 @@ const DayContainer: React.FC<DayContainerProps> = ({ displayDay, day, summaryTyp
             getDailyCarbs();
         } else {
             // console.log(`Calc Insuline at: ${day}`);
+            getDailyInsulin();
         }
 
     }, []);
 
     return (
         <div className="day-container">
-            {displayDay}
+            <p>
+                {displayDay}
+            </p>
+            <p>
+                {daySum}
+            </p>
         </div>
     );
 }
