@@ -5,6 +5,7 @@
 @import "../src/views/favorites/favorites.scss";
 @import "../src/views/list/list.scss";
 @import "../src/views/calendar/calendar.scss";
+@import "../src/views/graph/graph.scss";
 
 @import "../src/components/header/header.scss";
 @import "../src/components/navbar/navbar.scss";
@@ -14,6 +15,7 @@
 @import "./components/progressBar/progressBar.scss";
 @import "./components/setBarProgressForm/setBarProgressForm.scss";
 @import "./components/mealItem/servingItem/servingItem.scss";
+@import "./components/weekSummaryContainer/weekSummaryContainer.scss";
 
 html {
   font-size: 18px;
