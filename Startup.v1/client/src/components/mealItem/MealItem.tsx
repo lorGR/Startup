@@ -8,9 +8,10 @@ import ServingItem from "./servingItem/ServingItem";
 interface MealItemProps {
   meal: Meal;
   setMeals: CallableFunction;
+  date: string
 }
 
-const MealItem: React.FC<MealItemProps> = ({ meal, setMeals }) => {
+const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date }) => {
   const [mealServings, setMealServings] = useState<Food[]>([]);
   const [dropDown, setDropDown] = useState<boolean>(false);
 
@@ -58,17 +59,37 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals }) => {
       console.error(error);
     }
   };
+  function InititeDelete() {
+    try {
+      const messege = document.getElementById(
+        `${meal.meal_id}message`
+      ) as HTMLDivElement;
+      messege.style.display = "block";
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  const handleCloseForm = () => {
+    try {
+      const messege = document.getElementById(
+        `${meal.meal_id}message`
+      ) as HTMLDivElement;
+      messege.style.display = "none";
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
 
   return (
-    <div  className="meal-item dropbtn">
+    <div className="meal-item dropbtn">
       <div
         onClick={handleClickMeal}
         className="meal-item__content"
         id={meal.meal_id.toString()}
       >
-        <span onClick={handleDeleteMeal} className="material-symbols-outlined">
+        <span onClick={InititeDelete} className="material-symbols-outlined">
           delete
         </span>
         <p>אינס׳ {meal.insulin}</p>
@@ -85,10 +106,22 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals }) => {
                 mealServ={mealServ}
                 setMealServings={setMealServings}
                 setMeals={setMeals}
+                date={date}
               />
             );
           })}
       </div>
+      <form
+        onSubmit={handleDeleteMeal}
+        className="messege_container"
+        id={`${meal.meal_id}message`}
+      >
+        <h5>Are you sure you want to delete this meal?</h5>
+        <button type="submit">V</button>
+        <button onClick={handleCloseForm} type="button">
+          X
+        </button>
+      </form>
     </div>
   );
 };

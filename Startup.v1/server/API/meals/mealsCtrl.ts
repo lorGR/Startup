@@ -129,7 +129,9 @@ export async function updateMealServing(
     connection.query(sql, (error, result) => {
       try {
         if (error) throw error;
-        const servingUnit = result[0].amount_gram ? "amount_gram" : "amount_portion";
+        const servingUnit = result[0].amount_gram
+          ? "amount_gram"
+          : "amount_portion";
 
         const sql = `UPDATE servings SET ${servingUnit} = '${amount}' WHERE (serving_id = '${servingId}')`;
         connection.query(sql, (error, result) => {
@@ -141,14 +143,21 @@ export async function updateMealServing(
               connection.query(sql2, (error, results) => {
                 try {
                   if (error) throw error;
-                  const carbsUnitType = results[0].carbs_unit_type === "gram" ? "amount_gram" : "amount_portion"
-                  if(results[0].carbs_unit_type === "gram") {
+                  const carbsUnitType =
+                    results[0].carbs_unit_type === "gram"
+                      ? "amount_gram"
+                      : "amount_portion";
+                  if (results[0].carbs_unit_type === "gram") {
                     results.forEach((result) => {
-                      totalCarbsArray.push(result.amount_gram * result.carbs/100);
+                      totalCarbsArray.push(
+                        (result.amount_gram * result.carbs) / 100
+                      );
                     });
                   } else if (results[0].carbs_unit_type === "portion") {
                     results.forEach((result) => {
-                      totalCarbsArray.push(result[carbsUnitType] * result.carbs_unit);
+                      totalCarbsArray.push(
+                        result[carbsUnitType] * result.carbs_unit
+                      );
                     });
                   }
 
@@ -211,24 +220,23 @@ export async function deleteMealById(
 
     connection.query(sql, (error, result) => {
       if (error) throw error;
-      if (result.affectedRows > 0) {
-        const sql = `DELETE FROM meals WHERE (meal_id = '${mealId}')`;
-        connection.query(sql, (error, result) => {
-          if (error) throw error;
-          if (result.affectedRows > 0) {
-            const sql = `SELECT * FROM meals WHERE user_id = '${user_id}' AND date = '${date}'`;
 
-            connection.query(sql, (err, result) => {
-              try {
-                if (err) throw err;
-                res.send({ result });
-              } catch (error) {
-                res.status(500).send({ error: error.message });
-              }
-            });
-          }
-        });
-      }
+      const sql = `DELETE FROM meals WHERE (meal_id = '${mealId}')`;
+      connection.query(sql, (error, result) => {
+        if (error) throw error;
+        if (result.affectedRows > 0) {
+          const sql = `SELECT * FROM meals WHERE user_id = '${user_id}' AND date = '${date}'`;
+
+          connection.query(sql, (err, result) => {
+            try {
+              if (err) throw err;
+              res.send({ result });
+            } catch (error) {
+              res.status(500).send({ error: error.message });
+            }
+          });
+        }
+      });
     });
   } catch (error) {
     res.status(500).send({ error: error });
