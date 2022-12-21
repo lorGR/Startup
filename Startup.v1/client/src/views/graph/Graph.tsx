@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import moment from "moment";
-import WeekSummaryContainer, { SummaryType } from "../../components/weekSummaryContainer/WeekSummaryContainer";
+import WeekSummaryContainer, { SummaryTypeDisplay } from "../../components/weekSummaryContainer/WeekSummaryContainer";
 
 const Graph = () => {
 
@@ -39,13 +39,13 @@ const Graph = () => {
                 </div>
                 <p>סיכום שבוע</p>
                 <div className="summary-container">
-                    <WeekSummaryContainer summaryType={SummaryType.BLOOD_SUGAR} />
-                    <WeekSummaryContainer summaryType={SummaryType.CARBS} />
-                    <WeekSummaryContainer summaryType={SummaryType.INSULIN} />
+                    <WeekSummaryContainer summaryTypeDisplay={SummaryTypeDisplay.BLOOD_SUGAR} week={week} />
+                    <WeekSummaryContainer summaryTypeDisplay={SummaryTypeDisplay.CARBS} week={week} />
+                    <WeekSummaryContainer summaryTypeDisplay={SummaryTypeDisplay.INSULIN} week={week} />
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default Graph;
