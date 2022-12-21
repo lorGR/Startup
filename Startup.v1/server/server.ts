@@ -25,6 +25,9 @@ app.use("/api/user-favorites", userFavoriteRoutes);
 import servingsRoutes from "./API/servings/servingsRoutes";
 app.use("/api/servings", servingsRoutes);
 
+import graphRoutes from "./API/graph/graphRoutes";
+app.use("/api/graph",graphRoutes);
+
 app.listen(port, () => {
   console.info(`Server is up and running at http://localhost:${port}`);
 });
