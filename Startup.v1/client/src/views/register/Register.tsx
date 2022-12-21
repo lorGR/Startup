@@ -81,11 +81,13 @@ export const Register = () => {
           type="password"
           name="passwordInput"
           placeholder="Enter Password"
+          autoComplete="false"
         />
         <input
           type="password"
           name="confirmPasswordInput"
           placeholder="Please Repeat Password:"
+          autoComplete="false"
         />
         <input type="text" name="image" placeholder="Enter Image Url"/>
         <button type="submit">SIGN UP</button>
