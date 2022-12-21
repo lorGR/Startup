@@ -58,11 +58,20 @@ const DayContainer: React.FC<DayContainerProps> = ({ displayDay, day, summaryTyp
         }
     }, [day]);
 
+    let barHeight = "";
+
+    if(daySum !== undefined) {
+        barHeight = daySum >= 100 ? `100%` : `${daySum}%`; 
+    }
+
     return (
         <div className="day-container">
             <p>
                 {displayDay}
             </p>
+            <div className="bar-container">
+                <div style={{height: barHeight}} className="bar"></div>
+            </div>
             <p>
                 {daySum}
             </p>

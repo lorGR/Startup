@@ -1,0 +1,11 @@
+.day-container {
+    height: 100%;
+    width: 100%;
+    .bar-container {
+        height: 70%;
+        
+        .bar {
+            background-color: green;
+        }
+    }
+}
