@@ -8,9 +8,10 @@ import ServingItem from "./servingItem/ServingItem";
 interface MealItemProps {
   meal: Meal;
   setMeals: CallableFunction;
+  date: string
 }
 
-const MealItem: React.FC<MealItemProps> = ({ meal, setMeals }) => {
+const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date }) => {
   const [mealServings, setMealServings] = useState<Food[]>([]);
   const [dropDown, setDropDown] = useState<boolean>(false);
 
@@ -82,7 +83,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals }) => {
 
 
   return (
-    <div  className="meal-item dropbtn">
+    <div className="meal-item dropbtn">
       <div
         onClick={handleClickMeal}
         className="meal-item__content"
@@ -105,6 +106,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals }) => {
                 mealServ={mealServ}
                 setMealServings={setMealServings}
                 setMeals={setMeals}
+                date={date}
               />
             );
           })}

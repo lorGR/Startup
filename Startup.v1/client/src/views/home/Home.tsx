@@ -10,6 +10,7 @@ import MealItem from "../../components/mealItem/MealItem";
 import ProgressBar from "../../components/progressBar/ProgressBar";
 import SetBarProgressForm from "../../components/setBarProgressForm/SetBarProgressForm";
 import { getUserByCookie } from "../../features/user/userAPI";
+import moment from "moment";
 
 export interface Meal {
   meal_id: number,
@@ -32,6 +33,7 @@ const Home = () => {
   const dispatch = useAppDispatch();
 
   const [meals, setMeals] = useState<Meal[]>([]);
+  const [date , setDate] = useState<any>(moment().format().slice(0,10));
 
   const getTodayMeals = async () => {
     try {
@@ -54,7 +56,7 @@ const Home = () => {
       <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} />
       <Navbar navbarType="main" />
       <div className="home__container">
-        {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals}/>)}
+        {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date}/>)}
         
       </div>
       <ProgressBar meals={meals}/>
