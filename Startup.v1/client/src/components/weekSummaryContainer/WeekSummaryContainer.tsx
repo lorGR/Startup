@@ -97,7 +97,7 @@ const WeekSummaryContainer: React.FC<WeekSummaryContainerProps> = ({ summaryType
                 <DayContainer displayDay="ד" dayValue={weekSummary?.wednesday} maxValue={maxSummary} />
                 <DayContainer displayDay="ה" dayValue={weekSummary?.thursday} maxValue={maxSummary} />
                 <DayContainer displayDay="ו" dayValue={weekSummary?.friday} maxValue={maxSummary} />
-                <DayContainer displayDay="ז" dayValue={weekSummary?.saturday} maxValue={maxSummary} />
+                <DayContainer displayDay="ש" dayValue={weekSummary?.saturday} maxValue={maxSummary} />
             </div>
         </div>
     );
