@@ -59,6 +59,7 @@ const Calendar = () => {
             <div className="calendar__container">
                 {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date}/>)}
             </div>
+            
         </div>
     )
 }
