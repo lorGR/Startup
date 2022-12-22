@@ -5,7 +5,7 @@ import { decodeCookie } from "./../users/usersCtrl";
 
 export async function addMeal(req: express.Request, res: express.Response) {
   try {
-    const {mealInformation} = req.body
+    const { mealInformation } = req.body;
     const { blood_sugar, insulin, date, time, carbs } = mealInformation;
     if (!date || !time || !blood_sugar || !insulin || !carbs)
       throw new Error(
@@ -34,14 +34,14 @@ export async function addMeal(req: express.Request, res: express.Response) {
         connection.query(sql, (error, result) => {
           try {
             if (error) throw error;
-            if(result.affectedRows > 0) {
+            if (result.affectedRows > 0) {
               const mealId = result.insertId;
               const sql = `SELECT * FROM meals WHERE meal_id = '${mealId}'`;
 
               connection.query(sql, (error, result) => {
                 if (error) throw error;
-                res.send({result})
-              })
+                res.send({ result });
+              });
             }
           } catch (error) {
             res.status(500).send({ error: error.message });
@@ -110,7 +110,11 @@ export async function getMealsServings(
     connection.query(sql, (err, result) => {
       try {
         if (err) throw err;
-        res.send({ result });
+        if (result.affectedRows == 0) {
+          res.send({ message: "no servings found" });
+        } else {
+          res.send({ result });
+        }
       } catch (error) {
         res.status(500).send({ error: error.message });
       }
@@ -287,5 +291,26 @@ export async function getMealsByDate(
     });
   } catch (error) {
     res.status(500).send({ error: error.message });
+  }
+}
+
+export async function getLastMeal(req:express.Request, res:express.Response) {
+  try {
+    const {userID} = req.cookies;
+    const userId = decodeCookie(userID);
+    if(!userId) throw new Error("no userId can be decoded on FUNCTION getLastMeal IN FILE mealsCtrl");
+    const date = getCurrentDate();
+    const sql = `SELECT * from meals WHERE user_id = "${userId}" AND date = '${date}' ORDER BY meal_id DESC LIMIT 1`;
+
+    connection.query(sql, (error, result) => {
+      try {
+        if (error) throw error;
+        res.send({result})
+      } catch (error) {
+        res.status(500).send({error: error.message})
+      }
+    })
+  } catch (error) {
+    res.status(500).send({error: error.message})
   }
 }

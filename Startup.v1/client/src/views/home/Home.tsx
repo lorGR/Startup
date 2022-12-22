@@ -12,6 +12,8 @@ import SetBarProgressForm from "../../components/setBarProgressForm/SetBarProgre
 import { getUserByCookie } from "../../features/user/userAPI";
 import moment from "moment";
 import {Meal} from "../../features/openMeal/mealModel"
+import { openMealSelector } from "../../features/openMeal/openMealSlice";
+import { getLastMeal } from "../../features/openMeal/openMealAPI";
 
 const Home = () => {
 
@@ -19,11 +21,13 @@ const Home = () => {
 
   const user = useAppSelector(userSelector);
   const carbs = useAppSelector(carbsCounterSelector);
+  const openMeal = useAppSelector(openMealSelector);
 
   const dispatch = useAppDispatch();
 
   const [meals, setMeals] = useState<Meal[]>([]);
   const [date , setDate] = useState<any>(moment().format().slice(0,10));
+  const [openMealIsOpened, setOpenMealIsOpend] = useState<boolean>(false)
 
   const getTodayMeals = async () => {
     try {
@@ -41,13 +45,23 @@ const Home = () => {
     getTodayMeals();
   }, []);
 
+  useEffect(() => {
+    dispatch(getLastMeal());
+    if (openMeal !== null && openMeal.meal_id) {
+      setOpenMealIsOpend(true)
+    } else {
+      setOpenMealIsOpend(false)
+    }
+  },[user])
+
   return (
     <div className="home">
       <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} />
       <Navbar navbarType="main" />
       <div className="home__container">
-        {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date}/>)}
-        
+        {/* {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date}/>)} */}
+        {!openMealIsOpened && <div dir="rtl">שלום {user?.first_name} אנא הזן מדדים</div>}
+        {openMealIsOpened && <MealItem meal={openMeal!} setMeals={setMeals} date={date}/>}
       </div>
       <ProgressBar meals={meals}/>
       <SetBarProgressForm />

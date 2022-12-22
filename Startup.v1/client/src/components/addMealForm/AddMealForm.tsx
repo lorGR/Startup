@@ -75,7 +75,6 @@ export const AddMealForm: FC<AddMealFormProps> = ({
 
       const mealInformation = { blood_sugar, insulin, date, time, carbs };
       dispatch(addMeal({ mealInformation }));
-      console.log(openMeal);
       setDisplay(DisplaySetting.NONE);
       event.target.elements.bloodSugarInput.value = "";
       event.target.elements.insulinInput.value = "";

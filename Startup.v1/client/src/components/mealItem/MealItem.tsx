@@ -59,8 +59,10 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date }) => {
       console.error(error);
     }
   };
-  function InititeDelete() {
+  function InititeDelete(event:any) {
     try {
+      event.preventDefault();
+      event.stopPropagation();
       const messege = document.getElementById(
         `${meal.meal_id}message`
       ) as HTMLDivElement;

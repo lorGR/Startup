@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { addMeal } from "./openMealAPI";
+import { addMeal, getLastMeal } from "./openMealAPI";
 import { Meal } from "./mealModel";
 
 export enum Status {
@@ -33,6 +33,16 @@ export const openMealSlice = createSlice({
                 state.value = action.payload;
             })
             .addCase(addMeal.rejected, (state) => {
+                state.status = Status.FAILED;
+            })
+            .addCase(getLastMeal.pending, (state) => {
+                state.status = Status.LOADING;
+            })
+            .addCase(getLastMeal.fulfilled, (state, action) => {
+                state.status = Status.IDLE;
+                state.value = action.payload;
+            })
+            .addCase(getLastMeal.rejected, (state) => {
                 state.status = Status.FAILED;
             })
     }
