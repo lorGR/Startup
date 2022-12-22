@@ -29,6 +29,7 @@ const DayContainer: React.FC<DayContainerProps> = ({ displayDay, dayValue, maxVa
             <div className="bar-container">
                 <div style={{ height: barHeight }} className="bar"></div>
                 <p>
+                    {/* //TODO: find what causes the bar not we in pracenteges height */}
                     { dayValue === 0 || dayValue === null ? "" : Math.round(dayValue!)}
                 </p>
             </div>
