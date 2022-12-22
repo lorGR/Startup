@@ -69,7 +69,7 @@ const WeekSummaryContainer: React.FC<WeekSummaryContainerProps> = ({ summaryType
 
         const weekDays = {
             sunday: week.clone().startOf('week').format('YYYY-MM-DD'),
-            mondy: week.clone().startOf('week').add(1, 'days').format('YYYY-MM-DD'),
+            monday: week.clone().startOf('week').add(1, 'days').format('YYYY-MM-DD'),
             tuesday: week.clone().startOf('week').add(2, 'days').format('YYYY-MM-DD'),
             wednesday: week.clone().startOf('week').add(3, 'days').format('YYYY-MM-DD'),
             thursday: week.clone().startOf('week').add(4, 'days').format('YYYY-MM-DD'),

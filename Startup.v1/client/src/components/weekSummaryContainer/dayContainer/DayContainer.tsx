@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SummaryTypeDisplay } from "../WeekSummaryContainer";
 
 interface DayContainerProps {
@@ -14,16 +13,13 @@ const DayContainer: React.FC<DayContainerProps> = ({ displayDay, dayValue, maxVa
 
     let barHeight;
 
-    if (dayValue === null) {
-        barHeight = "0%"
-        dayValue = 0;
-    }
-
     if (maxValue === dayValue && dayValue !== 0) {
         barHeight = '100%';
-    } else {
-        let temp = (dayValue * 100) / maxValue;
+    } else if(dayValue !== null){
+        let temp = (dayValue! * 100) / maxValue;
         barHeight = `${temp}%`;
+    } else { 
+        barHeight ="0%";
     }
 
     return (
