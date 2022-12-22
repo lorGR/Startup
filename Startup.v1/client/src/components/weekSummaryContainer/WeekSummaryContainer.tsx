@@ -14,10 +14,20 @@ interface WeekSummaryContainerProps {
     week: any
 }
 
+interface WeekSumary {
+    sunday: any,
+    monday: any
+    tuesday: any,
+    wednesday: any,
+    thursday: any
+    friday: any,
+    saturday: any,
+}
+
 const WeekSummaryContainer: React.FC<WeekSummaryContainerProps> = ({ summaryTypeDisplay, week }) => {
 
-    const [maxSummary, setMaxSummary] = useState();
-    const [weekSummary, setWeekSummary] = useState();
+    const [maxSummary, setMaxSummary] = useState<any>();
+    const [weekSummary, setWeekSummary] = useState<WeekSumary>();
 
     const getMaximumCarbsInWeek = async (weekDays: Object) => {
         try {
@@ -81,24 +91,13 @@ const WeekSummaryContainer: React.FC<WeekSummaryContainerProps> = ({ summaryType
         <div className="week-summary-container">
             <h3>{summaryTypeDisplay}</h3>
             <div className="days">
-                {summaryTypeDisplay === SummaryTypeDisplay.BLOOD_SUGAR &&
-                    <>
-                        {/* <DayContainer displayDay="א" />
-                        <DayContainer displayDay="ב" />
-                        <DayContainer displayDay="ג" />
-                        <DayContainer displayDay="ד" />
-                        <DayContainer displayDay="ה" />
-                        <DayContainer displayDay="ו" />
-                        <DayContainer displayDay="ש" /> */}
-                    </>
-                }
-                <DayContainer summaryTypeDisplay={summaryTypeDisplay} displayDay={'א'} day={week.clone().startOf('week').format('YYYY-MM-DD')} />
-                <DayContainer summaryTypeDisplay={summaryTypeDisplay} displayDay={'ב'} day={week.clone().startOf('week').add(1, 'days').format('YYYY-MM-DD')} />
-                <DayContainer summaryTypeDisplay={summaryTypeDisplay} displayDay={'ג'} day={week.clone().startOf('week').add(2, 'days').format('YYYY-MM-DD')} />
-                <DayContainer summaryTypeDisplay={summaryTypeDisplay} displayDay={'ד'} day={week.clone().startOf('week').add(3, 'days').format('YYYY-MM-DD')} />
-                <DayContainer summaryTypeDisplay={summaryTypeDisplay} displayDay={'ה'} day={week.clone().startOf('week').add(4, 'days').format('YYYY-MM-DD')} />
-                <DayContainer summaryTypeDisplay={summaryTypeDisplay} displayDay={'ו'} day={week.clone().startOf('week').add(5, 'days').format('YYYY-MM-DD')} />
-                <DayContainer summaryTypeDisplay={summaryTypeDisplay} displayDay={'ש'} day={week.clone().endOf('week').format('YYYY-MM-DD')} />
+                <DayContainer displayDay="א" dayValue={weekSummary?.sunday} maxValue={maxSummary} />
+                <DayContainer displayDay="ב" dayValue={weekSummary?.monday} maxValue={maxSummary} />
+                <DayContainer displayDay="ג" dayValue={weekSummary?.tuesday} maxValue={maxSummary} />
+                <DayContainer displayDay="ד" dayValue={weekSummary?.wednesday} maxValue={maxSummary} />
+                <DayContainer displayDay="ה" dayValue={weekSummary?.thursday} maxValue={maxSummary} />
+                <DayContainer displayDay="ו" dayValue={weekSummary?.friday} maxValue={maxSummary} />
+                <DayContainer displayDay="ז" dayValue={weekSummary?.saturday} maxValue={maxSummary} />
             </div>
         </div>
     );
