@@ -26,7 +26,8 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const carbsCount = useAppSelector(carbsCounterSelector);
   const dispatch = useAppDispatch();
-  const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
+  const [display, setDisplay] = useState<string>(DisplaySetting.NONE);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const handleAddMealForm = () => {
     try {
@@ -54,6 +55,17 @@ const Header: React.FC<HeaderProps> = ({
     }
   }
 
+  const handleOpenMenu = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if(event.target.nodeName === "DIV"){
+      event.target.parentNode.classList.toggle('is-active');
+    } else {
+      event.target.classList.toggle('is-active');
+    }
+    setShowMenu(!showMenu);
+  }
+
   return (
     <div className="header">
       {headerType === "addVals" && (
@@ -73,7 +85,11 @@ const Header: React.FC<HeaderProps> = ({
       {headerType === "calendar" &&
         <div>יומן</div>
       }
-
+      <div className="menu" onClick={handleOpenMenu}>
+        <button className="hamburger" >
+          <div className="bar"></div>
+        </button>
+      </div>
       <AddMealForm displayType={display} setDisplay={setDisplay} />
     </div>
   );
