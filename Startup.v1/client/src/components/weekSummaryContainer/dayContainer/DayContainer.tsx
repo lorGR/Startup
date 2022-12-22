@@ -60,7 +60,7 @@ const DayContainer: React.FC<DayContainerProps> = ({ displayDay, day, summaryTyp
 
     let barHeight = "";
 
-    if(daySum !== undefined) {
+    if(daySum !== undefined && daySum !== null) {
         barHeight = daySum >= 100 ? `100%` : `${daySum}%`; 
     }
 
@@ -70,7 +70,7 @@ const DayContainer: React.FC<DayContainerProps> = ({ displayDay, day, summaryTyp
                 {displayDay}
             </p>
             <div className="bar-container">
-                <div style={{height: barHeight}} className="bar"></div>
+                <div style={{minHeight: barHeight}} className="bar"></div>
             </div>
             <p>
                 {daySum}
