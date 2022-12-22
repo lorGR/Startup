@@ -1,23 +1,28 @@
-import { current } from '@reduxjs/toolkit';
-import axios from 'axios';
-import React, { FC, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { emptyArray, foodarraySelector } from '../../features/food/foodArraySlice';
-import { DisplaySetting } from '../header/Header';
-import { carbsCounterSelector } from './../../features/carbs/carbsSlice';
-import { resetCarbs } from './../../features/carbs/carbsSlice';
-import { addMeal } from './../../features/openMeal/openMealAPI';
-import { Meal } from './../../features/openMeal/mealModel';
-import { openMealSelector } from '../../features/openMeal/openMealSlice';
+import { current } from "@reduxjs/toolkit";
+import axios from "axios";
+import React, { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  emptyArray,
+  foodarraySelector,
+} from "../../features/food/foodArraySlice";
+import { DisplaySetting } from "../header/Header";
+import { carbsCounterSelector } from "./../../features/carbs/carbsSlice";
+import { resetCarbs } from "./../../features/carbs/carbsSlice";
+import { addMeal } from "./../../features/openMeal/openMealAPI";
+import { Meal } from "./../../features/openMeal/mealModel";
+import { openMealSelector } from "../../features/openMeal/openMealSlice";
 
 interface AddMealFormProps {
   displayType: string;
   setDisplay: CallableFunction;
 }
 
-export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) => {
-
+export const AddMealForm: FC<AddMealFormProps> = ({
+  displayType,
+  setDisplay,
+}) => {
   const [currentDate, setCurrentDate] = useState<string>("");
   const [currentTime, setCurrentTime] = useState<string>();
 
@@ -26,24 +31,26 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-  const openMeal = useAppSelector(openMealSelector)
+  const openMeal = useAppSelector(openMealSelector);
 
   useEffect(() => {
     const dateTime = new Date();
-    const fullDate = `${dateTime.getFullYear()}-${dateTime.getMonth() + 1}-${dateTime.getDate()}`;
+    const fullDate = `${dateTime.getFullYear()}-${
+      dateTime.getMonth() + 1
+    }-${dateTime.getDate()}`;
     setCurrentDate(fullDate);
 
-    let hours: string | number  = dateTime.getHours();
+    let hours: string | number = dateTime.getHours();
     if (hours.toString().length < 2) {
       hours = `0${hours}`;
-    } 
+    }
     let minutes: string | number = dateTime.getMinutes();
-    if(minutes.toString().length < 2) {
-      minutes =`0${minutes}`;
+    if (minutes.toString().length < 2) {
+      minutes = `0${minutes}`;
     }
     const fullTime = `${hours}:${minutes}`;
     setCurrentTime(fullTime);
-  }, []);
+  }, [displayType]);
 
   const totalCarbs = useAppSelector(carbsCounterSelector);
 
@@ -51,50 +58,88 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
     try {
       event.preventDefault();
 
-      const { bloodSugarInput, dateInput, insulinInput, timeInput, carbsInput } = event.target.elements;
-      const [blood_sugar, insulin, date, time, carbs] = [bloodSugarInput.value, insulinInput.value, dateInput.value, timeInput.value, carbsInput.value];
+      const {
+        bloodSugarInput,
+        dateInput,
+        insulinInput,
+        timeInput,
+        carbsInput,
+      } = event.target.elements;
+      const [blood_sugar, insulin, date, time, carbs] = [
+        bloodSugarInput.value,
+        insulinInput.value,
+        dateInput.value,
+        timeInput.value,
+        carbsInput.value,
+      ];
 
-      const mealInformation = {blood_sugar, insulin, date, time, carbs};
-      dispatch(addMeal({mealInformation}))
-      console.log(openMeal)
-      // const { data } = await axios.post("/api/meals/add-meal", { mealInformation });
-      // if (!data) throw new Error("Couldn't receive data from axios POST '/add-meal' ");
-      // const { result } = data;
-      // if(result.affectedRows = 1) {
-      //   const mealId = result.insertId;
-      //   const { data } = await axios.post("/api/servings/add-servings-to-meal", {mealId, foodArray});
-      //   if(!data) throw new Error("Couldn't receive data from axios POST '/api/servings/add-serving-to-meal' ");
-      //   const { status } = data;
-      //   if(status === true) {
-      //     setDisplay(DisplaySetting.NONE);
-      //     dispatch(emptyArray());
-      //     dispatch(resetCarbs());
-          navigate("/home");
-        // }
-      // }
-
+      const mealInformation = { blood_sugar, insulin, date, time, carbs };
+      dispatch(addMeal({ mealInformation }));
+      console.log(openMeal);
+      setDisplay(DisplaySetting.NONE);
+      event.target.elements.bloodSugarInput.value = "";
+      event.target.elements.insulinInput.value = "";
+      event.target.elements.carbsInput.value = "";
+      
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
     <div style={{ display: `${displayType}` }}>
       <div className="add-meal-container">
         <div className="add-meal">
           <form onSubmit={handleAddMeal} className="add-meal__form">
-            <input onChange={(event) => setCurrentDate(event.target.value)} type="date" name="dateInput" id="date" placeholder="הזן תאריך" value={currentDate} />
-            <input onChange={(event) => setCurrentTime(event.target.value)} type="time" name="timeInput" id="time" placeholder="הזן שעת ארוחה" value={currentTime} />
-            <input type="number" name="bloodSugarInput" id="bloodSugar" placeholder="הזן כמות סוכר בדם" />
-            <input type="number" name="carbsInput" id="carbsInput" placeholder="הזן כמות פחמימות" value={totalCarbs} />
-            <input type="number" name="insulinInput" id="insulin" placeholder="הזן כמות אינסולין" />
+            <input
+              onChange={(event) => setCurrentDate(event.target.value)}
+              type="date"
+              name="dateInput"
+              id="date"
+              placeholder="הזן תאריך"
+              value={currentDate}
+            />
+            <input
+              onChange={(event) => setCurrentTime(event.target.value)}
+              type="time"
+              name="timeInput"
+              id="time"
+              placeholder="הזן שעת ארוחה"
+              value={currentTime}
+            />
+            <input
+              type="number"
+              name="bloodSugarInput"
+              id="bloodSugar"
+              placeholder="הזן כמות סוכר בדם"
+            />
+            <input
+              type="number"
+              name="carbsInput"
+              id="carbsInput"
+              placeholder="הזן כמות פחמימות"
+              value={totalCarbs}
+            />
+            <input
+              type="number"
+              name="insulinInput"
+              id="insulin"
+              placeholder="הזן כמות אינסולין"
+            />
             <div className="add-meal__form__buttons">
-              <button type='button' onClick={() => { setDisplay(DisplaySetting.NONE) }}>X</button>
-              <button type='submit' >✅</button>
+              <button
+                type="button"
+                onClick={() => {
+                  setDisplay(DisplaySetting.NONE);
+                }}
+              >
+                X
+              </button>
+              <button type="submit">✅</button>
             </div>
           </form>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
