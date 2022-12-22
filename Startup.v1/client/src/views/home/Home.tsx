@@ -11,17 +11,7 @@ import ProgressBar from "../../components/progressBar/ProgressBar";
 import SetBarProgressForm from "../../components/setBarProgressForm/SetBarProgressForm";
 import { getUserByCookie } from "../../features/user/userAPI";
 import moment from "moment";
-
-export interface Meal {
-  meal_id: number,
-  blood_sugar: number,
-  carbs: number,
-  insulin: number,
-  date: string,
-  time: string,
-  user_id: number,
-  carbs_unit_type: string
-}
+import {Meal} from "../../features/openMeal/mealModel"
 
 const Home = () => {
 

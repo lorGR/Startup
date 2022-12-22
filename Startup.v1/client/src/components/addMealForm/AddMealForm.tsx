@@ -7,6 +7,9 @@ import { emptyArray, foodarraySelector } from '../../features/food/foodArraySlic
 import { DisplaySetting } from '../header/Header';
 import { carbsCounterSelector } from './../../features/carbs/carbsSlice';
 import { resetCarbs } from './../../features/carbs/carbsSlice';
+import { addMeal } from './../../features/openMeal/openMealAPI';
+import { Meal } from './../../features/openMeal/mealModel';
+import { openMealSelector } from '../../features/openMeal/openMealSlice';
 
 interface AddMealFormProps {
   displayType: string;
@@ -23,6 +26,7 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
+  const openMeal = useAppSelector(openMealSelector)
 
   useEffect(() => {
     const dateTime = new Date();
@@ -50,21 +54,24 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
       const { bloodSugarInput, dateInput, insulinInput, timeInput, carbsInput } = event.target.elements;
       const [blood_sugar, insulin, date, time, carbs] = [bloodSugarInput.value, insulinInput.value, dateInput.value, timeInput.value, carbsInput.value];
 
-      const { data } = await axios.post("/api/meals/add-meal", { blood_sugar, insulin, date, time, carbs });
-      if (!data) throw new Error("Couldn't receive data from axios POST '/add-meal' ");
-      const { result } = data;
-      if(result.affectedRows = 1) {
-        const mealId = result.insertId;
-        const { data } = await axios.post("/api/servings/add-servings-to-meal", {mealId, foodArray});
-        if(!data) throw new Error("Couldn't receive data from axios POST '/api/servings/add-serving-to-meal' ");
-        const { status } = data;
-        if(status === true) {
-          setDisplay(DisplaySetting.NONE);
-          dispatch(emptyArray());
-          dispatch(resetCarbs());
+      const mealInformation = {blood_sugar, insulin, date, time, carbs};
+      dispatch(addMeal({mealInformation}))
+      console.log(openMeal)
+      // const { data } = await axios.post("/api/meals/add-meal", { mealInformation });
+      // if (!data) throw new Error("Couldn't receive data from axios POST '/add-meal' ");
+      // const { result } = data;
+      // if(result.affectedRows = 1) {
+      //   const mealId = result.insertId;
+      //   const { data } = await axios.post("/api/servings/add-servings-to-meal", {mealId, foodArray});
+      //   if(!data) throw new Error("Couldn't receive data from axios POST '/api/servings/add-serving-to-meal' ");
+      //   const { status } = data;
+      //   if(status === true) {
+      //     setDisplay(DisplaySetting.NONE);
+      //     dispatch(emptyArray());
+      //     dispatch(resetCarbs());
           navigate("/home");
-        }
-      }
+        // }
+      // }
 
     } catch (error) {
       console.error(error);
@@ -79,7 +86,7 @@ export const AddMealForm: FC<AddMealFormProps> = ({ displayType, setDisplay }) =
             <input onChange={(event) => setCurrentDate(event.target.value)} type="date" name="dateInput" id="date" placeholder="הזן תאריך" value={currentDate} />
             <input onChange={(event) => setCurrentTime(event.target.value)} type="time" name="timeInput" id="time" placeholder="הזן שעת ארוחה" value={currentTime} />
             <input type="number" name="bloodSugarInput" id="bloodSugar" placeholder="הזן כמות סוכר בדם" />
-            <input type="number" name="carbsInput" id="carbsInput" disabled placeholder="הזן כמות פחמימות" value={totalCarbs} />
+            <input type="number" name="carbsInput" id="carbsInput" placeholder="הזן כמות פחמימות" value={totalCarbs} />
             <input type="number" name="insulinInput" id="insulin" placeholder="הזן כמות אינסולין" />
             <div className="add-meal__form__buttons">
               <button type='button' onClick={() => { setDisplay(DisplaySetting.NONE) }}>X</button>

@@ -2,7 +2,7 @@ import axios from "axios";
 import { stringify } from "querystring";
 import React, { useEffect, useState } from "react";
 import { Food } from "../../features/food/foodModel";
-import { Meal } from "../../views/home/Home";
+import {Meal} from "../../features/openMeal/mealModel"
 import ServingItem from "./servingItem/ServingItem";
 
 interface MealItemProps {
@@ -87,7 +87,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date }) => {
       <div
         onClick={handleClickMeal}
         className="meal-item__content"
-        id={meal.meal_id.toString()}
+        id={meal.meal_id!.toString()}
       >
         <span onClick={InititeDelete} className="material-symbols-outlined">
           delete

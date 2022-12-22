@@ -1,8 +1,6 @@
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
 import { Food } from "./../../../features/food/foodModel";
-import moment from "moment";
-
 
 interface ServingItemProps {
   mealServ: Food;
@@ -34,17 +32,18 @@ const ServingItem: FC<ServingItemProps> = ({
       const { result } = data;
       if (result.length > 0) {
         setMealServings(result);
-      } else if (result.length === 0) {
-        console.log("meal is empty");
-        const mealId = mealServ.meal_id;
-        const { data } = await axios.post("/api/meals/delete-meal-by-id", {
-          mealId
-        });
-        console.log("this is after delete axios post")
-        console.log(data);
-        const { result } = data;
-        setMeals(result);
-      }
+      } 
+      // else if (result.length === 0) {
+      //   console.log("meal is empty");
+      //   const mealId = mealServ.meal_id;
+      //   const { data } = await axios.post("/api/meals/delete-meal-by-id", {
+      //     mealId
+      //   });
+        // console.log("this is after delete axios post")
+        // console.log(data);
+        // const { result } = data;
+        // setMeals(result);
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -60,19 +59,6 @@ const ServingItem: FC<ServingItemProps> = ({
         console.error(error);
     }
 }
-  // const getTodayMeals = async () => {
-  //   try {
-  //     const { data } = await axios.get("/api/meals/get-today-meals");
-  //     if (!data)
-  //       throw new Error(
-  //         "Couldn't receive data from axios GET '/api/meals/get-today-meals' ON FUNCTION getTodayMeals ON FILE Home.tsx "
-  //       );
-  //     const { result } = data;
-  //     setMeals(result);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   function getMealTypeUnit() {
     try {

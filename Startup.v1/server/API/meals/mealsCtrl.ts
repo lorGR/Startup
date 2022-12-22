@@ -5,7 +5,8 @@ import { decodeCookie } from "./../users/usersCtrl";
 
 export async function addMeal(req: express.Request, res: express.Response) {
   try {
-    const { blood_sugar, insulin, date, time, carbs } = req.body;
+    const {mealInformation} = req.body
+    const { blood_sugar, insulin, date, time, carbs } = mealInformation;
     if (!date || !time || !blood_sugar || !insulin || !carbs)
       throw new Error(
         "Couldn't receive date/time/insulin/blood_sugar/carbs from req.body mealsCtrl"
@@ -33,7 +34,15 @@ export async function addMeal(req: express.Request, res: express.Response) {
         connection.query(sql, (error, result) => {
           try {
             if (error) throw error;
-            res.send({ result });
+            if(result.affectedRows > 0) {
+              const mealId = result.insertId;
+              const sql = `SELECT * FROM meals WHERE meal_id = '${mealId}'`;
+
+              connection.query(sql, (error, result) => {
+                if (error) throw error;
+                res.send({result})
+              })
+            }
           } catch (error) {
             res.status(500).send({ error: error.message });
           }
