@@ -10,6 +10,8 @@ import { AddMealForm } from './../addMealForm/AddMealForm';
 
 interface HeaderProps {
   headerType: string;
+  setShowMenu?: CallableFunction,
+  showMenu?: boolean,
   addMealForm?: boolean;
   setAddMealForm?: Function;
 }
@@ -23,11 +25,12 @@ const Header: React.FC<HeaderProps> = ({
   headerType,
   addMealForm,
   setAddMealForm,
+  setShowMenu,
+  showMenu,
 }) => {
   const carbsCount = useAppSelector(carbsCounterSelector);
   const dispatch = useAppDispatch();
   const [display, setDisplay] = useState<string>(DisplaySetting.NONE);
-  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const handleAddMealForm = () => {
     try {
@@ -58,12 +61,12 @@ const Header: React.FC<HeaderProps> = ({
   const handleOpenMenu = (event: any) => {
     event.preventDefault();
     event.stopPropagation();
-    if(event.target.nodeName === "DIV"){
+    if (event.target.nodeName === "DIV") {
       event.target.parentNode.classList.toggle('is-active');
     } else {
       event.target.classList.toggle('is-active');
     }
-    setShowMenu(!showMenu);
+    setShowMenu!(!showMenu);
   }
 
   return (
@@ -85,6 +88,8 @@ const Header: React.FC<HeaderProps> = ({
       {headerType === "calendar" &&
         <div>יומן</div>
       }
+
+      {/* MENU */}
       <div className="menu" onClick={handleOpenMenu}>
         <button className="hamburger" >
           <div className="bar"></div>

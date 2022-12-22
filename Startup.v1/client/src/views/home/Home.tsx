@@ -34,6 +34,7 @@ const Home = () => {
 
   const [meals, setMeals] = useState<Meal[]>([]);
   const [date , setDate] = useState<any>(moment().format().slice(0,10));
+  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const getTodayMeals = async () => {
     try {
@@ -53,14 +54,19 @@ const Home = () => {
 
   return (
     <div className="home">
-      <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} />
-      <Navbar navbarType="main" />
+      <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} setShowMenu={setShowMenu} showMenu={showMenu}/>
+      <Navbar navbarType="main"  />
       <div className="home__container">
         {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date}/>)}
         
       </div>
       <ProgressBar meals={meals}/>
       <SetBarProgressForm />
+      {showMenu &&
+        <div className="menu-screen">
+          
+        </div>
+      }
     </div>
   )
 }

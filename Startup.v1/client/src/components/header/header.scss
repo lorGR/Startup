@@ -9,15 +9,10 @@
     display: flex;
 }
 
-// .menu {
-//     position: absolute;
-//     left: 90%;
-// }
-
-
 .menu {
     position: absolute;
     left: 90%;
+    z-index: 100000;
     .hamburger {
         position: relative;
         display: block;
@@ -49,6 +44,7 @@
     .hamburger.is-active .bar {
         opacity: 0;
     }
-
 }
+
+
 
