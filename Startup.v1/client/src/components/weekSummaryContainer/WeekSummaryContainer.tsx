@@ -24,9 +24,6 @@ const WeekSummaryContainer: React.FC<WeekSummaryContainerProps> = ({ summaryType
             const { data } = await axios.post("/api/graph/get-maximum-carbs-week", { weekDays });
             if (!data) throw new Error("Couldn't receive data from axios POST 'get-maximum-carbs-week' ");
             const { maxCarbs, weekCarbs } = data;
-            console.log(`Max carbs this week: ${maxCarbs}`);
-            console.log(weekCarbs);
-            
             setMaxSummary(maxCarbs);
             setWeekSummary(weekCarbs);
         } catch (error) {
@@ -39,8 +36,8 @@ const WeekSummaryContainer: React.FC<WeekSummaryContainerProps> = ({ summaryType
             const { data } = await axios.post("/api/graph/get-maximum-insulin-week", { weekDays });
             if (!data) throw new Error("Couldn't receive data from axios POST '/get-maximum-insulin-week' ");
             const { maxInsulin, weekInsulin } = data;
-            console.log(`Max insulin this week: ${maxInsulin} `);
-            console.log(weekInsulin);
+            setMaxSummary(maxInsulin);
+            setWeekSummary(weekInsulin);
         } catch (error) {
             console.error(error);
         }
@@ -51,8 +48,8 @@ const WeekSummaryContainer: React.FC<WeekSummaryContainerProps> = ({ summaryType
             const { data } = await axios.post("/api/graph/get-maximum-average-blood-sugar-week", { weekDays });
             if (!data) throw new Error("Couldn't receive data from axios POST 'get-maximum-average-blood-sugar-week' ");
             const { maxBloodSugar, weekBloodSugar } = data;
-            console.log(`Max blood sugar this week: ${maxBloodSugar}`);
-            console.log(weekBloodSugar);
+            setMaxSummary(maxBloodSugar);
+            setWeekSummary(weekBloodSugar);
         } catch (error) {
             console.error(error);
         }
