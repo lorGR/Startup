@@ -192,7 +192,7 @@ export function decodeCookie(userID: string): number {
       throw new Error(
         "Couldn't load secret from .env on FUNCTION decodeCookie IN FILE userCtrl"
       );
-
+ 
     const decodeUserId = jwt.decode(userID, secret);
     const { userId } = decodeUserId;
     if (!userId)
