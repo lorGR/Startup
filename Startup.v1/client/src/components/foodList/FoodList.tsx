@@ -7,7 +7,11 @@ import { useAppSelector } from "../../app/hooks";
 import { foodarraySelector } from "../../features/food/foodArraySlice";
 import { userSelector } from "../../features/user/userSlice";
 
-export const FoodList = () => {
+interface FoodListProps {
+  userSearch?: string
+}
+
+export const FoodList: React.FC<FoodListProps> = ({ userSearch }) => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
   const [carbsSum, setCarbsSum] = useState<number>(0);
   const foodArray = useAppSelector(foodarraySelector);
@@ -58,16 +62,21 @@ export const FoodList = () => {
   }
 
   useEffect(() => {
-    getUserFavorites();
-    getFood();
-  }, []);
+    if (userSearch === undefined) {
+      getUserFavorites();
+      getFood();
+    } else {
+      //TODO: get the food by user's search
+      //Get the food by the userSearch
+    }
+  }, [userSearch]);
 
-    return (
-      <div dir="rtl" className="foodList">
-        {allFoodArray.map((foodItem: Food) => {
-          return <FoodListItem key={foodItem.food_id} foodItem={foodItem} unit={userPreference!}/>;
-        })}
-      </div>
-    );
+  return (
+    <div dir="rtl" className="foodList">
+      {allFoodArray.map((foodItem: Food) => {
+        return <FoodListItem key={foodItem.food_id} foodItem={foodItem} unit={userPreference!} />;
+      })}
+    </div>
+  );
 
 };
