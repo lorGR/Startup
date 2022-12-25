@@ -5,6 +5,7 @@ import {
   resetCarbs,
 } from "../../features/carbs/carbsSlice";
 import { emptyArray } from "../../features/food/foodArraySlice";
+import Hamburger from "../hamburger/Hamburger";
 import { useAppDispatch } from "./../../app/hooks";
 import { AddMealForm } from './../addMealForm/AddMealForm';
 
@@ -57,18 +58,7 @@ const Header: React.FC<HeaderProps> = ({
       console.error(error)
     }
   }
-
-  const handleOpenMenu = (event: any) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.target.nodeName === "DIV") {
-      event.target.parentNode.classList.toggle('is-active');
-    } else {
-      event.target.classList.toggle('is-active');
-    }
-    setShowMenu!(!showMenu);
-  }
-
+  
   return (
     <div className="header">
       {headerType === "addVals" && (
@@ -88,13 +78,8 @@ const Header: React.FC<HeaderProps> = ({
       {headerType === "calendar" &&
         <div>יומן</div>
       }
+      <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} />
 
-      {/* MENU */}
-      <div className="menu" onClick={handleOpenMenu}>
-        <button className="hamburger" >
-          <div className="bar"></div>
-        </button>
-      </div>
       <AddMealForm displayType={display} setDisplay={setDisplay} />
     </div>
   );
