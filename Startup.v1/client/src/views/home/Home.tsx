@@ -12,6 +12,7 @@ import { getUserByCookie } from "../../features/user/userAPI";
 import moment from "moment";
 import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
 import { Link } from "react-router-dom";
+import Menu from "../../components/menu/Menu";
 
 export interface Meal {
   meal_id: number,
@@ -63,23 +64,7 @@ const Home = () => {
       </div>
       <ProgressBar meals={meals} />
       <SetBarProgressForm />
-      {showMenu &&
-        <div className="menu-screen">
-          <div className="menu__logo">
-            <img src={sugarbitHeader} alt="sugar-bit-header" id="header" />
-          </div>
-          <div className="menu__items">
-            <Link to="/calendar">יומן</Link>
-            <Link to="/home">בית</Link>
-            <Link to="">תזכורן</Link>
-            <Link to="">דוחות</Link>
-            <Link to="">הגדרות</Link>
-            <Link to="">שתף</Link>
-            <Link to="">מד סוכר</Link>
-            <Link to="">הדרכות</Link>
-          </div>
-        </div>
-      }
+      {showMenu && <Menu />}
     </div>
   )
 }
