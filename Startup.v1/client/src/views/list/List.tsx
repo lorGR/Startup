@@ -9,21 +9,13 @@ import Menu from "../../components/menu/Menu";
 const List = () => {
 
     const [showMenu, setShowMenu] = useState<boolean>(false);
-    const [userSearch, setUserSearch] = useState<string>("");
+    
 
     return (
         <div className="list">
             <Header headerType="carbsDisplay" setShowMenu={setShowMenu} showMenu={showMenu} />
             <Navbar navbarType="main" />
-            <input
-                onChange={(e) => setUserSearch(e.target.value)}
-                dir="rtl"
-                type="text"
-                name="searchFood"
-                id="searchFood"
-                placeholder="חפש"
-            />
-            <FoodList userSearch={userSearch}/>
+            <FoodList />
             {showMenu && <Menu />}
         </div>
     )

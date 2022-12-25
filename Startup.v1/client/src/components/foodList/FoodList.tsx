@@ -7,15 +7,12 @@ import { useAppSelector } from "../../app/hooks";
 import { foodarraySelector } from "../../features/food/foodArraySlice";
 import { userSelector } from "../../features/user/userSlice";
 
-interface FoodListProps {
-  userSearch?: string
-}
-
-export const FoodList: React.FC<FoodListProps> = ({ userSearch }) => {
+export const FoodList = () => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
   const [carbsSum, setCarbsSum] = useState<number>(0);
   const foodArray = useAppSelector(foodarraySelector);
   const [foodFavoritesArray, setFoodFavoritesArray] = useState<Food[]>();
+  const [userSearch, setUserSearch] = useState<string>("");
 
   const user = useAppSelector(userSelector);
 
@@ -61,18 +58,37 @@ export const FoodList: React.FC<FoodListProps> = ({ userSearch }) => {
     }
   }
 
+  const getFoodBySearch = async () => {
+    try {
+      const { data } = await axios.post("/api/food/get-food-by-search", { userSearch });
+      if(!data) throw new Error("couldn't receive data from axios POST '/api/food/get-food-by-search' ");
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
-    if(userSearch!.length <= 0) {
+    if (userSearch!.length <= 0) {
       getUserFavorites();
       getFood();
-    } else { 
+    } else {
       //TODO: get the food by user's search
       //Get the food by the userSearch
+      getFoodBySearch();
     }
   }, [userSearch]);
 
   return (
     <div dir="rtl" className="foodList">
+      <input
+        onChange={(e) => setUserSearch(e.target.value)}
+        dir="rtl"
+        type="text"
+        name="searchFood"
+        id="searchFood"
+        placeholder="חפש"
+      />
       {userSearch!.length <= 0 && allFoodArray.map((foodItem: Food) => {
         return <FoodListItem key={foodItem.food_id} foodItem={foodItem} unit={userPreference!} />;
       })}
