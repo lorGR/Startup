@@ -24,10 +24,12 @@
 
     .hamburger.is-active::before {
         transform: rotate(-45deg) translate(-8px, 6px);
+        background-color: white;
     }
     
     .hamburger.is-active::after {
         transform: rotate(45deg) translate(-9px, -8px);
+        background-color: white;
     }
 
     .hamburger.is-active .bar {
