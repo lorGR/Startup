@@ -62,7 +62,8 @@ export const FoodList = () => {
     try {
       const { data } = await axios.post("/api/food/get-food-by-search", { userSearch });
       if(!data) throw new Error("couldn't receive data from axios POST '/api/food/get-food-by-search' ");
-      console.log(data);
+      const { result } = data;
+      setAllFoodArray(result);
     } catch (error) {
       console.error(error);
     }
@@ -73,8 +74,6 @@ export const FoodList = () => {
       getUserFavorites();
       getFood();
     } else {
-      //TODO: get the food by user's search
-      //Get the food by the userSearch
       getFoodBySearch();
     }
   }, [userSearch]);
@@ -89,10 +88,9 @@ export const FoodList = () => {
         id="searchFood"
         placeholder="חפש"
       />
-      {userSearch!.length <= 0 && allFoodArray.map((foodItem: Food) => {
+      {allFoodArray.map((foodItem: Food) => {
         return <FoodListItem key={foodItem.food_id} foodItem={foodItem} unit={userPreference!} />;
       })}
     </div>
   );
-
 };
