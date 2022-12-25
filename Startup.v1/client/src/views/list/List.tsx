@@ -23,9 +23,8 @@ const List = () => {
                 id="searchFood"
                 placeholder="חפש"
             />
-            <FoodList />
+            <FoodList userSearch={userSearch}/>
             {showMenu && <Menu />}
-            {userSearch.length > 0 && <FoodList userSearch={userSearch} />}
         </div>
     )
 }

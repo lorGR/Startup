@@ -62,10 +62,10 @@ export const FoodList: React.FC<FoodListProps> = ({ userSearch }) => {
   }
 
   useEffect(() => {
-    if (userSearch === undefined) {
+    if(userSearch!.length <= 0) {
       getUserFavorites();
       getFood();
-    } else {
+    } else { 
       //TODO: get the food by user's search
       //Get the food by the userSearch
     }
@@ -73,7 +73,7 @@ export const FoodList: React.FC<FoodListProps> = ({ userSearch }) => {
 
   return (
     <div dir="rtl" className="foodList">
-      {allFoodArray.map((foodItem: Food) => {
+      {userSearch!.length <= 0 && allFoodArray.map((foodItem: Food) => {
         return <FoodListItem key={foodItem.food_id} foodItem={foodItem} unit={userPreference!} />;
       })}
     </div>
