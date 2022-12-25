@@ -28,6 +28,9 @@ app.use("/api/servings", servingsRoutes);
 import graphRoutes from "./API/graph/graphRoutes";
 app.use("/api/graph",graphRoutes);
 
+import userFood from "./API/userFood/userFoodRoutes";
+app.use("/api/user-food", userFood)
+
 app.listen(port, () => {
   console.info(`Server is up and running at http://localhost:${port}`);
 });

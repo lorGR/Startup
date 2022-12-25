@@ -36,6 +36,7 @@ const Header: React.FC<HeaderProps> = ({
   const handleAddMealForm = () => {
     try {
       setAddMealForm!(!addMealForm);
+      setDisplay(DisplaySetting.FLEX);
     } catch (error) {
       console.error(error);
     }

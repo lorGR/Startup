@@ -4,24 +4,29 @@ import Navbar from "./../../components/navbar/Navbar";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
+interface SelectOption {
+  value: string,
+  size: number
+}
+
 const AddUserFood = () => {
-  const [portion, setPortion] = useState<string>("הגדר מנה");
-  const [size, setSize] = useState<number>(100);
+  const [portionName, setPortionName] = useState<string>("הגדר מנה");
+  const [portionSize, setPortionSize] = useState<number>(100);
   const [calories, setCalories] = useState<number>(0);
   const [carbs, setCarbs] = useState<number>(0);
   const [protein, setProtein] = useState<number>(0);
   const [fat, setFat] = useState<number>(0);
-  const [selectOptions, setSelectOptions] = useState<string[]>()
+  const [selectOptions, setSelectOptions] = useState<SelectOption[]>([{value:"בסיס", size:100}]);
   const { register, handleSubmit } = useForm();
-
+  const [calculateValues, setCalculateValues] = useState<boolean>(false);
 
   useEffect(() => {
     try {
-        calculateCalories();
+      calculateCalories();
     } catch (error) {
-        console.error(error)
+      console.error(error);
     }
-  },[carbs, protein, fat])
+  }, [carbs, protein, fat]);
 
   function handleShowAddSelect() {
     try {
@@ -36,21 +41,43 @@ const AddUserFood = () => {
 
   function calculateCalories() {
     try {
-        setCalories(((carbs*4) + (protein * 4) + (fat * 9)))
+      setCalories(carbs * 4 + protein * 4 + fat * 9);
     } catch (error) {
       console.error(error);
     }
   }
-  
-  const onSubmit = async (info: any) => {
-    const formData = JSON.stringify(info);
-    console.log(formData)
-    // const { data } = await axios.post("", {
-    //   formData, 
-    // });
-    // const {result} = data;
 
+  const onSubmit = async (info: any, event:any) => {
+    event.preventDefault();
+    const formData = JSON.stringify(info);
+    const size = event.target.elements.size.value
+    const { data } = await axios.post("/api/user-food/add-food", {
+      formData,
+      calories,
+      size
+    });
+    const { result } = data;
+    console.log(result)
   };
+
+  function handleAddOption(event:any) {
+    try {
+      event.preventDefault();
+      setSelectOptions([...selectOptions, {value:portionName, size: portionSize}]);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  function handleCalc(event:any) {
+    try {
+      if(event.target.value !== "בסיס") {
+        console.log("this is not basis")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <div className="add-user-food">
@@ -58,9 +85,19 @@ const AddUserFood = () => {
       <Navbar navbarType="main"></Navbar>
       <div dir="rtl">
         <form onSubmit={handleSubmit(onSubmit)} className="user-food">
-          <input {...register("foodName")} type="text" name="foodName" placeholder="הזן שם לפריט" />
-          <select {...register("size")} className="user-food__select" name="size">
-            <option value="gram">בסיס</option>
+          <input
+            {...register("foodName")}
+            type="text"
+            name="foodName"
+            placeholder="הזן שם לפריט"
+          />
+          <select onChange={handleCalc}
+            className="user-food__select"
+            name="size"
+          >
+            {selectOptions.map(option => {
+              return <option value={option.value}>{option.value}</option>
+            })}
           </select>
           <span
             onClick={handleShowAddSelect}
@@ -68,17 +105,8 @@ const AddUserFood = () => {
           >
             add
           </span>
-          {/* <input
-          {...register("size")}
-            type="number"
-            name="size"
-            value={size}
-            onChange={(e) => {
-              setSize(Number(e.target.value));
-            }}
-          /> */}
           <input
-          {...register("carbs")}
+            {...register("carbs")}
             onChange={(e) => {
               setCarbs(Number(e.target.value));
             }}
@@ -87,7 +115,7 @@ const AddUserFood = () => {
             placeholder="פחמימות"
           />
           <input
-          {...register("protein")}
+            {...register("protein")}
             onChange={(e) => {
               setProtein(Number(e.target.value));
             }}
@@ -96,7 +124,7 @@ const AddUserFood = () => {
             placeholder="חלבונים"
           />
           <input
-          {...register("fat")}
+            {...register("fat")}
             onChange={(e) => {
               setFat(Number(e.target.value));
               calculateCalories();
@@ -105,15 +133,20 @@ const AddUserFood = () => {
             name="fat"
             placeholder="שומנים"
           />
-          <input {...register("calories")} type="number" name="calories" placeholder="קלוריות" value={calories}/>
+          <input
+            type="number"
+            name="calories"
+            placeholder="קלוריות"
+            value={calories}
+          />
           <button type="submit">הוסף אוכל</button>
         </form>
       </div>
 
-      <form className="add-portion-type">
-        <input type="text" placeholder="הגדר שם מנה חדשה" />
-        <input type="number" placeholder="הגדר משקל מנה חדשה בגרמים" />
-        <button>שמור מנה</button>
+      <form onSubmit={handleAddOption} className="add-portion-type">
+        <input onChange={(e) => {setPortionName(e.target.value)}} type="text" placeholder="הגדר שם מנה חדשה" />
+        <input onChange={(e)=> {setPortionSize(Number(e.target.value))}} type="number" placeholder="הגדר משקל מנה חדשה בגרמים" />
+        <button type="submit">שמור מנה</button>
       </form>
     </div>
   );

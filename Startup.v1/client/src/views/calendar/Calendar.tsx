@@ -4,7 +4,7 @@ import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import { getCurrentDate } from "../../helpers/helpers";
 import moment from "moment";
-import { Meal } from "../home/Home";
+import { Meal } from "../../features/openMeal/mealModel";
 import MealItem from "../../components/mealItem/MealItem";
 import { Link } from "react-router-dom";
 import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
