@@ -5,11 +5,14 @@ import {
   resetCarbs,
 } from "../../features/carbs/carbsSlice";
 import { emptyArray } from "../../features/food/foodArraySlice";
+import Hamburger from "../hamburger/Hamburger";
 import { useAppDispatch } from "./../../app/hooks";
 import { AddMealForm } from './../addMealForm/AddMealForm';
 
 interface HeaderProps {
   headerType: string;
+  setShowMenu?: CallableFunction,
+  showMenu?: boolean,
   addMealForm?: boolean;
   setAddMealForm?: Function;
 }
@@ -23,10 +26,12 @@ const Header: React.FC<HeaderProps> = ({
   headerType,
   addMealForm,
   setAddMealForm,
+  setShowMenu,
+  showMenu,
 }) => {
   const carbsCount = useAppSelector(carbsCounterSelector);
   const dispatch = useAppDispatch();
-  const [display, setDisplay] = useState<string>(DisplaySetting.NONE)
+  const [display, setDisplay] = useState<string>(DisplaySetting.NONE);
 
   const handleAddMealForm = () => {
     try {
@@ -54,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({
       console.error(error)
     }
   }
-
+  
   return (
     <div className="header">
       {headerType === "addVals" && (
@@ -74,6 +79,7 @@ const Header: React.FC<HeaderProps> = ({
       {headerType === "calendar" &&
         <div>יומן</div>
       }
+      <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} />
 
       <AddMealForm displayType={display} setDisplay={setDisplay} />
     </div>

@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { formatDiagnosticsWithColorAndContext } from "typescript";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import Header from "../../components/header/Header"
 import Navbar from "../../components/navbar/Navbar"
@@ -14,6 +13,9 @@ import moment from "moment";
 import {Meal} from "../../features/openMeal/mealModel"
 import { openMealSelector } from "../../features/openMeal/openMealSlice";
 import { getLastMeal } from "../../features/openMeal/openMealAPI";
+import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
+import { Link } from "react-router-dom";
+import Menu from "../../components/menu/Menu";
 
 const Home = () => {
 
@@ -26,7 +28,8 @@ const Home = () => {
   const dispatch = useAppDispatch();
 
   const [meals, setMeals] = useState<Meal[]>([]);
-  const [date , setDate] = useState<any>(moment().format().slice(0,10));
+  const [date, setDate] = useState<any>(moment().format().slice(0, 10));
+  const [showMenu, setShowMenu] = useState<boolean>(false);
   const [openMealIsOpened, setOpenMealIsOpend] = useState<boolean>(false)
 
   const getTodayMeals = async () => {
@@ -59,15 +62,16 @@ const Home = () => {
 
   return (
     <div className="home">
-      <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} />
+      <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} setShowMenu={setShowMenu} showMenu={showMenu} />
       <Navbar navbarType="main" />
       <div className="home__container">
         {/* {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date}/>)} */}
         {!openMealIsOpened && <div dir="rtl">שלום {user?.first_name} אנא הזן מדדים</div>}
         {openMealIsOpened && <MealItem meal={openMeal!} setMeals={setMeals} date={date}/>}
       </div>
-      <ProgressBar meals={meals}/>
+      <ProgressBar meals={meals} />
       <SetBarProgressForm />
+      {showMenu && <Menu />}
     </div>
   )
 }
