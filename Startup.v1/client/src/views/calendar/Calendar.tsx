@@ -8,6 +8,7 @@ import { Meal } from "../home/Home";
 import MealItem from "../../components/mealItem/MealItem";
 import { Link } from "react-router-dom";
 import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
+import Menu from "../../components/menu/Menu";
 
 const Calendar = () => {
 
@@ -61,23 +62,7 @@ const Calendar = () => {
             <div className="calendar__container">
                 {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date} />)}
             </div>
-            {showMenu &&
-                <div className="menu-screen">
-                    <div className="menu__logo">
-                        <img src={sugarbitHeader} alt="sugar-bit-header" id="header" />
-                    </div>
-                    <div className="menu__items">
-                        <Link to="/calendar">יומן</Link>
-                        <Link to="/home">בית</Link>
-                        <Link to="">תזכורן</Link>
-                        <Link to="">דוחות</Link>
-                        <Link to="">הגדרות</Link>
-                        <Link to="">שתף</Link>
-                        <Link to="">מד סוכר</Link>
-                        <Link to="">הדרכות</Link>
-                    </div>
-                </div>
-            }
+            {showMenu && <Menu />}
         </div>
     )
 }
