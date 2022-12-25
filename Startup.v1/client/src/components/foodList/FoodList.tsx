@@ -1,5 +1,4 @@
 import axios from "axios";
-import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { FoodListItem } from "./foodListItem/FoodListItem";
@@ -7,7 +6,6 @@ import { Food } from "../../features/food/foodModel";
 import { useAppSelector } from "../../app/hooks";
 import { foodarraySelector } from "../../features/food/foodArraySlice";
 import { userSelector } from "../../features/user/userSlice";
-import { CarbsUnit } from "../../features/user/userModel";
 
 export const FoodList = () => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
