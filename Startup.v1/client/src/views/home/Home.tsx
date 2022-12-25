@@ -47,8 +47,11 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getLastMeal());
-    if (openMeal !== null && openMeal.meal_id) {
+    console.log(openMeal)
+    if (openMeal !== null && openMeal !== undefined) {
       setOpenMealIsOpend(true)
+    } else if (openMeal === undefined) {
+      setOpenMealIsOpend(false)
     } else {
       setOpenMealIsOpend(false)
     }
