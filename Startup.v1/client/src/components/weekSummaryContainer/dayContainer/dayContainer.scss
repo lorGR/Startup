@@ -1,0 +1,23 @@
+.day-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+
+    .bar-container {
+        height: 70%;
+        position: relative;
+        .bar {
+            background-color: green;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            p {
+                top: 0%;
+                left: 50%;
+                transform: translate(-50%, -80%);
+                position: absolute;
+            }
+        }
+    }
+}

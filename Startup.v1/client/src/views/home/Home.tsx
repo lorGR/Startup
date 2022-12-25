@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { formatDiagnosticsWithColorAndContext } from "typescript";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import Header from "../../components/header/Header"
 import Navbar from "../../components/navbar/Navbar"
@@ -11,6 +10,9 @@ import ProgressBar from "../../components/progressBar/ProgressBar";
 import SetBarProgressForm from "../../components/setBarProgressForm/SetBarProgressForm";
 import { getUserByCookie } from "../../features/user/userAPI";
 import moment from "moment";
+import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
+import { Link } from "react-router-dom";
+import Menu from "../../components/menu/Menu";
 
 export interface Meal {
   meal_id: number,
@@ -33,7 +35,8 @@ const Home = () => {
   const dispatch = useAppDispatch();
 
   const [meals, setMeals] = useState<Meal[]>([]);
-  const [date , setDate] = useState<any>(moment().format().slice(0,10));
+  const [date, setDate] = useState<any>(moment().format().slice(0, 10));
+  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const getTodayMeals = async () => {
     try {
@@ -53,14 +56,15 @@ const Home = () => {
 
   return (
     <div className="home">
-      <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} />
+      <Header headerType="addVals" addMealForm={addMealForm} setAddMealForm={setAddMealForm} setShowMenu={setShowMenu} showMenu={showMenu} />
       <Navbar navbarType="main" />
       <div className="home__container">
-        {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date}/>)}
-        
+        {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date} />)}
+
       </div>
-      <ProgressBar meals={meals}/>
+      <ProgressBar meals={meals} />
       <SetBarProgressForm />
+      {showMenu && <Menu />}
     </div>
   )
 }
