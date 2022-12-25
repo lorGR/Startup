@@ -20,7 +20,6 @@ export const FoodList = () => {
 
   useEffect(() => {
     checkUserPreference();
-    console.log(userPreference);
   }, []);
 
   function checkUserPreference() {
@@ -84,8 +83,6 @@ export const FoodList = () => {
         onChange={(e) => setUserSearch(e.target.value)}
         dir="rtl"
         type="text"
-        name="searchFood"
-        id="searchFood"
         placeholder="חפש"
       />
       {allFoodArray.map((foodItem: Food) => {
