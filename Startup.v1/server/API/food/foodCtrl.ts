@@ -25,7 +25,7 @@ export async function getFoodBySearch(req: express.Request, res: express.Respons
     const { userSearch } = req.body;
     if (!userSearch) throw new Error("Couldn't receive userSearch");
 
-    const sql = `SELECT * FROM food WHERE food_name LIKE '%${userSearch}%' `;
+    const sql = `SELECT * FROM food WHERE food_name LIKE '${userSearch}%' `;
 
     connection.query(sql, (err, result) => {
       try {
