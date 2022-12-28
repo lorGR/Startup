@@ -32,11 +32,13 @@
 
 #myProgress {
     width: 100%;
-    background-color: grey;
+    background-color: green;
+    border-radius: 1rem;
     cursor: pointer;
 }
 
 #myBar {
-    background-color: green;
+    background-color: rgb(53, 234, 53);
     height: 1.5rem;
+    border-radius: 1rem;
 }
