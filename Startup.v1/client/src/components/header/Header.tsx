@@ -7,19 +7,19 @@ import {
 import { emptyArray } from "../../features/food/foodArraySlice";
 import Hamburger from "../hamburger/Hamburger";
 import { useAppDispatch } from "./../../app/hooks";
-import { AddMealForm } from './../addMealForm/AddMealForm';
+import { AddMealForm } from "./../addMealForm/AddMealForm";
 
 interface HeaderProps {
   headerType: string;
-  setShowMenu?: CallableFunction,
-  showMenu?: boolean,
+  setShowMenu?: CallableFunction;
+  showMenu?: boolean;
   addMealForm?: boolean;
   setAddMealForm?: Function;
 }
 export enum DisplaySetting {
   NONE = "none",
   FLEX = "flex",
-  BLOCK = "block"
+  BLOCK = "block",
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -28,6 +28,7 @@ const Header: React.FC<HeaderProps> = ({
   setAddMealForm,
   setShowMenu,
   showMenu,
+
 }) => {
   const carbsCount = useAppSelector(carbsCounterSelector);
   const dispatch = useAppDispatch();
@@ -53,13 +54,12 @@ const Header: React.FC<HeaderProps> = ({
   };
   const handleAddMeal = () => {
     try {
-
-      setDisplay(DisplaySetting.FLEX);
+      console.log("trying to save serving");
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
-  
+  };
+
   return (
     <div className="header">
       {headerType === "addVals" && (
@@ -69,19 +69,22 @@ const Header: React.FC<HeaderProps> = ({
         <div className="flex" dir="rtl">
           <button onClick={handleCancelMeal}>X</button>
           <p> {carbsCount} פחמימות</p>
-          {carbsCount === 0 ?
-            <button disabled onClick={handleAddMeal}>V</button>
-            :
+          {carbsCount === 0 ? (
+            <button disabled onClick={handleAddMeal}>
+              V
+            </button>
+          ) : (
             <button onClick={handleAddMeal}>V</button>
-          }
+          )}
         </div>
       )}
-      {headerType === "calendar" &&
-        <div>יומן</div>
-      }
+      {headerType === "calendar" && <div>יומן</div>}
       <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} />
+        <AddMealForm
+          displayType={display}
+          setDisplay={setDisplay}
+        />
 
-      <AddMealForm displayType={display} setDisplay={setDisplay} />
     </div>
   );
 };
