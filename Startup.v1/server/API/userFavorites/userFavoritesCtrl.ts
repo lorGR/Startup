@@ -58,9 +58,9 @@ export function addToFavorites(req: express.Request, res: express.Response) {
           connection.query(sql, (error, result) => {
             try {
               if (error) throw error;
-              res.send({result})
+              res.send({ result })
             } catch (error) {
-              res.status(500).send({error: error.message});
+              res.status(500).send({ error: error.message });
             }
           })
         }
@@ -98,12 +98,12 @@ export async function deleteFromFavorite(
         if (error) throw error;
         if (result.affectedRows > 0) {
           const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protien, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}'`;
-          connection.query(sql, (error,result) => {
+          connection.query(sql, (error, result) => {
             try {
               if (error) throw error
-              res.send({result})
+              res.send({ result })
             } catch (error) {
-              res.status(500).send({error:error.message})
+              res.status(500).send({ error: error.message })
             }
           })
         }
@@ -117,3 +117,41 @@ export async function deleteFromFavorite(
     res.status(500).send({ error: error });
   }
 }
+
+export async function getUserFavirotesFoodBySearch(
+  req: express.Request,
+  res: express.Response
+) {
+  try {
+    const { userID } = req.cookies;
+    if (!userID)
+      throw new Error(
+        "Couldn't find cookie named userID on function getUserFavirotesFoodBySearch IN FILE userFavoritesCtrl"
+      );
+
+    const userId = decodeCookie(userID);
+    if (!userId)
+      throw new Error(
+        "Couldn't find userId from decodeCookie on FUNCTION getUserFavirotesFoodBySearch IN FILE userFavoritesCtrl"
+      );
+
+    const { userSearch } = req.body;
+    if (!userSearch) throw new Error("Couldn't receive userSearch from req.body ON FUNCTION getUserFavirotesFoodBySearch IN FILE userFavoritesCtrl");
+    const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protien, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}' AND food.food_name LIKE '%${userSearch}%' `;
+
+    connection.query(sql, (error, result) => {
+      try {
+        if (error) throw error;
+
+        res.send({ result });
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: error.message });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: error });
+  }
+}
+

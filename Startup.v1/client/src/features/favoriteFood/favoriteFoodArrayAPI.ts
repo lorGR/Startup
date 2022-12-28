@@ -42,3 +42,14 @@ export const getAllUserFavoriteFood = createAsyncThunk("get-all-food", async () 
     console.error(error);
   }
 });
+
+export const getUserFavoritesFoodBySearch = createAsyncThunk("get-favorite-food-by-search", async ({ userSearch }: { userSearch: string }) => {
+  try {
+    const { data } = await axios.post("/api/user-favorites/get-user-favorites-by=search", { userSearch });
+    if (!data) throw new Error("Couldn't receive data from axios POST 'get-user-favorites-by=search'");
+    const { result } = data;
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+})
