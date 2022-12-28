@@ -3,6 +3,7 @@
     align-items: center;
     justify-content: center;
     height: 15%;
+    padding: 5rem 0;
 }
 
 .flex {
@@ -10,17 +11,20 @@
 }
 
 :root {
-    --border: linear-gradient(127deg, rgba(212,237,254,1) 0%, rgba(48,167,250,1) 100%);
+    --border: linear-gradient(127deg, rgba(212, 237, 254, 1) 0%, rgba(48, 167, 250, 1) 100%);
 }
 
 .header__display {
     display: flex;
     align-items: center;
     gap: 1rem;
+
     .header__actions {
         button {
             background: none;
             border: none;
+            cursor: pointer;
+
             img {
                 width: 3.5rem;
             }
@@ -34,18 +38,21 @@
     height: 6.5rem;
     border-radius: 50%;
     border: 5px solid rgb(147, 202, 250);
-    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(158,214,253,1) 50%, rgb(38, 161, 249) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(158, 214, 253, 1) 50%, rgb(38, 161, 249) 100%);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    -webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.47);
+    box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.47);
 
     &__icon {
-        img{
+        img {
             width: 2.5rem;
         }
     }
+
     &__title {
         &__text {
             color: rgb(2, 73, 173);
@@ -54,10 +61,7 @@
     }
 }
 
-.circle:active, .circle:hover {
+.circle:active,
+.circle:hover {
     opacity: .85;
 }
-
-
-
-
