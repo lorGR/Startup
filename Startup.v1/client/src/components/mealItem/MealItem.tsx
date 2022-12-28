@@ -105,7 +105,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
         <p> פחמ׳ {meal.carbs}</p>
         <p>{meal.time.slice(0, 5)}</p>
       </div>
-      {type === "home" && openMeal?.opened_to_edit && <div className="dropdown-content ">
+      {type === "home" &&  <div className="dropdown-content ">
         {dropDown &&
           mealServings.length > 0 &&
           mealServings.map((mealServ) => {
