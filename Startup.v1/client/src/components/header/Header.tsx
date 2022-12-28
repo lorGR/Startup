@@ -8,6 +8,9 @@ import { emptyArray } from "../../features/food/foodArraySlice";
 import Hamburger from "../hamburger/Hamburger";
 import { useAppDispatch } from "./../../app/hooks";
 import { AddMealForm } from "./../addMealForm/AddMealForm";
+import iconPlus from "../../assets/images/header/iconPlus.png"
+import fullCheck from "../../assets/images/header/fullCheck.png";
+import fullCancel from "../../assets/images/header/fullCancel.png";
 
 interface HeaderProps {
   headerType: string;
@@ -63,7 +66,26 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div className="header">
       {headerType === "addVals" && (
-        <div onClick={handleAddMealForm}>הזן ערכים</div>
+        <div className="header__display" onClick={handleAddMealForm}>
+          <div className="header__actions">
+            <button>
+              <img src={fullCheck} alt="Check" />
+            </button>
+          </div>
+          <div className="circle">
+            <div className="circle__icon">
+              <img src={iconPlus} alt="plus icon" />
+            </div>
+            <div className="circle__title">
+              <p className="circle__title__text">הזן ערכים</p>
+            </div>
+          </div>
+          <div className="header__actions">
+            <button>
+              <img src={fullCancel} alt="Cancel" />
+            </button>
+          </div>
+        </div>
       )}
       {headerType === "carbsDisplay" && (
         <div className="flex" dir="rtl">
@@ -80,10 +102,10 @@ const Header: React.FC<HeaderProps> = ({
       )}
       {headerType === "calendar" && <div>יומן</div>}
       <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} />
-        <AddMealForm
-          displayType={display}
-          setDisplay={setDisplay}
-        />
+      <AddMealForm
+        displayType={display}
+        setDisplay={setDisplay}
+      />
 
     </div>
   );
