@@ -80,7 +80,7 @@ const Home = () => {
           <div dir="rtl">שלום {user?.first_name} אנא הזן מדדים</div>
         )}
         {openMeal && (
-          <MealItem meal={openMeal!} setMeals={setMeals} date={date} />
+          <MealItem meal={openMeal!} setMeals={setMeals} date={date} type={"home"}/>
         )}
       </div>
       <ProgressBar meals={meals} />

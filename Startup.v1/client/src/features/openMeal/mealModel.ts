@@ -7,4 +7,5 @@ export interface Meal {
     time: string,
     user_id: number,
     carbs_unit_type: string
+    opened_to_edit: number
   }
