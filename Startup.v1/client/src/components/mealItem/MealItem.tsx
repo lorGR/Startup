@@ -1,9 +1,13 @@
 import axios from "axios";
 import { stringify } from "querystring";
 import React, { useEffect, useState } from "react";
+import { useAppSelector } from "../../app/hooks";
 import { Food } from "../../features/food/foodModel";
 import {Meal} from "../../features/openMeal/mealModel"
+import { openMealSelector } from "../../features/openMeal/openMealSlice";
 import ServingItem from "./servingItem/ServingItem";
+import { useAppDispatch } from './../../app/hooks';
+import { deleteLastMeal } from './../../features/openMeal/openMealAPI';
 
 interface MealItemProps {
   meal: Meal;
@@ -14,6 +18,8 @@ interface MealItemProps {
 const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date }) => {
   const [mealServings, setMealServings] = useState<Food[]>([]);
   const [dropDown, setDropDown] = useState<boolean>(false);
+  const openMeal = useAppSelector(openMealSelector);
+  const dispatch = useAppDispatch()
 
   const handleClickMeal = async (event: any) => {
     try {
@@ -48,13 +54,12 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date }) => {
       event.preventDefault();
       event.stopPropagation();
       console.log("trying To delete");
-      const mealId = meal.meal_id;
-      const { data } = await axios.post("/api/meals/delete-meal-by-id", {
-        mealId,
-      });
-      console.log(data);
-      const { result } = data;
-      setMeals(result);
+      if (openMeal) {
+        const mealId = openMeal.meal_id;
+        if (mealId) dispatch(deleteLastMeal({mealId}))
+      }
+      handleCloseForm();
+      
     } catch (error) {
       console.error(error);
     }
