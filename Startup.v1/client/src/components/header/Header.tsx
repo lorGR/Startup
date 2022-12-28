@@ -8,7 +8,7 @@ import { emptyArray, foodarraySelector } from "../../features/food/foodArraySlic
 import Hamburger from "../hamburger/Hamburger";
 import { useAppDispatch } from "./../../app/hooks";
 import { AddMealForm } from "./../addMealForm/AddMealForm";
-import axios  from 'axios';
+import axios from 'axios';
 import { openMealSelector } from "../../features/openMeal/openMealSlice";
 import { useNavigate } from 'react-router-dom';
 import iconPlus from "../../assets/images/header/iconPlus.png"
@@ -67,11 +67,11 @@ const Header: React.FC<HeaderProps> = ({
     try {
       if (openMeal && openMeal.meal_id) {
         const mealId = openMeal.meal_id;
-        const {data} = await axios.post("/api/servings/add-servings-to-meal", {mealId, foodArray, carbs});
+        const { data } = await axios.post("/api/servings/add-servings-to-meal", { mealId, foodArray, carbs });
         console.log(data);
         navigate("/home")
       }
-     
+
     } catch (error) {
       console.error(error);
     }
@@ -102,16 +102,35 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       )}
       {headerType === "carbsDisplay" && (
-        <div className="flex" dir="rtl">
-          <button onClick={handleCancelMeal}>X</button>
-          <p> {carbsCount} פחמימות</p>
-          {carbsCount === 0 ? (
-            <button disabled onClick={handleAddMeal}>
-              V
+        <div className="header__display">
+
+          <div className="header__actions">
+            {carbsCount === 0 ? (
+              <button disabled onClick={handleAddMeal}>
+                <img src={fullCheck} alt="Check" />
+              </button>
+            ) : (
+              <button onClick={handleAddMeal}>
+                <img src={fullCheck} alt="Check" />
+              </button>
+            )}
+          </div>
+
+          <div className="circle" onClick={handleAddMealForm}>
+            <div className="circle__icon">
+              <img src={iconPlus} alt="plus icon" />
+              <p>{carbsCount}</p>
+            </div>
+            <div className="circle__title">
+              <p className="circle__title__text">פחמימות</p>
+            </div>
+          </div>
+
+          <div className="header__actions">
+            <button onClick={handleCancelMeal}>
+              <img src={fullCancel} alt="Cancel" />
             </button>
-          ) : (
-            <button onClick={handleAddMeal}>V</button>
-          )}
+          </div>
         </div>
       )}
       {headerType === "calendar" && <div>יומן</div>}
