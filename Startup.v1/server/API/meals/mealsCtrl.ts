@@ -294,23 +294,64 @@ export async function getMealsByDate(
   }
 }
 
-export async function getLastMeal(req:express.Request, res:express.Response) {
+export async function getLastMeal(req: express.Request, res: express.Response) {
   try {
-    const {userID} = req.cookies;
+    const { userID } = req.cookies;
     const userId = decodeCookie(userID);
-    if(!userId) throw new Error("no userId can be decoded on FUNCTION getLastMeal IN FILE mealsCtrl");
+    if (!userId)
+      throw new Error(
+        "no userId can be decoded on FUNCTION getLastMeal IN FILE mealsCtrl"
+      );
     const date = getCurrentDate();
     const sql = `SELECT * from meals WHERE user_id = "${userId}" AND date = '${date}' ORDER BY meal_id DESC LIMIT 1`;
 
     connection.query(sql, (error, result) => {
       try {
         if (error) throw error;
-        res.send({result})
+        res.send({ result });
       } catch (error) {
-        res.status(500).send({error: error.message})
+        res.status(500).send({ error: error.message });
       }
-    })
+    });
   } catch (error) {
-    res.status(500).send({error: error.message})
+    res.status(500).send({ error: error.message });
+  }
+}
+
+export async function deleteLastMeal(
+  req: express.Request,
+  res: express.Response
+) {
+  try {
+    const { mealId } = req.body;
+    const { userID } = req.cookies;
+    const userId = decodeCookie(userID);
+    if (!userId)
+      throw new Error(
+        "no userId can be decoded on FUNCTION getLastMeal IN FILE mealsCtrl"
+      );
+    const date = getCurrentDate();
+
+    const sql = `DELETE FROM meals WHERE (meal_id = '${mealId}')`;
+
+    connection.query(sql, (error, result) => {
+      try {
+        if (error) throw error;
+
+        const sql = `SELECT * from meals WHERE user_id = "${userId}" AND date = '${date}' ORDER BY meal_id DESC LIMIT 1`;
+        connection.query(sql, (error, result) => {
+          try {
+            if (error) throw error;
+            res.send({result})
+          } catch (error) {
+            res.status(500).send({error: error.message})
+          }
+        })
+      } catch (error) {
+        res.status(500).send({ error: error.message });
+      }
+    });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
   }
 }
