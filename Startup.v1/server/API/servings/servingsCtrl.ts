@@ -3,7 +3,7 @@ import { connection } from "../../DB/databaseSQL";
 
 export async function addServingToMeal(req: express.Request, res: express.Response) {
     try {
-        const { mealId, foodArray } = req.body;
+        const { mealId, foodArray, carbs } = req.body;
         if (!mealId || !foodArray) throw new Error("Couldn't receive mealId/foodArray from req.body ON addServingToMeal IN servingsCtrl");
 
         const sql = `SELECT * FROM meals WHERE meal_id = ${mealId}`; 
@@ -27,14 +27,23 @@ export async function addServingToMeal(req: express.Request, res: express.Respon
                     await connection.query(sql, (err, result) => {
                         try {
                             if(err) throw err;
+                            const sql = `UPDATE meals SET carbs = '${carbs}' WHERE (meal_id = '${mealId}')`;
+                            connection.query(sql, (error, result) => {
+                                try {
+                                    if (error) throw error;
+                                   
+                                } catch (error) {
+                                    res.status(500).send({error: error.message})
+                                }
+                            })
                         } catch (error) {
                             console.log(error);
                             res.status(500).send({ error: error.message });
                         }
                     })
                 })
-                
-                res.send({status: true, msg: "Meal sucssecfully added"});
+                res.send({result})
+                // res.send({status: true, msg: "Meal sucssecfully added"});
             } catch (error) {
                 res.status(500).send({error: error.message})
             }

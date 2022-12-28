@@ -4,10 +4,13 @@ import {
   carbsCounterSelector,
   resetCarbs,
 } from "../../features/carbs/carbsSlice";
-import { emptyArray } from "../../features/food/foodArraySlice";
+import { emptyArray, foodarraySelector } from "../../features/food/foodArraySlice";
 import Hamburger from "../hamburger/Hamburger";
 import { useAppDispatch } from "./../../app/hooks";
 import { AddMealForm } from "./../addMealForm/AddMealForm";
+import axios  from 'axios';
+import { openMealSelector } from "../../features/openMeal/openMealSlice";
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   headerType: string;
@@ -31,8 +34,13 @@ const Header: React.FC<HeaderProps> = ({
 
 }) => {
   const carbsCount = useAppSelector(carbsCounterSelector);
-  const dispatch = useAppDispatch();
   const [display, setDisplay] = useState<string>(DisplaySetting.NONE);
+  const openMeal = useAppSelector(openMealSelector);
+  const foodArray = useAppSelector(foodarraySelector);
+  const carbs = useAppSelector(carbsCounterSelector);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
 
   const handleAddMealForm = () => {
     try {
@@ -52,9 +60,15 @@ const Header: React.FC<HeaderProps> = ({
       console.error(error);
     }
   };
-  const handleAddMeal = () => {
+  const handleAddMeal = async () => {
     try {
-      console.log("trying to save serving");
+      if (openMeal && openMeal.meal_id) {
+        const mealId = openMeal.meal_id;
+        const {data} = await axios.post("/api/servings/add-servings-to-meal", {mealId, foodArray, carbs});
+        console.log(data);
+        navigate("/home")
+      }
+     
     } catch (error) {
       console.error(error);
     }

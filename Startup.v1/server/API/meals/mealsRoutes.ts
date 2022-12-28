@@ -7,7 +7,6 @@ import {
   deleteMealById,
   getMealsByDate,
   getLastMeal,
-  deleteLastMeal
 } from "./mealsCtrl";
 
 const router = express.Router();
@@ -20,5 +19,4 @@ router
   .post("/update-meal-serving-amount", updateMealServing)
   .post("/delete-meal-by-id", deleteMealById)
   .post("/get-meals-by-date", getMealsByDate)
-  .post("/delete-last-meal", deleteLastMeal)
 export default router;
