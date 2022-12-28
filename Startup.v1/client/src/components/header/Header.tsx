@@ -80,13 +80,13 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div className="header">
       {headerType === "addVals" && (
-        <div className="header__display" onClick={handleAddMealForm}>
+        <div className="header__display">
           <div className="header__actions">
             <button>
               <img src={fullCheck} alt="Check" />
             </button>
           </div>
-          <div className="circle">
+          <div className="circle" onClick={handleAddMealForm}>
             <div className="circle__icon">
               <img src={iconPlus} alt="plus icon" />
             </div>
