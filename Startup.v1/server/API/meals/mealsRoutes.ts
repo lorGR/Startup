@@ -7,6 +7,7 @@ import {
   deleteMealById,
   getMealsByDate,
   getLastMeal,
+  closeOpenMeal
 } from "./mealsCtrl";
 
 const router = express.Router();
@@ -19,4 +20,5 @@ router
   .post("/update-meal-serving-amount", updateMealServing)
   .post("/delete-meal-by-id", deleteMealById)
   .post("/get-meals-by-date", getMealsByDate)
+  .post("/close-open-meal", closeOpenMeal)
 export default router;

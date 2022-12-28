@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({
       console.error(error);
     }
   };
-  const handleAddMeal = async () => {
+  const handleAddServingsToMeal = async () => {
     try {
       if (openMeal && openMeal.meal_id) {
         const mealId = openMeal.meal_id;
@@ -76,17 +76,26 @@ const Header: React.FC<HeaderProps> = ({
       console.error(error);
     }
   };
+  const handleCloseOpenMeal = async () => {
+    try {
+      const mealId = openMeal?.meal_id
+      const {data} = await axios.post("/api/meals/close-open-meal", {mealId})
+      console.log(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <div className="header">
       {headerType === "addVals" && (
-        <div className="header__display" onClick={handleAddMealForm}>
+        <div className="header__display" >
           <div className="header__actions">
-            <button>
+            <button onClick={handleCloseOpenMeal}>
               <img src={fullCheck} alt="Check" />
             </button>
           </div>
-          <div className="circle">
+          <div className="circle" onClick={handleAddMealForm}>
             <div className="circle__icon">
               <img src={iconPlus} alt="plus icon" />
             </div>
@@ -106,11 +115,11 @@ const Header: React.FC<HeaderProps> = ({
           <button onClick={handleCancelMeal}>X</button>
           <p> {carbsCount} פחמימות</p>
           {carbsCount === 0 ? (
-            <button disabled onClick={handleAddMeal}>
+            <button disabled onClick={handleAddServingsToMeal}>
               V
             </button>
           ) : (
-            <button onClick={handleAddMeal}>V</button>
+            <button onClick={handleAddServingsToMeal}>V</button>
           )}
         </div>
       )}
