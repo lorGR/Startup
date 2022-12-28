@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Food } from '../food/foodModel';
-import { getAllUserFavoriteFood, addFoodToUserFavorites, removeFoodToUserFavorite } from './favoriteFoodArrayAPI';
+import { getAllUserFavoriteFood, addFoodToUserFavorites, removeFoodToUserFavorite, getUserFavoritesFoodBySearch } from './favoriteFoodArrayAPI';
 import { Status } from "../user/userSlice";
 
 export interface FavoriteFoodArrayState {
@@ -48,9 +48,18 @@ export const favoriteFoodArraySlice = createSlice({
             state.value = action.payload;
         })
         .addCase(removeFoodToUserFavorite.rejected, (state) => {
-            state.status = Status.FAILED
+            state.status = Status.FAILED;
         })
-        
+        .addCase(getUserFavoritesFoodBySearch.pending, (state) => {
+            state.status = Status.LOADING;
+        })
+        .addCase(getUserFavoritesFoodBySearch.fulfilled, (state, action) => {
+            state.status = Status.IDLE;
+            state.value = action.payload;
+        })
+        .addCase(getUserFavoritesFoodBySearch.rejected, (state) => {
+            state.status = Status.FAILED;
+        })
     }
 });
 
