@@ -100,6 +100,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date }) => {
           delete
         </span>
         <p>אינס׳ {meal.insulin}</p>
+        <p>סוכ' {meal.blood_sugar}</p>
         <p> פחמ׳ {meal.carbs}</p>
         <p>{meal.time.slice(0, 5)}</p>
       </div>

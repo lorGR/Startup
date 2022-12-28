@@ -42,3 +42,13 @@ export const deleteLastMeal = createAsyncThunk(
     }
   }
 );
+
+export const closeOpenMealFromEdit = createAsyncThunk("close-open-meal", async ({mealId}:{mealId:number}) =>{
+  try {
+    const {data} = await axios.post("/api/meals/close-open-meal", {mealId});
+    const {result} = data;
+    return result[0];
+  } catch (error) {
+    console.error(error)
+  }
+})
