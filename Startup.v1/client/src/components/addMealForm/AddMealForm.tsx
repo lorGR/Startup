@@ -79,7 +79,7 @@ export const AddMealForm: FC<AddMealFormProps> = ({
       event.target.elements.bloodSugarInput.value = "";
       event.target.elements.insulinInput.value = "";
       event.target.elements.carbsInput.value = "";
-      
+  
     } catch (error) {
       console.error(error);
     }
