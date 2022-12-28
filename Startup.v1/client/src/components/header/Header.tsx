@@ -48,8 +48,8 @@ const Header: React.FC<HeaderProps> = ({
   };
   const handleAddMeal = () => {
     try {
-
-      setDisplay(DisplaySetting.FLEX);
+      console.log("trying to save serving");
+      
     } catch (error) {
       console.error(error)
     }
