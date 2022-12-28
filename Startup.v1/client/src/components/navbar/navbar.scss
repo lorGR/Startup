@@ -1,7 +1,22 @@
 .navbar {
     height: 5%;
+    width: 100%;
+    margin-bottom: .25rem;
     nav {
         display: flex;
-        justify-content: space-evenly;
+        gap: 1rem;
+        a {
+            cursor: pointer;
+            text-decoration: none;
+            color: rgb(1, 48, 128);
+            background-color: rgba(255, 255, 255, .6);
+            min-height: 100%;
+            padding: 0 .25rem;
+            border-radius: .25rem;
+        }
+        .active {
+            background: linear-gradient(202deg, rgba(165,209,249,1) 0%, rgba(194,228,251,1) 50%, rgba(165,209,249,1) 100%);
+            scale: 105%;
+        }
     }
 }

@@ -73,7 +73,7 @@ const Home = () => {
         showMenu={showMenu}
 
       />
-      <Navbar navbarType="main" />
+      <Navbar navbarType="main" activeNav="home"/>
       <div className="home__container">
         {/* {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date}/>)} */}
         {!openMeal && (
