@@ -4,6 +4,6 @@ import { getAllFood } from "./foodCtrl";
 const router = express.Router();
 
 router
-.get("/get-all-food", getAllFood)
+    .get("/get-all-food", getAllFood)
 
 export default router;

@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import moment from "moment";
+import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
 import WeekSummaryContainer, { SummaryTypeDisplay } from "../../components/weekSummaryContainer/WeekSummaryContainer";
+import { Link } from "react-router-dom";
+import Menu from "../../components/menu/Menu";
 
 const Graph = () => {
 
     const [week, setWeek] = useState<any>(moment());
     const [weekOverview, setWeekOverview] = useState<any>();
+    const [showMenu, setShowMenu] = useState<boolean>(false);
 
     useEffect(() => {
         const startWeek = week.clone().startOf('week');
@@ -29,7 +33,7 @@ const Graph = () => {
 
     return (
         <div className="graph">
-            <Header headerType="calendar" />
+            <Header headerType="calendar" showMenu={showMenu} setShowMenu={setShowMenu} />
             <Navbar navbarType="calendar" />
             <div className="container">
                 <div style={{ textAlign: 'center' }}>
@@ -44,6 +48,7 @@ const Graph = () => {
                     <WeekSummaryContainer summaryTypeDisplay={SummaryTypeDisplay.INSULIN} week={week} />
                 </div>
             </div>
+            {showMenu && <Menu />}
         </div>
     );
 }
