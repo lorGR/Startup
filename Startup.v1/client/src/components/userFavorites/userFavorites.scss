@@ -18,4 +18,9 @@
 .foodList-favorites {
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  height: 72.5%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

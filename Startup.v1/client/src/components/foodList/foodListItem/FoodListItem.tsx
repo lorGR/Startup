@@ -121,7 +121,7 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
 
   if(unit === "portion") {
   return (
-    <div className="flex" style={{ display: "flex", alignItems: "center" }}>
+    <div className="flex food-item">
       <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
       <label
         onClick={handleAddFoodToArray}
@@ -144,7 +144,7 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
     </div>
   ); } else {
     return (
-      <div className="flex" style={{ display: "flex", alignItems: "center" }}>
+      <div className="flex food-item">
         <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
         <label
           onClick={handleAddFoodToArray}
