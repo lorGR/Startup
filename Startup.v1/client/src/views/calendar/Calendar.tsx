@@ -60,7 +60,7 @@ const Calendar = () => {
                 <button onClick={handleDayBack}>&gt;</button>
             </div>
             <div className="calendar__container">
-                {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date} />)}
+                {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date} type={"calendar"}/>)}
             </div>
             {showMenu && <Menu />}
         </div>

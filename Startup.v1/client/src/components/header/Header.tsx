@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import iconPlus from "../../assets/images/header/iconPlus.png"
 import fullCheck from "../../assets/images/header/fullCheck.png";
 import fullCancel from "../../assets/images/header/fullCancel.png";
+import { closeOpenMealFromEdit } from "../../features/openMeal/openMealAPI";
 import apple from "../../assets/images/header/apple.png";
 
 interface HeaderProps {
@@ -79,9 +80,8 @@ const Header: React.FC<HeaderProps> = ({
   };
   const handleCloseOpenMeal = async () => {
     try {
-      const mealId = openMeal?.meal_id
-      const {data} = await axios.post("/api/meals/close-open-meal", {mealId})
-      console.log(data)
+      const mealId = openMeal?.meal_id;
+      if(openMeal && mealId) dispatch(closeOpenMealFromEdit({mealId}))
     } catch (error) {
       console.error(error)
     }
