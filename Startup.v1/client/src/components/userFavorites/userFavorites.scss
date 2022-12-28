@@ -20,6 +20,7 @@
   flex-direction: column;
   overflow-y: scroll;
   height: 72.5%;
+  background-color: rgba(255, 255, 255, .9);
   &::-webkit-scrollbar {
     display: none;
   }
