@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({
       console.error(error);
     }
   };
-  const handleAddMeal = async () => {
+  const handleAddServingsToMeal = async () => {
     try {
       if (openMeal && openMeal.meal_id) {
         const mealId = openMeal.meal_id;
@@ -76,13 +76,22 @@ const Header: React.FC<HeaderProps> = ({
       console.error(error);
     }
   };
+  const handleCloseOpenMeal = async () => {
+    try {
+      const mealId = openMeal?.meal_id
+      const {data} = await axios.post("/api/meals/close-open-meal", {mealId})
+      console.log(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <div className="header">
       {headerType === "addVals" && (
-        <div className="header__display">
+        <div className="header__display" >
           <div className="header__actions">
-            <button>
+            <button onClick={handleCloseOpenMeal}>
               <img src={fullCheck} alt="Check" />
             </button>
           </div>

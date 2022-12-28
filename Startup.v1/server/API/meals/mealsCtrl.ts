@@ -355,3 +355,21 @@ export async function deleteLastMeal(
     res.status(500).send({ error: error.message });
   }
 }
+
+export async function closeOpenMeal(req:express.Request, res:express.Response) {
+  try {
+    const {mealId} = req.body;
+    if (!mealId) throw new Error("Couldn't receive mealId on FUNCTION closeOpenMeal IN FILE mealsCtrl");
+
+    const sql = `UPDATE meals SET opend_to_edit = '0' WHERE (meal_id = '${mealId}')`;
+    connection.query(sql, (error, result) => {
+      try {
+        
+      } catch (error) {
+        res.status(500).send({error: error.message})
+      }
+    })
+  } catch (error) {
+    res.status(500).send({error: error.message})
+  }
+}
