@@ -51,8 +51,15 @@
     box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.47);
 
     &__icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         img {
             width: 2.5rem;
+        }
+        p{
+            text-align: center;
+            color: green;
         }
     }
 
@@ -61,6 +68,9 @@
             color: rgb(2, 73, 173);
             font-weight: 600;
         }
+    }
+    .circle__title__text--green {
+        color: green;
     }
 }
 

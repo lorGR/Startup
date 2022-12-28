@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import iconPlus from "../../assets/images/header/iconPlus.png"
 import fullCheck from "../../assets/images/header/fullCheck.png";
 import fullCancel from "../../assets/images/header/fullCancel.png";
+import apple from "../../assets/images/header/apple.png";
 
 interface HeaderProps {
   headerType: string;
@@ -127,11 +128,11 @@ const Header: React.FC<HeaderProps> = ({
 
           <div className="circle" onClick={handleAddMealForm}>
             <div className="circle__icon">
-              <img src={iconPlus} alt="plus icon" />
+              <img src={apple} alt="plus icon" />
               <p>{carbsCount}</p>
             </div>
             <div className="circle__title">
-              <p className="circle__title__text">פחמימות</p>
+              <p className="circle__title__text circle__title__text--green">פחמימות</p>
             </div>
           </div>
 
