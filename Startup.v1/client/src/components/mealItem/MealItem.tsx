@@ -12,10 +12,11 @@ import { deleteLastMeal } from './../../features/openMeal/openMealAPI';
 interface MealItemProps {
   meal: Meal;
   setMeals: CallableFunction;
-  date: string
+  date: string,
+  type: string
 }
 
-const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date }) => {
+const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
   const [mealServings, setMealServings] = useState<Food[]>([]);
   const [dropDown, setDropDown] = useState<boolean>(false);
   const openMeal = useAppSelector(openMealSelector);
@@ -104,7 +105,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date }) => {
         <p> פחמ׳ {meal.carbs}</p>
         <p>{meal.time.slice(0, 5)}</p>
       </div>
-      <div className="dropdown-content ">
+      {type === "home" && openMeal?.opened_to_edit && <div className="dropdown-content ">
         {dropDown &&
           mealServings.length > 0 &&
           mealServings.map((mealServ) => {
@@ -118,7 +119,23 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date }) => {
               />
             );
           })}
-      </div>
+      </div>}
+      {type === "calendar" && <div className="dropdown-content ">
+        {dropDown &&
+          mealServings.length > 0 &&
+          mealServings.map((mealServ) => {
+            return (
+              <ServingItem
+                key={mealServ.serving_id}
+                mealServ={mealServ}
+                setMealServings={setMealServings}
+                setMeals={setMeals}
+                date={date}
+              />
+            );
+          })}
+      </div>}
+      
       <form
         onSubmit={handleDeleteMeal}
         className="messege_container"
