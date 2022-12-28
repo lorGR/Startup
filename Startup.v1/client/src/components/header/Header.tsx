@@ -115,11 +115,11 @@ const Header: React.FC<HeaderProps> = ({
 
           <div className="header__actions">
             {carbsCount === 0 ? (
-              <button disabled onClick={handleAddMeal}>
+              <button disabled onClick={handleAddServingsToMeal}>
                 <img src={fullCheck} alt="Check" />
               </button>
             ) : (
-              <button onClick={handleAddMeal}>
+              <button onClick={handleAddServingsToMeal}>
                 <img src={fullCheck} alt="Check" />
               </button>
             )}
