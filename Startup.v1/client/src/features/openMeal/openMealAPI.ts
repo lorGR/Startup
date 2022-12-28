@@ -32,7 +32,7 @@ export const deleteLastMeal = createAsyncThunk(
   "delete-last-meal",
   async ({ mealId }: { mealId: number }) => {
     try {
-      const { data } = await axios.post("/api/meals/delete-last-meal", {
+      const { data } = await axios.post("/api/meals/delete-meal-by-id", {
         mealId,
       });
       const { result } = data;
