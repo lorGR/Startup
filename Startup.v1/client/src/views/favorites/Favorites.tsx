@@ -10,7 +10,11 @@ const Favorites = () => {
 
   return (
     <div className="favorites">
-      <Header headerType="carbsDisplay" setShowMenu={setShowMenu} showMenu={showMenu} />
+      <Header
+        headerType="carbsDisplay"
+        setShowMenu={setShowMenu}
+        showMenu={showMenu}
+      />
       <Navbar navbarType="main" />
       {showMenu && <Menu />}
     </div>
