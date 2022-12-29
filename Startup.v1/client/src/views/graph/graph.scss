@@ -8,7 +8,8 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-
+        background: linear-gradient(0deg, rgba(242, 247, 251, 1) 0%, rgba(165, 225, 249, 0.8519782913165266) 100%);
+        border-radius: .25rem;
         .week-selector {
             display: flex;
             justify-content: center;
@@ -18,8 +19,7 @@
             padding: .5rem 0;
             border-top-left-radius: .25rem;
             border-top-right-radius: .25rem;
-            -webkit-box-shadow: 0px 25px 10px -7px rgba(8, 70, 163, 0.65);
-            box-shadow: 0px 25px 10px -7px rgba(0, 60, 150, 0.65);
+            box-shadow: 0px 20px 50px -8px rgba(1, 111, 151, 0.65);
 
             button {
                 background: none;
@@ -36,7 +36,7 @@
             gap: 1rem;
             border-bottom-left-radius: .25rem;
             border-bottom-right-radius: .25rem;
-            background: linear-gradient(0deg, rgba(242, 247, 251, 1) 0%, rgba(165, 225, 249, 0.8519782913165266) 100%);
+            
 
             h3 {
                 text-align: center;
