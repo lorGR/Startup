@@ -73,14 +73,14 @@ const Home = () => {
         showMenu={showMenu}
 
       />
-      <Navbar navbarType="main" activeNav="home"/>
+      <Navbar navbarType="main" />
       <div className="home__container">
         {/* {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date}/>)} */}
         {!openMeal && (
           <div dir="rtl">שלום {user?.first_name} אנא הזן מדדים</div>
         )}
         {openMeal && (
-          <MealItem meal={openMeal!} setMeals={setMeals} date={date} type={"home"}/>
+          <MealItem meal={openMeal!} setMeals={setMeals} date={date} type={"home"} />
         )}
       </div>
       <ProgressBar meals={meals} />

@@ -3,40 +3,43 @@ import { NavLink } from "react-router-dom";
 import home from "../../assets/images/navbar/home.png";
 import list from "../../assets/images/navbar/list.png";
 import favorites from "../../assets/images/navbar/favorites.png";
+import graph from "../../assets/images/navbar/graph.png";
+import calendar from "../../assets/images/navbar/calendar.png";
 import NavItem from "./navItem/NavItem";
+
 
 interface NavbarProps {
     navbarType: string,
-    activeNav?: string,
+
 }
 
-const Navbar: React.FC<NavbarProps> = ({ navbarType, activeNav }) => {
+const Navbar: React.FC<NavbarProps> = ({ navbarType }) => {
 
     return (
         <div className="navbar">
             {navbarType === "main" &&
                 <nav>
                     <NavLink to="/list" className={({isActive}) => "nav-link" + (isActive ? " active" : "")}>
-                        <NavItem text="רשימה" icon={list} name="listIcon" active={activeNav} />
+                        <NavItem text="רשימה" icon={list} name="listIcon"/>
                     </NavLink>
                     <NavLink to="/favorites" className={({isActive}) => "nav-link" + (isActive ? " active" : "")}>
-                        <NavItem text="מועדפים" icon={favorites} name="favoritesIcon" active={activeNav} />
+                        <NavItem text="מועדפים" icon={favorites} name="favoritesIcon"/>
                     </NavLink>
                     <NavLink to="/home" className={({isActive}) => "nav-link" + (isActive ? " active" : "")}>
-                        <NavItem text="בית" icon={home} name="homeIcon" active={activeNav} />
+                        <NavItem text="בית" icon={home} name="homeIcon"/>
                     </NavLink>
                 </nav>
             }
             {navbarType === "calendar" &&
                 <nav>
-                    <NavLink to="/graph">
-                        תרשים
+                    <NavLink to="/graph" className={({isActive}) => "nav-link" + (isActive ? " active" : "")}>
+                        <NavItem text="תרשים" icon={graph} name="graphIcon"/>
                     </NavLink>
                     <NavLink to="/calendar">
-                        דו״ח יומי
+                        <NavItem text="דו״ח יומי" icon={calendar} name="calendarIcon"/>
                     </NavLink>
                     <NavLink to="/home">
-                        בית
+                        <NavItem text="בית" icon={home} name="homeIcon"/>
                     </NavLink>
                 </nav>
             }
