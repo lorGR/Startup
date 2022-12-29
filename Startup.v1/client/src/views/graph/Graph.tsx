@@ -6,6 +6,8 @@ import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
 import WeekSummaryContainer, { SummaryTypeDisplay } from "../../components/weekSummaryContainer/WeekSummaryContainer";
 import { Link } from "react-router-dom";
 import Menu from "../../components/menu/Menu";
+import arrowLeft from "../../assets/images/calendar/arrowLeft.png";
+import arrowRight from "../../assets/images/calendar/arrowRight.png";
 
 const Graph = () => {
 
@@ -36,13 +38,17 @@ const Graph = () => {
             <Header headerType="calendar" showMenu={showMenu} setShowMenu={setShowMenu} />
             <Navbar navbarType="calendar" />
             <div className="container">
-                <div style={{ textAlign: 'center' }}>
-                    <button onClick={handleFowardWeek}>&lt;</button>
-                    <span>{weekOverview}</span>
-                    <button onClick={handleBackWeek}>&gt;</button>
+                <div className="week-selector">
+                    <button onClick={handleFowardWeek}>
+                        <img src={arrowLeft} alt="week foward" />
+                    </button>
+                    <p>{weekOverview}</p>
+                    <button onClick={handleBackWeek}>
+                        <img src={arrowRight} alt="week backward" />
+                    </button>
                 </div>
-                <p>סיכום שבוע</p>
                 <div className="summary-container">
+                    <h3>סיכום שבוע</h3>
                     <WeekSummaryContainer summaryTypeDisplay={SummaryTypeDisplay.BLOOD_SUGAR} week={week} />
                     <WeekSummaryContainer summaryTypeDisplay={SummaryTypeDisplay.CARBS} week={week} />
                     <WeekSummaryContainer summaryTypeDisplay={SummaryTypeDisplay.INSULIN} week={week} />
