@@ -52,15 +52,15 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getLastMeal());
-    console.log(openMeal);
-    if (openMeal !== null && openMeal !== undefined) {
-      setOpenMealIsOpend(true);
-    } else if (openMeal === undefined) {
-      setOpenMealIsOpend(false);
-    } else {
-      setOpenMealIsOpend(false);
-    }
-    dispatch(getLastMeal());
+    // console.log(openMeal);
+    // if (openMeal !== null && openMeal !== undefined) {
+    //   setOpenMealIsOpend(true);
+    // } else if (openMeal === undefined) {
+    //   setOpenMealIsOpend(false);
+    // } else {
+    //   setOpenMealIsOpend(false);
+    // }
+    // dispatch(getLastMeal());
   }, [user]);
 
   return (
@@ -79,8 +79,11 @@ const Home = () => {
         {!openMeal && (
           <div dir="rtl">שלום {user?.first_name} אנא הזן מדדים</div>
         )}
-        {openMeal && (
-          <MealItem meal={openMeal!} setMeals={setMeals} date={date} type={"home"} />
+        {openMeal && openMeal.meal_id === 0 && (
+          <div dir="rtl">שלום {user?.first_name} אנא הזן מדדים</div>
+        )}
+        {openMeal && openMeal.meal_id !== 0 && (
+          <MealItem meal={openMeal!} setMeals={setMeals} date={date} type={"home"}/>
         )}
       </div>
       <ProgressBar meals={meals} />

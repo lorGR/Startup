@@ -119,7 +119,6 @@ export const AddMealForm: FC<AddMealFormProps> = ({
               name="carbsInput"
               id="carbsInput"
               placeholder="הזן כמות פחמימות"
-              value={totalCarbs}
             />
             <input
               type="number"
