@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../app/hooks";
 import {
   carbsCounterSelector,
@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import iconPlus from "../../assets/images/header/iconPlus.png"
 import fullCheck from "../../assets/images/header/fullCheck.png";
 import fullCancel from "../../assets/images/header/fullCancel.png";
-import { closeOpenMealFromEdit } from "../../features/openMeal/openMealAPI";
+import { closeOpenMealFromEdit, getLastMeal } from "../../features/openMeal/openMealAPI";
 import apple from "../../assets/images/header/apple.png";
 
 interface HeaderProps {
@@ -45,6 +45,10 @@ const Header: React.FC<HeaderProps> = ({
   const carbs = useAppSelector(carbsCounterSelector);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  
+  useEffect(() => {
+    dispatch(getLastMeal())
+  },[])
 
 
   const handleAddMealForm = () => {
@@ -61,6 +65,8 @@ const Header: React.FC<HeaderProps> = ({
       dispatch(emptyArray());
       dispatch(resetCarbs());
       window.location.reload();
+      console.log("this is after reload")
+     
     } catch (error) {
       console.error(error);
     }

@@ -368,6 +368,7 @@ export async function closeOpenMeal(req:express.Request, res:express.Response) {
         const sql = `SELECT * from meals WHERE meal_id = '${mealId}'`;
         connection.query(sql, (error, result) => {
           try {
+            console.log(result)
             res.send({result})
           } catch (error) {
             res.status(500).send({error: error.message})
