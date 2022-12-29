@@ -1,8 +1,9 @@
 .week-summary-container {
-    border: 1px solid black;
+    border: 2px solid white;
+    border-radius: .5rem;
     flex: 1;
     text-align: center;
-
+    background: linear-gradient(0deg, rgba(165,209,249,1) 0%, rgba(205,230,250,1) 70%, rgba(165,209,249,1) 100%);
     .days {
         display: flex;
         flex-direction: row-reverse;

@@ -28,6 +28,7 @@ const WeekSummaryContainer: React.FC<WeekSummaryContainerProps> = ({ summaryType
 
     const [maxSummary, setMaxSummary] = useState<any>();
     const [weekSummary, setWeekSummary] = useState<WeekSumary>();
+    const [graphColor, setGraphColor] = useState<string>();
 
     const getMaximumCarbsInWeek = async (weekDays: Object) => {
         try {
@@ -79,10 +80,13 @@ const WeekSummaryContainer: React.FC<WeekSummaryContainerProps> = ({ summaryType
 
         if (summaryTypeDisplay === SummaryTypeDisplay.BLOOD_SUGAR) {
             getMaximumAverageBloodSugarInWeek(weekDays);
+            setGraphColor("red");
         } else if (summaryTypeDisplay === SummaryTypeDisplay.CARBS) {
             getMaximumCarbsInWeek(weekDays);
+            setGraphColor("green");
         } else {
             getMaximumInsulinInWeek(weekDays);
+            setGraphColor("purple");
         }
 
     }, [week]);
@@ -91,13 +95,13 @@ const WeekSummaryContainer: React.FC<WeekSummaryContainerProps> = ({ summaryType
         <div className="week-summary-container">
             <h3>{summaryTypeDisplay}</h3>
             <div className="days">
-                <DayContainer displayDay="א" dayValue={weekSummary?.sunday} maxValue={maxSummary} />
-                <DayContainer displayDay="ב" dayValue={weekSummary?.monday} maxValue={maxSummary} />
-                <DayContainer displayDay="ג" dayValue={weekSummary?.tuesday} maxValue={maxSummary} />
-                <DayContainer displayDay="ד" dayValue={weekSummary?.wednesday} maxValue={maxSummary} />
-                <DayContainer displayDay="ה" dayValue={weekSummary?.thursday} maxValue={maxSummary} />
-                <DayContainer displayDay="ו" dayValue={weekSummary?.friday} maxValue={maxSummary} />
-                <DayContainer displayDay="ש" dayValue={weekSummary?.saturday} maxValue={maxSummary} />
+                <DayContainer displayDay="א" dayValue={weekSummary?.sunday} maxValue={maxSummary} graphColor={graphColor}/>
+                <DayContainer displayDay="ב" dayValue={weekSummary?.monday} maxValue={maxSummary} graphColor={graphColor}/>
+                <DayContainer displayDay="ג" dayValue={weekSummary?.tuesday} maxValue={maxSummary} graphColor={graphColor}/>
+                <DayContainer displayDay="ד" dayValue={weekSummary?.wednesday} maxValue={maxSummary} graphColor={graphColor}/>
+                <DayContainer displayDay="ה" dayValue={weekSummary?.thursday} maxValue={maxSummary} graphColor={graphColor}/>
+                <DayContainer displayDay="ו" dayValue={weekSummary?.friday} maxValue={maxSummary} graphColor={graphColor}/>
+                <DayContainer displayDay="ש" dayValue={weekSummary?.saturday} maxValue={maxSummary} graphColor={graphColor}/>
             </div>
         </div>
     );
