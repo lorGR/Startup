@@ -79,7 +79,10 @@ const Home = () => {
         {!openMeal && (
           <div dir="rtl">שלום {user?.first_name} אנא הזן מדדים</div>
         )}
-        {openMeal && (
+        {openMeal && openMeal.meal_id === 0 && (
+          <div dir="rtl">שלום {user?.first_name} אנא הזן מדדים</div>
+        )}
+        {openMeal && openMeal.meal_id !== 0 && (
           <MealItem meal={openMeal!} setMeals={setMeals} date={date} type={"home"}/>
         )}
       </div>

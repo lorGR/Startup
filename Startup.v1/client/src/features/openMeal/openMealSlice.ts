@@ -45,7 +45,21 @@ export const openMealSlice = createSlice({
       })
       .addCase(getLastMeal.fulfilled, (state, action) => {
         state.status = Status.IDLE;
-        state.value = action.payload;
+        if (!action.payload) {
+          state.value = {
+            meal_id: 0,
+            blood_sugar: 0,
+            carbs: 0,
+            insulin: 0,
+            date: "",
+            time: "",
+            user_id: 0,
+            carbs_unit_type: "gram",
+            opened_to_edit: 0,
+          };
+        } else {
+          state.value = action.payload;
+        }
       })
       .addCase(getLastMeal.rejected, (state) => {
         state.status = Status.FAILED;
