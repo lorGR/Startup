@@ -4,17 +4,23 @@ import {
   carbsCounterSelector,
   resetCarbs,
 } from "../../features/carbs/carbsSlice";
-import { emptyArray, foodarraySelector } from "../../features/food/foodArraySlice";
+import {
+  emptyArray,
+  foodarraySelector,
+} from "../../features/food/foodArraySlice";
 import Hamburger from "../hamburger/Hamburger";
 import { useAppDispatch } from "./../../app/hooks";
 import { AddMealForm } from "./../addMealForm/AddMealForm";
-import axios from 'axios';
+import axios from "axios";
 import { openMealSelector } from "../../features/openMeal/openMealSlice";
-import { useNavigate } from 'react-router-dom';
-import iconPlus from "../../assets/images/header/iconPlus.png"
+import { useNavigate } from "react-router-dom";
+import iconPlus from "../../assets/images/header/iconPlus.png";
 import fullCheck from "../../assets/images/header/fullCheck.png";
 import fullCancel from "../../assets/images/header/fullCancel.png";
-import { closeOpenMealFromEdit, getLastMeal } from "../../features/openMeal/openMealAPI";
+import {
+  closeOpenMealFromEdit,
+  getLastMeal,
+} from "../../features/openMeal/openMealAPI";
 import apple from "../../assets/images/header/apple.png";
 
 interface HeaderProps {
@@ -36,7 +42,6 @@ const Header: React.FC<HeaderProps> = ({
   setAddMealForm,
   setShowMenu,
   showMenu,
-
 }) => {
   const carbsCount = useAppSelector(carbsCounterSelector);
   const [display, setDisplay] = useState<string>(DisplaySetting.NONE);
@@ -45,11 +50,10 @@ const Header: React.FC<HeaderProps> = ({
   const carbs = useAppSelector(carbsCounterSelector);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  
-  useEffect(() => {
-    dispatch(getLastMeal())
-  },[])
 
+  useEffect(() => {
+    dispatch(getLastMeal());
+  }, []);
 
   const handleAddMealForm = () => {
     try {
@@ -65,8 +69,7 @@ const Header: React.FC<HeaderProps> = ({
       dispatch(emptyArray());
       dispatch(resetCarbs());
       window.location.reload();
-      console.log("this is after reload")
-     
+      console.log("this is after reload");
     } catch (error) {
       console.error(error);
     }
@@ -75,11 +78,13 @@ const Header: React.FC<HeaderProps> = ({
     try {
       if (openMeal && openMeal.meal_id) {
         const mealId = openMeal.meal_id;
-        const { data } = await axios.post("/api/servings/add-servings-to-meal", { mealId, foodArray, carbs });
+        const { data } = await axios.post(
+          "/api/servings/add-servings-to-meal",
+          { mealId, foodArray, carbs }
+        );
         console.log(data);
-        navigate("/home")
+        navigate("/home");
       }
-
     } catch (error) {
       console.error(error);
     }
@@ -87,16 +92,20 @@ const Header: React.FC<HeaderProps> = ({
   const handleCloseOpenMeal = async () => {
     try {
       const mealId = openMeal?.meal_id;
-      if(openMeal && mealId) dispatch(closeOpenMealFromEdit({mealId}))
+      if (openMeal && mealId) {
+        dispatch(closeOpenMealFromEdit({ mealId }));
+        dispatch(emptyArray());
+        dispatch(resetCarbs());
+      }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   return (
     <div className="header">
       {headerType === "addVals" && (
-        <div className="header__display" >
+        <div className="header__display">
           <div className="header__actions">
             <button onClick={handleCloseOpenMeal}>
               <img src={fullCheck} alt="Check" />
@@ -119,7 +128,6 @@ const Header: React.FC<HeaderProps> = ({
       )}
       {headerType === "carbsDisplay" && (
         <div className="header__display">
-
           <div className="header__actions">
             {carbsCount === 0 ? (
               <button disabled onClick={handleAddServingsToMeal}>
@@ -138,7 +146,9 @@ const Header: React.FC<HeaderProps> = ({
               <p>{carbsCount}</p>
             </div>
             <div className="circle__title">
-              <p className="circle__title__text circle__title__text--green">פחמימות</p>
+              <p className="circle__title__text circle__title__text--green">
+                פחמימות
+              </p>
             </div>
           </div>
 
@@ -151,11 +161,7 @@ const Header: React.FC<HeaderProps> = ({
       )}
       {headerType === "calendar" && <div>יומן</div>}
       <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} />
-      <AddMealForm
-        displayType={display}
-        setDisplay={setDisplay}
-      />
-
+      <AddMealForm displayType={display} setDisplay={setDisplay} />
     </div>
   );
 };

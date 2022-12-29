@@ -52,15 +52,15 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getLastMeal());
-    console.log(openMeal);
-    if (openMeal !== null && openMeal !== undefined) {
-      setOpenMealIsOpend(true);
-    } else if (openMeal === undefined) {
-      setOpenMealIsOpend(false);
-    } else {
-      setOpenMealIsOpend(false);
-    }
-    dispatch(getLastMeal());
+    // console.log(openMeal);
+    // if (openMeal !== null && openMeal !== undefined) {
+    //   setOpenMealIsOpend(true);
+    // } else if (openMeal === undefined) {
+    //   setOpenMealIsOpend(false);
+    // } else {
+    //   setOpenMealIsOpend(false);
+    // }
+    // dispatch(getLastMeal());
   }, [user]);
 
   return (
