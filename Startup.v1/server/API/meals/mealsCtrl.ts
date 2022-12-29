@@ -361,7 +361,7 @@ export async function closeOpenMeal(req:express.Request, res:express.Response) {
     const {mealId} = req.body;
     if (!mealId) throw new Error("Couldn't receive mealId on FUNCTION closeOpenMeal IN FILE mealsCtrl");
 
-    const sql = `UPDATE meals SET opend_to_edit = '0' WHERE (meal_id = '${mealId}')`;
+    const sql = `UPDATE meals SET opened_to_edit = '0' WHERE (meal_id = '${mealId}')`;
     connection.query(sql, (error, result) => {
       try {
         if (error) throw error;

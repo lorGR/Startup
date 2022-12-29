@@ -21,7 +21,6 @@ export const getLastMeal = createAsyncThunk("get-last-meal", async () => {
   try {
     const { data } = await axios.get("/api/meals/get-last-meal");
     const { result } = data;
-    console.log(data);
     return result[0];
   } catch (error) {
     console.error(error);

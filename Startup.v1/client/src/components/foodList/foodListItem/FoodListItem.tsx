@@ -9,16 +9,15 @@ import {
 import { addCarbs, removeCarbs } from "../../../features/carbs/carbsSlice";
 import { favoriteFoodarraySelector } from "./../../../features/favoriteFood/favoriteFoodArraySlice";
 import { removeFoodToUserFavorite } from "../../../features/favoriteFood/favoriteFoodArrayAPI";
-import {
-  addFoodToUserFavorites,
-} from "./../../../features/favoriteFood/favoriteFoodArrayAPI";
+import { addFoodToUserFavorites } from "./../../../features/favoriteFood/favoriteFoodArrayAPI";
 import { userSelector } from "../../../features/user/userSlice";
 import { CarbsUnit } from "../../../features/user/userModel";
+import { openMealSelector } from "../../../features/openMeal/openMealSlice";
 
 interface FoodItemProps {
   foodItem: Food;
   foodFavoritesArray?: Food[];
-  unit: string
+  unit: string;
 }
 
 export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
@@ -26,7 +25,8 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
   const foodArray = useAppSelector(foodarraySelector);
   const FavoriteFoodArray = useAppSelector(favoriteFoodarraySelector);
   const user = useAppSelector(userSelector);
-  
+  const openMeal = useAppSelector(openMealSelector);
+
   useEffect(() => {
     checkIfFoodIsAdded();
     checkIfFoodIsfavorite();
@@ -45,7 +45,6 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
         } else if (user?.carbs_unit === CarbsUnit.GRAM) {
           dispatch(removeCarbs(foodItem.carbs));
         }
-       
       } else {
         dispatch(addFood(foodItem));
         if (user?.carbs_unit === CarbsUnit.PORTION) {
@@ -53,7 +52,6 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
         } else if (user?.carbs_unit === "gram") {
           dispatch(addCarbs(foodItem.carbs));
         }
-       
       }
     } catch (error) {
       console.error(error);
@@ -119,52 +117,108 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
     }
   }
 
-  if(unit === "portion") {
-  return (
-    <div className="flex food-item">
-      <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
-      <label
-        onClick={handleAddFoodToArray}
-        className="test"
-        htmlFor={`${foodItem.food_id}`}
-      >
-        <div className="foodList__item">
-          <span
-            onClick={handletoggleFavorite}
-            id={`span${foodItem.food_id}`}
-            className={`material-symbols-outlined`}
-          >
-            star
-          </span>
-          <p className="foodList__item__start">{foodItem.food_name}</p>
-          <p className="foodList__item__center">{foodItem.unit}</p>
-          <p className="foodList__item__end">{foodItem.carbs_unit} גרם</p>
-        </div>
-      </label>
-    </div>
-  ); } else {
+  if (unit === "portion") {
     return (
       <div className="flex food-item">
-        <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
-        <label
-          onClick={handleAddFoodToArray}
-          className="test"
-          htmlFor={`${foodItem.food_id}`}
-        >
-          <div className="foodList__item">
-            <span
-              onClick={handletoggleFavorite}
-              id={`span${foodItem.food_id}`}
-              className={`material-symbols-outlined`}
+        {openMeal?.opened_to_edit === 1 && (
+          <div className="food-item-container">
+            <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
+            <label
+              onClick={handleAddFoodToArray}
+              className="test"
+              htmlFor={`${foodItem.food_id}`}
             >
-              star
-            </span>
-            <p className="foodList__item__start">{foodItem.food_name}</p>
-            <p className="foodList__item__center">100 ג׳</p>
-            <p className="foodList__item__end">{foodItem.carbs} ג׳</p>
+              <div className="foodList__item">
+                <span
+                  onClick={handletoggleFavorite}
+                  id={`span${foodItem.food_id}`}
+                  className={`material-symbols-outlined`}
+                >
+                  star
+                </span>
+                <p className="foodList__item__start">{foodItem.food_name}</p>
+                <p className="foodList__item__center">{foodItem.unit}</p>
+                <p className="foodList__item__end">{foodItem.carbs_unit} גרם</p>
+              </div>
+            </label>
           </div>
-        </label>
+        )}
+        {openMeal?.opened_to_edit === 0 && (
+          <div className="food-item-container">
+            <input
+              type="checkbox"
+              disabled
+              name="food"
+              id={`${foodItem.food_id}`}
+            />
+            <label className="test" htmlFor={`${foodItem.food_id}`}>
+              <div className="foodList__item">
+                <span
+                  id={`span${foodItem.food_id}`}
+                  className={`material-symbols-outlined`}
+                >
+                  star
+                </span>
+                <p className="foodList__item__start">{foodItem.food_name}</p>
+                <p className="foodList__item__center">{foodItem.unit}</p>
+                <p className="foodList__item__end">{foodItem.carbs_unit} גרם</p>
+              </div>
+            </label>
+          </div>
+        )}
       </div>
-    )
+    );
+  } else {
+    return (
+      <div className="flex food-item">
+        {openMeal?.opened_to_edit === 1 && (
+          <div className="food-item-container">
+            <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
+            <label
+              onClick={handleAddFoodToArray}
+              className="test"
+              htmlFor={`${foodItem.food_id}`}
+            >
+              <div className="foodList__item">
+                <span
+                  onClick={handletoggleFavorite}
+                  id={`span${foodItem.food_id}`}
+                  className={`material-symbols-outlined`}
+                >
+                  star
+                </span>
+                <p className="foodList__item__start">{foodItem.food_name}</p>
+                <p className="foodList__item__center">100 ג</p>
+                <p className="foodList__item__end">{foodItem.carbs} ג</p>
+              </div>
+            </label>
+          </div>
+        )}
+        {openMeal?.opened_to_edit === 0 && (
+          <div className="food-item-container">
+            <input
+              disabled
+              type="checkbox"
+              name="food"
+              id={`${foodItem.food_id}`}
+            />
+            <label className="test" htmlFor={`${foodItem.food_id}`}>
+              <div className="foodList__item">
+                <span
+                  onClick={handletoggleFavorite}
+                  id={`span${foodItem.food_id}`}
+                  className={`material-symbols-outlined`}
+                >
+                  star
+                </span>
+                <p className="foodList__item__start">{foodItem.food_name}</p>
+                <p className="foodList__item__center">100 ג</p>
+                <p className="foodList__item__end">{foodItem.carbs} ג</p>
+              </div>
+            </label>
+          </div>
+        )}
+      </div>
+    );
   }
 };
