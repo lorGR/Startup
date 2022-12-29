@@ -160,8 +160,8 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
               star
             </span>
             <p className="foodList__item__start">{foodItem.food_name}</p>
-            <p className="foodList__item__center">100 ג</p>
-            <p className="foodList__item__end">{foodItem.carbs} ג</p>
+            <p className="foodList__item__center">100 ג׳</p>
+            <p className="foodList__item__end">{foodItem.carbs} ג׳</p>
           </div>
         </label>
       </div>
