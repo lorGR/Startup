@@ -5,10 +5,11 @@ interface DayContainerProps {
     dayValue: number | null,
     maxValue?: any,
     day?: string,
-    summaryTypeDisplay?: SummaryTypeDisplay
+    summaryTypeDisplay?: SummaryTypeDisplay,
+    graphColor?: string 
 }
 
-const DayContainer: React.FC<DayContainerProps> = ({ displayDay, dayValue, maxValue }) => {
+const DayContainer: React.FC<DayContainerProps> = ({ displayDay, dayValue, maxValue, graphColor }) => {
 
     let barHeight;
 
@@ -27,7 +28,7 @@ const DayContainer: React.FC<DayContainerProps> = ({ displayDay, dayValue, maxVa
                 {displayDay}
             </p>
             <div className="bar-container">
-                <div style={{ height: barHeight }} className="bar">
+                <div style={{ height: barHeight }} className={`bar ${graphColor}`}>
                     <p>
                         {dayValue === 0 || dayValue === null ? "" : Math.round(dayValue!)}
                     </p>

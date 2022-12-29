@@ -4,7 +4,7 @@
     height: 72.5%;
     display: flex;
     flex-direction: column;
-    background-color: rgba(255, 255, 255, .9);
+    background: linear-gradient(0deg, rgba(242,247,251,1) 0%, rgba(165,225,249,0.8519782913165266) 100%);
 
     
 
@@ -65,7 +65,6 @@ input[type=checkbox] {
 .test {
     height: 2rem;
     width: 100%;
-    // border: 1px solid black;
     display: block;
     // display: flex;
     color: rgb(0, 0, 0);

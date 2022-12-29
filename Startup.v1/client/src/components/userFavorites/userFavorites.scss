@@ -20,7 +20,7 @@
   flex-direction: column;
   overflow-y: scroll;
   height: 72.5%;
-  &::-webkit-scrollbar {
+  background: linear-gradient(0deg, rgba(242,247,251,1) 0%, rgba(165,225,249,0.8519782913165266) 100%);  &::-webkit-scrollbar {
     display: none;
   }
 }
