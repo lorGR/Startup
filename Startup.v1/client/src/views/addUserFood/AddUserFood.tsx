@@ -30,6 +30,10 @@ const AddUserFood = () => {
     }
   }, [carbs, protein, fat]);
 
+  useEffect(()=> {
+    if(location.state) getFoodInformation();
+  },[])
+
   function handleShowAddSelect() {
     try {
       const formPortionType = document.querySelector(
@@ -76,6 +80,16 @@ const AddUserFood = () => {
       if(event.target.value !== "בסיס") {
         console.log("this is not basis")
       }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function getFoodInformation() {
+    try {
+      const foodId = location.state.id;
+      const {data} = await axios.post("/api/food/get-food-info", {foodId});
+      console.log(data)
     } catch (error) {
       console.error(error)
     }
@@ -144,7 +158,6 @@ const AddUserFood = () => {
           <button type="submit">הוסף אוכל</button>
         </form>
       </div>
-      <div>{location.state.id}</div>
       <form onSubmit={handleAddOption} className="add-portion-type">
         <input onChange={(e) => {setPortionName(e.target.value)}} type="text" placeholder="הגדר שם מנה חדשה" />
         <input onChange={(e)=> {setPortionSize(Number(e.target.value))}} type="number" placeholder="הגדר משקל מנה חדשה בגרמים" />

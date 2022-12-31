@@ -65,3 +65,17 @@ export async function getUserFood(req:express.Request, res:express.Response) {
     res.status(500).send({error:error.message})
   }
 }
+export async function getfoodInfo(req:express.Request, res:express.Response) {
+  try {
+    const {foodId} = req.body;
+    const { userID } = req.cookies;
+    if (!userID)
+      throw new Error("Couldn't find cookie named userID in updateUserInfo ON FUNCTION updateCarbsGoal IN FILE usersCtrl");
+
+    const userId = decodeCookie(userID);
+    if (!userId) throw new Error("Couldn't find userId from decodedUserId ON FUNCTION updateCarbsGoal IN FILE usersCtrl");
+
+  } catch (error) {
+    res.status(500).send({error: error.message})
+  }
+}
