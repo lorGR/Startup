@@ -40,3 +40,11 @@ export async function getFoodBySearch(req: express.Request, res: express.Respons
     res.status(500).send({ error: error.message });
   }
 }
+
+export async function getuserFood(req:express.Request, res:express.Response) {
+  try {
+    
+  } catch (error) {
+    res.status(500).send({error:error.message})
+  }
+}

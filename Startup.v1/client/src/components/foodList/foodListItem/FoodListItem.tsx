@@ -13,6 +13,7 @@ import { addFoodToUserFavorites } from "./../../../features/favoriteFood/favorit
 import { userSelector } from "../../../features/user/userSlice";
 import { CarbsUnit } from "../../../features/user/userModel";
 import { openMealSelector } from "../../../features/openMeal/openMealSlice";
+import axios from "axios";
 
 interface FoodItemProps {
   foodItem: Food;
@@ -114,6 +115,14 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
       }
     } catch (error) {
       console.error(error);
+    }
+  }
+  async function handleGetUserFood() {
+    try {
+      const {data} = await axios.get("/food/get-user-food")
+      console.log(data)
+    } catch (error) {
+      console.error(error)
     }
   }
 

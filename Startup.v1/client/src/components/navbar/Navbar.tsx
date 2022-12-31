@@ -10,7 +10,7 @@ import NavItem from "./navItem/NavItem";
 
 interface NavbarProps {
     navbarType: string,
-
+    disabled?: string
 }
 
 const Navbar: React.FC<NavbarProps> = ({ navbarType }) => {

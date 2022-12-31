@@ -80,9 +80,9 @@ const AddUserFood = () => {
   }
 
   return (
-    <div className="add-user-food">
-      <Header headerType="addVals"></Header>
-      <Navbar navbarType="main"></Navbar>
+    <div className="home">
+      <Header headerType="newItem"/>
+      <Navbar navbarType="main" disabled={"disabled"}/>
       <div dir="rtl">
         <form onSubmit={handleSubmit(onSubmit)} className="user-food">
           <input
