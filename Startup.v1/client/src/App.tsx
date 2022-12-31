@@ -45,7 +45,6 @@ function App() {
             <Route path="/add-food" element={<AddUserFood/>}/>
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/graph" element={<Graph />} />
-            <Route path="/add-item" element={<AddItem />} />
           </Routes>
         </BrowserRouter>
       </Screen>

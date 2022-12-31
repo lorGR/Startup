@@ -3,6 +3,7 @@ import Header from "../../components/header/Header";
 import Navbar from "./../../components/navbar/Navbar";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 interface SelectOption {
   value: string,
@@ -19,6 +20,7 @@ const AddUserFood = () => {
   const [selectOptions, setSelectOptions] = useState<SelectOption[]>([{value:"בסיס", size:100}]);
   const { register, handleSubmit } = useForm();
   const [calculateValues, setCalculateValues] = useState<boolean>(false);
+  const location = useLocation();
 
   useEffect(() => {
     try {
@@ -142,7 +144,7 @@ const AddUserFood = () => {
           <button type="submit">הוסף אוכל</button>
         </form>
       </div>
-
+      <div>{location.state.id}</div>
       <form onSubmit={handleAddOption} className="add-portion-type">
         <input onChange={(e) => {setPortionName(e.target.value)}} type="text" placeholder="הגדר שם מנה חדשה" />
         <input onChange={(e)=> {setPortionSize(Number(e.target.value))}} type="number" placeholder="הגדר משקל מנה חדשה בגרמים" />
