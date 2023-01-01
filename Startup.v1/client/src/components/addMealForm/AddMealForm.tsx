@@ -39,7 +39,7 @@ export const AddMealForm: FC<AddMealFormProps> = ({
       dateTime.getMonth() + 1
     }-${dateTime.getDate()}`;
     setCurrentDate(fullDate);
-
+    
     let hours: string | number = dateTime.getHours();
     if (hours.toString().length < 2) {
       hours = `0${hours}`;
