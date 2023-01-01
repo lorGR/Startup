@@ -24,7 +24,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
 
   const handleClickMeal = async (event: any) => {
     try {
-      if (openMeal?.opened_to_edit === 0) return;
+      console.log("trying to open")
       let mealId = null;
       if (event.target.nodeName === "P") {
         mealId = event.target.parentNode.id;
@@ -87,6 +87,9 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
       console.error(error);
     }
   };
+  useEffect(() => {
+    console.log(type)
+  },[])
 
   if (openMeal) {
     return (

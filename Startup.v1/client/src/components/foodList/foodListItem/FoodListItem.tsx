@@ -13,6 +13,8 @@ import { addFoodToUserFavorites } from "./../../../features/favoriteFood/favorit
 import { userSelector } from "../../../features/user/userSlice";
 import { CarbsUnit } from "../../../features/user/userModel";
 import { openMealSelector } from "../../../features/openMeal/openMealSlice";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface FoodItemProps {
   foodItem: Food;
@@ -26,10 +28,12 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
   const FavoriteFoodArray = useAppSelector(favoriteFoodarraySelector);
   const user = useAppSelector(userSelector);
   const openMeal = useAppSelector(openMealSelector);
+  const navigate = useNavigate();
 
   useEffect(() => {
     checkIfFoodIsAdded();
     checkIfFoodIsfavorite();
+    handleGetUserFood();
   }, []);
 
   function handleAddFoodToArray() {
@@ -88,6 +92,14 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
     }
   }
 
+  function handelEditItem() {
+    try {
+      navigate("/add-food", { state: { id: foodItem.food_id } });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async function handletoggleFavorite(event: any) {
     try {
       event.preventDefault();
@@ -116,6 +128,22 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
       console.error(error);
     }
   }
+  async function handleGetUserFood() {
+    try {
+      const { data } = await axios.get("/api/food/get-user-food");
+      const { result } = data;
+      result.forEach((userFood: Food) => {
+        if (
+          userFood.food_id !== null &&
+          userFood.food_id === foodItem.food_id
+        ) {
+          foodItem = userFood;
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   if (unit === "portion") {
     return (
@@ -124,6 +152,7 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
           <div className="food-item-container">
             <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
             <label
+              onDoubleClick={handelEditItem}
               onClick={handleAddFoodToArray}
               className="test"
               htmlFor={`${foodItem.food_id}`}
@@ -151,7 +180,11 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
               name="food"
               id={`${foodItem.food_id}`}
             />
-            <label className="test" htmlFor={`${foodItem.food_id}`}>
+            <label
+              onDoubleClick={handelEditItem}
+              className="test"
+              htmlFor={`${foodItem.food_id}`}
+            >
               <div className="foodList__item">
                 <span
                   id={`span${foodItem.food_id}`}
@@ -176,6 +209,7 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
             <input type="checkbox" name="food" id={`${foodItem.food_id}`} />
             <label
               onClick={handleAddFoodToArray}
+              onDoubleClick={handelEditItem}
               className="test"
               htmlFor={`${foodItem.food_id}`}
             >
@@ -202,7 +236,11 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
               name="food"
               id={`${foodItem.food_id}`}
             />
-            <label className="test" htmlFor={`${foodItem.food_id}`}>
+            <label
+              onDoubleClick={handelEditItem}
+              className="test"
+              htmlFor={`${foodItem.food_id}`}
+            >
               <div className="foodList__item">
                 <span
                   onClick={handletoggleFavorite}
