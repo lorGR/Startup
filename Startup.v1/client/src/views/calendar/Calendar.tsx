@@ -9,6 +9,8 @@ import MealItem from "../../components/mealItem/MealItem";
 import { Link } from "react-router-dom";
 import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
 import Menu from "../../components/menu/Menu";
+import arrowLeft from "../../assets/images/calendar/arrowLeft.png";
+import arrowRight from "../../assets/images/calendar/arrowRight.png";
 
 const Calendar = () => {
 
@@ -54,13 +56,17 @@ const Calendar = () => {
         <div className="calendar">
             <Header headerType="calendar" showMenu={showMenu} setShowMenu={setShowMenu} />
             <Navbar navbarType="calendar" />
-            <div style={{ textAlign: "center" }}>
-                <button onClick={handleDayFoward}>&lt;</button>
-                <span>{date}</span>
-                <button onClick={handleDayBack}>&gt;</button>
-            </div>
             <div className="calendar__container">
-                {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date} type={"calendar"}/>)}
+                <div className="day-selector">
+                    <button onClick={handleDayFoward}>
+                        <img src={arrowLeft} alt="week foward" />
+                    </button>
+                    <p>{date}</p>
+                    <button onClick={handleDayBack}>
+                        <img src={arrowRight} alt="week backward" />
+                    </button>
+                </div>
+                {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date} type={"calendar"} />)}
             </div>
             {showMenu && <Menu />}
         </div>
