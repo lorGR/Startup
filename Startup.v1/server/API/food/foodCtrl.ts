@@ -75,6 +75,28 @@ export async function getfoodInfo(req:express.Request, res:express.Response) {
     const userId = decodeCookie(userID);
     if (!userId) throw new Error("Couldn't find userId from decodedUserId ON FUNCTION updateCarbsGoal IN FILE usersCtrl");
 
+    const sql = `SELECT * FROM user_food WHERE user_id = '${userId}' AND food_id = '${foodId}';`
+    connection.query(sql, (error,result) => {
+      try {
+        if (error) throw error;
+        if( result.length === 0) {
+          const sql = `SELECT * FROM food WHERE food_id = '${foodId}'`;
+          connection.query(sql, (error, result) => {
+            try {
+              if (error) throw error;
+              res.send({result})
+            } catch (error) {
+              res.status(500).send({error:error.message})
+            }
+          })
+        } else {
+          res.send({result})
+        }
+        
+      } catch (error) {
+        res.status(500).send({error:error.message})
+      }
+    })
   } catch (error) {
     res.status(500).send({error: error.message})
   }

@@ -88,8 +88,21 @@ const AddUserFood = () => {
   async function getFoodInformation() {
     try {
       const foodId = location.state.id;
+      console.log(foodId)
       const {data} = await axios.post("/api/food/get-food-info", {foodId});
       console.log(data)
+      const {result} = data;
+      const foodName = document.getElementById('foodName') as HTMLInputElement;
+      const carbs = document.getElementById('carbs') as HTMLInputElement;
+      const protein = document.getElementById('protein') as HTMLInputElement;
+      const fat = document.getElementById('fat') as HTMLInputElement;
+      const calories = document.getElementById('calories') as HTMLInputElement;
+
+      foodName.value = result[0].food_name;
+      carbs.value = result[0].carbs;
+      protein.value = result[0].protien; // TODO: fix database typo
+      fat.value = result[0].fat;
+      calories.value = result[0].calories;
     } catch (error) {
       console.error(error)
     }
@@ -106,13 +119,14 @@ const AddUserFood = () => {
             type="text"
             name="foodName"
             placeholder="הזן שם לפריט"
+            id="foodName"
           />
           <select onChange={handleCalc}
             className="user-food__select"
             name="size"
           >
             {selectOptions.map(option => {
-              return <option value={option.value}>{option.value}</option>
+              return <option value={`${option.value}-${option.size}`}>{option.value}</option>
             })}
           </select>
           <span
@@ -129,6 +143,7 @@ const AddUserFood = () => {
             type="number"
             name="carbs"
             placeholder="פחמימות"
+            id="carbs"
           />
           <input
             {...register("protein")}
@@ -138,6 +153,7 @@ const AddUserFood = () => {
             type="number"
             name="protein"
             placeholder="חלבונים"
+            id="protein"
           />
           <input
             {...register("fat")}
@@ -148,12 +164,14 @@ const AddUserFood = () => {
             type="number"
             name="fat"
             placeholder="שומנים"
+            id="fat"
           />
           <input
             type="number"
             name="calories"
             placeholder="קלוריות"
             value={calories}
+            id="calories"
           />
           <button type="submit">הוסף אוכל</button>
         </form>
