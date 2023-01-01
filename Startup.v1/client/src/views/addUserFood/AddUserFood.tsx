@@ -88,9 +88,7 @@ const AddUserFood = () => {
   async function getFoodInformation() {
     try {
       const foodId = location.state.id;
-      console.log(foodId)
       const {data} = await axios.post("/api/food/get-food-info", {foodId});
-      console.log(data)
       const {result} = data;
       const foodName = document.getElementById('foodName') as HTMLInputElement;
       const carbs = document.getElementById('carbs') as HTMLInputElement;
@@ -100,7 +98,7 @@ const AddUserFood = () => {
 
       foodName.value = result[0].food_name;
       carbs.value = result[0].carbs;
-      protein.value = result[0].protien; // TODO: fix database typo
+      protein.value = result[0].protein;
       fat.value = result[0].fat;
       calories.value = result[0].calories;
     } catch (error) {
