@@ -9,7 +9,6 @@ import { userSelector } from "../../features/user/userSlice";
 
 export const FoodList = () => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
-  const [carbsSum, setCarbsSum] = useState<number>(0);
   const foodArray = useAppSelector(foodarraySelector);
   const [foodFavoritesArray, setFoodFavoritesArray] = useState<Food[]>();
   const [userSearch, setUserSearch] = useState<string>("");

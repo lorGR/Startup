@@ -3,6 +3,7 @@ import Header from "../../components/header/Header";
 import Navbar from "./../../components/navbar/Navbar";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 interface SelectOption {
   value: string,
@@ -19,6 +20,7 @@ const AddUserFood = () => {
   const [selectOptions, setSelectOptions] = useState<SelectOption[]>([{value:"בסיס", size:100}]);
   const { register, handleSubmit } = useForm();
   const [calculateValues, setCalculateValues] = useState<boolean>(false);
+  const location = useLocation();
 
   useEffect(() => {
     try {
@@ -27,6 +29,10 @@ const AddUserFood = () => {
       console.error(error);
     }
   }, [carbs, protein, fat]);
+
+  useEffect(()=> {
+    if(location.state) getFoodInformation();
+  },[])
 
   function handleShowAddSelect() {
     try {
@@ -79,10 +85,33 @@ const AddUserFood = () => {
     }
   }
 
+  async function getFoodInformation() {
+    try {
+      const foodId = location.state.id;
+      console.log(foodId)
+      const {data} = await axios.post("/api/food/get-food-info", {foodId});
+      console.log(data)
+      const {result} = data;
+      const foodName = document.getElementById('foodName') as HTMLInputElement;
+      const carbs = document.getElementById('carbs') as HTMLInputElement;
+      const protein = document.getElementById('protein') as HTMLInputElement;
+      const fat = document.getElementById('fat') as HTMLInputElement;
+      const calories = document.getElementById('calories') as HTMLInputElement;
+
+      foodName.value = result[0].food_name;
+      carbs.value = result[0].carbs;
+      protein.value = result[0].protien; // TODO: fix database typo
+      fat.value = result[0].fat;
+      calories.value = result[0].calories;
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
-    <div className="add-user-food">
-      <Header headerType="addVals"></Header>
-      <Navbar navbarType="main"></Navbar>
+    <div className="home">
+      <Header headerType="newItem"/>
+      <Navbar navbarType="main" disabled={"disabled"}/>
       <div dir="rtl">
         <form onSubmit={handleSubmit(onSubmit)} className="user-food">
           <input
@@ -90,13 +119,14 @@ const AddUserFood = () => {
             type="text"
             name="foodName"
             placeholder="הזן שם לפריט"
+            id="foodName"
           />
           <select onChange={handleCalc}
             className="user-food__select"
             name="size"
           >
             {selectOptions.map(option => {
-              return <option value={option.value}>{option.value}</option>
+              return <option value={`${option.value}-${option.size}`}>{option.value}</option>
             })}
           </select>
           <span
@@ -113,6 +143,7 @@ const AddUserFood = () => {
             type="number"
             name="carbs"
             placeholder="פחמימות"
+            id="carbs"
           />
           <input
             {...register("protein")}
@@ -122,6 +153,7 @@ const AddUserFood = () => {
             type="number"
             name="protein"
             placeholder="חלבונים"
+            id="protein"
           />
           <input
             {...register("fat")}
@@ -132,17 +164,18 @@ const AddUserFood = () => {
             type="number"
             name="fat"
             placeholder="שומנים"
+            id="fat"
           />
           <input
             type="number"
             name="calories"
             placeholder="קלוריות"
             value={calories}
+            id="calories"
           />
           <button type="submit">הוסף אוכל</button>
         </form>
       </div>
-
       <form onSubmit={handleAddOption} className="add-portion-type">
         <input onChange={(e) => {setPortionName(e.target.value)}} type="text" placeholder="הגדר שם מנה חדשה" />
         <input onChange={(e)=> {setPortionSize(Number(e.target.value))}} type="number" placeholder="הגדר משקל מנה חדשה בגרמים" />

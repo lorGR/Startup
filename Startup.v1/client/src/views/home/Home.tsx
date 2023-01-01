@@ -48,7 +48,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getUserByCookie());
     getTodayMeals();
-  }, []);
+  }, [openMeal]);
 
   useEffect(() => {
     dispatch(getLastMeal());

@@ -18,6 +18,7 @@ import Calendar from "./views/calendar/Calendar";
 import { addFood } from "./features/food/foodArraySlice";
 import AddUserFood from './views/addUserFood/AddUserFood';
 import Graph from "./views/graph/Graph";
+import AddItem from './views/addItem/AddItem';
 
 function App() {
 
