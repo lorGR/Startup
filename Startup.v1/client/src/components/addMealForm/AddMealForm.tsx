@@ -35,11 +35,24 @@ export const AddMealForm: FC<AddMealFormProps> = ({
 
   useEffect(() => {
     const dateTime = new Date();
-    const fullDate = `${dateTime.getFullYear()}-${
-      dateTime.getMonth() + 1
-    }-${dateTime.getDate()}`;
+
+    let day: string | number = dateTime.getDay() + 1;
+
+    if (day.toString().length < 2) {
+      day = `0${day}`
+    }
+
+    let month: string | number = dateTime.getMonth() + 1;
+
+    if (month.toString().length < 2) {
+      month = `0${month}`;
+    }
+
+    let year = dateTime.getFullYear();
+
+    const fullDate = `${year}-${month}-${day}`;
     setCurrentDate(fullDate);
-    
+
     let hours: string | number = dateTime.getHours();
     if (hours.toString().length < 2) {
       hours = `0${hours}`;
@@ -81,7 +94,7 @@ export const AddMealForm: FC<AddMealFormProps> = ({
       event.target.elements.carbsInput.value = "";
 
       navigate("/list")
-  
+
     } catch (error) {
       console.error(error);
     }
