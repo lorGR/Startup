@@ -19,7 +19,7 @@ export async function getUserFavorites(
       throw new Error(
         "Couldn't find userId from decodeCookie on FUNCTION getUserFavorites IN FILE userFavoritesCtrl"
       );
-    const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protien, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}'`;
+    const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protein, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}'`;
 
     connection.query(sql, (error, result) => {
       try {
@@ -54,7 +54,7 @@ export function addToFavorites(req: express.Request, res: express.Response) {
       try {
         if (error) throw error;
         if (result.affectedRows > 0) {
-          const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protien, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}'`;
+          const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protein, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}'`;
           connection.query(sql, (error, result) => {
             try {
               if (error) throw error;
@@ -97,7 +97,7 @@ export async function deleteFromFavorite(
       try {
         if (error) throw error;
         if (result.affectedRows > 0) {
-          const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protien, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}'`;
+          const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protein, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}'`;
           connection.query(sql, (error, result) => {
             try {
               if (error) throw error
@@ -137,7 +137,7 @@ export async function getUserFavirotesFoodBySearch(
 
     const { userSearch } = req.body;
     if (!userSearch) throw new Error("Couldn't receive userSearch from req.body ON FUNCTION getUserFavirotesFoodBySearch IN FILE userFavoritesCtrl");
-    const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protien, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}' AND food.food_name LIKE '%${userSearch}%' `;
+    const sql = `SELECT food.food_id, food.food_name, food.carbs, food.protein, food.fat, food.calories, food.unit, food.weight, food.carbs_unit, food.carbs_unit_protein FROM user_favorite JOIN users ON users.user_id = user_favorite.user_id JOIN food ON food.food_id = user_favorite.food_id WHERE users.user_id = '${userId}' AND food.food_name LIKE '%${userSearch}%' `;
 
     connection.query(sql, (error, result) => {
       try {

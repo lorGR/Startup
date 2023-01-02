@@ -6,7 +6,7 @@ export interface Food {
   fat: number,
   food_id: number,
   food_name: string,
-  protien: number,
+  protein: number,
   unit: string,
   weight: number,
   serving_id?: number,
