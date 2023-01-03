@@ -6,12 +6,15 @@ import { Food } from "../../features/food/foodModel";
 import { useAppSelector } from "../../app/hooks";
 import { foodarraySelector } from "../../features/food/foodArraySlice";
 import { userSelector } from "../../features/user/userSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 export const FoodList = () => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
   const foodArray = useAppSelector(foodarraySelector);
   const [foodFavoritesArray, setFoodFavoritesArray] = useState<Food[]>();
   const [userSearch, setUserSearch] = useState<string>("");
+  // const [loading, setLoading] = useState(true);
 
   const user = useAppSelector(userSelector);
 
@@ -84,6 +87,11 @@ export const FoodList = () => {
         type="text"
         placeholder="חפש"
       />
+      {allFoodArray.length === 0 && 
+        <div className="loading">
+          <FontAwesomeIcon icon={faCircleNotch} size="2xl" color="white"/>
+        </div>
+      }
       {allFoodArray.map((foodItem: Food) => {
         return <FoodListItem key={foodItem.food_id} foodItem={foodItem} unit={userPreference!} />;
       })}
