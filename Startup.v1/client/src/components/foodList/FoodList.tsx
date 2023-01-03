@@ -15,7 +15,6 @@ export const FoodList = () => {
   const foodArray = useAppSelector(foodarraySelector);
   const [foodFavoritesArray, setFoodFavoritesArray] = useState<Food[]>();
   const [userSearch, setUserSearch] = useState<string>("");
-  // const [loading, setLoading] = useState(true);
 
   const user = useAppSelector(userSelector);
 
