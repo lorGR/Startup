@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
+
 import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
+
 
 const Menu = () => {
   return (
