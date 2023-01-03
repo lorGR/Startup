@@ -8,10 +8,12 @@ import { foodarraySelector } from "../../features/food/foodArraySlice";
 import { userSelector } from "../../features/user/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { UserFoodListItem } from './foodListItem/UserFoodListItem';
 
 
 export const FoodList = () => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
+  const [userFoodArray, setUserFoodArray] = useState<Food[]>([])
   const foodArray = useAppSelector(foodarraySelector);
   const [foodFavoritesArray, setFoodFavoritesArray] = useState<Food[]>();
   const [userSearch, setUserSearch] = useState<string>("");
@@ -70,10 +72,21 @@ export const FoodList = () => {
     }
   }
 
+  async function getUserFood() {
+    try {
+      const {data} = await axios.get("/api/food/get-user-food")
+      const {result} = data;
+      setUserFoodArray(result)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   useEffect(() => {
     if (userSearch!.length <= 0) {
       getUserFavorites();
       getFood();
+      getUserFood();
     } else {
       getFoodBySearch();
     }
@@ -87,11 +100,14 @@ export const FoodList = () => {
         type="text"
         placeholder="חפש"
       />
-      {allFoodArray.length === 0 && 
+      {allFoodArray.length === 0 && userFoodArray.length === 0 &&
         <div className="loading">
           <FontAwesomeIcon className="fa-spin" icon={faSpinner} size="3x" color="#0f4e9a"/>
         </div>
       }
+      {userFoodArray.map((foodItem:Food) => {
+        return <UserFoodListItem key={foodItem.user_food_id} foodItem={foodItem} unit={userPreference!} />;
+      })}
       {allFoodArray.map((foodItem: Food) => {
         return <FoodListItem key={foodItem.food_id} foodItem={foodItem} unit={userPreference!} />;
       })}

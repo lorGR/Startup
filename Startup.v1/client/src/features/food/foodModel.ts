@@ -12,5 +12,6 @@ export interface Food {
   serving_id?: number,
   amount_gram?:number,
   amount_portion?:number,
-  meal_id?:number
+  meal_id?:number,
+  user_food_id?:number
 }
