@@ -6,6 +6,9 @@ import { Food } from "../../features/food/foodModel";
 import { useAppSelector } from "../../app/hooks";
 import { foodarraySelector } from "../../features/food/foodArraySlice";
 import { userSelector } from "../../features/user/userSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+
 
 export const FoodList = () => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
@@ -84,6 +87,11 @@ export const FoodList = () => {
         type="text"
         placeholder="חפש"
       />
+      {allFoodArray.length === 0 && 
+        <div className="loading">
+          <FontAwesomeIcon className="fa-spin" icon={faSpinner} size="3x" color="#0f4e9a"/>
+        </div>
+      }
       {allFoodArray.map((foodItem: Food) => {
         return <FoodListItem key={foodItem.food_id} foodItem={foodItem} unit={userPreference!} />;
       })}

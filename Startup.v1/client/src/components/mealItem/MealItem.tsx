@@ -1,5 +1,4 @@
 import axios from "axios";
-import { stringify } from "querystring";
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../app/hooks";
 import { Food } from "../../features/food/foodModel";
@@ -8,6 +7,7 @@ import { openMealSelector } from "../../features/openMeal/openMealSlice";
 import ServingItem from "./servingItem/ServingItem";
 import { useAppDispatch } from "./../../app/hooks";
 import { deleteLastMeal } from "./../../features/openMeal/openMealAPI";
+import { openMealSlice } from "./../../features/openMeal/openMealSlice";
 
 interface MealItemProps {
   meal: Meal;
@@ -19,13 +19,12 @@ interface MealItemProps {
 const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
   const [mealServings, setMealServings] = useState<Food[]>([]);
   const [dropDown, setDropDown] = useState<boolean>(false);
-  const openMeal = useAppSelector(openMealSelector);
   const dispatch = useAppDispatch();
-
+  const openMeal = useAppSelector(openMealSelector);
 
   const handleClickMeal = async (event: any) => {
     try {
-      console.log("trying to open")
+      console.log("trying to open");
       let mealId = null;
       if (event.target.nodeName === "P") {
         mealId = event.target.parentNode.id;
@@ -89,26 +88,25 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
     }
   };
   useEffect(() => {
-    console.log(type)
-  },[])
-
-  if (openMeal) {
+    console.log(type);
+  }, []);
+  if (type === "home") {
     return (
       <div className="meal-item dropbtn">
         <div
           onClick={handleClickMeal}
           className="meal-item__content"
-          id={openMeal.meal_id!.toString()}
+          id={meal.meal_id!.toString()}
         >
           <span onClick={InititeDelete} className="material-symbols-outlined">
             delete
           </span>
-          <p>אינס׳ {openMeal.insulin}</p>
-          <p>סוכ' {openMeal.blood_sugar}</p>
-          <p> פחמ׳ {openMeal.carbs}</p>
-          <p>{openMeal.time.slice(0, 5)}</p>
+          <p>אינס׳ {meal.insulin}</p>
+          <p>סוכ' {meal.blood_sugar}</p>
+          <p> פחמ׳ {meal.carbs}</p>
+          <p>{meal.time.slice(0, 5)}</p>
         </div>
-        {type === "home" && openMeal.opened_to_edit === 1 && (
+        {meal.opened_to_edit === 1 && (
           <div className="dropdown-content">
             {dropDown &&
               mealServings.length > 0 &&
@@ -125,29 +123,54 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
               })}
           </div>
         )}
-
-        {type === "calendar" && (
-          <div className="dropdown-content ">
-            {dropDown &&
-              mealServings.length > 0 &&
-              mealServings.map((mealServ) => {
-                return (
-                  <ServingItem
-                    key={mealServ.serving_id}
-                    mealServ={mealServ}
-                    setMealServings={setMealServings}
-                    setMeals={setMeals}
-                    date={date}
-                  />
-                );
-              })}
-          </div>
-        )}
-
         <form
           onSubmit={handleDeleteMeal}
           className="messege_container"
-          id={`${openMeal.meal_id}message`}
+          id={`${meal.meal_id}message`}
+        >
+          <h5>Are you sure you want to delete this meal?</h5>
+          <button type="submit">V</button>
+          <button onClick={handleCloseForm} type="button">
+            X
+          </button>
+        </form>
+      </div>
+    );
+  } else if (type === "calendar") {
+    return (
+      <div className="meal-item dropbtn">
+        <div
+          onClick={handleClickMeal}
+          className="meal-item__content"
+          id={meal.meal_id!.toString()}
+        >
+          <span onClick={InititeDelete} className="material-symbols-outlined">
+            delete
+          </span>
+          <p>אינס׳ {meal.insulin}</p>
+          <p>סוכ' {meal.blood_sugar}</p>
+          <p> פחמ׳ {meal.carbs}</p>
+          <p>{meal.time.slice(0, 5)}</p>
+        </div>
+        <div className="dropdown-content">
+          {dropDown &&
+            mealServings.length > 0 &&
+            mealServings.map((mealServ) => {
+              return (
+                <ServingItem
+                  key={mealServ.serving_id}
+                  mealServ={mealServ}
+                  setMealServings={setMealServings}
+                  setMeals={setMeals}
+                  date={date}
+                />
+              );
+            })}
+        </div>
+        <form
+          onSubmit={handleDeleteMeal}
+          className="messege_container"
+          id={`${meal.meal_id}message`}
         >
           <h5>Are you sure you want to delete this meal?</h5>
           <button type="submit">V</button>
@@ -158,7 +181,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
       </div>
     );
   } else {
-    return <div>hi</div>;
+    return <div>MealItem</div>;
   }
 };
 
