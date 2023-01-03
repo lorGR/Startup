@@ -7,7 +7,8 @@ import { useAppSelector } from "../../app/hooks";
 import { foodarraySelector } from "../../features/food/foodArraySlice";
 import { userSelector } from "../../features/user/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+
 
 export const FoodList = () => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
@@ -89,7 +90,7 @@ export const FoodList = () => {
       />
       {allFoodArray.length === 0 && 
         <div className="loading">
-          <FontAwesomeIcon icon={faCircleNotch} size="2xl" color="white"/>
+          <FontAwesomeIcon className="fa-spin" icon={faSpinner} size="3x" color="#0f4e9a"/>
         </div>
       }
       {allFoodArray.map((foodItem: Food) => {
