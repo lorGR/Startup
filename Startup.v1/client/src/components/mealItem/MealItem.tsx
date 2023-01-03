@@ -22,6 +22,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
   const openMeal = useAppSelector(openMealSelector);
   const dispatch = useAppDispatch();
 
+
   const handleClickMeal = async (event: any) => {
     try {
       console.log("trying to open")
