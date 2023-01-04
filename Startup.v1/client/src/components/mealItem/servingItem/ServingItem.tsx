@@ -29,9 +29,9 @@ const ServingItem: FC<ServingItemProps> = ({
       const { data } = await axios.post("/api/meals/get-meals-servings", {
         mealId,
       });
-      const { result } = data;
-      if (result.length > 0) {
-        setMealServings(result);
+      const { allServingsArray } = data;
+      if (allServingsArray.length > 0) {
+        setMealServings(allServingsArray);
       } 
       // else if (result.length === 0) {
       //   console.log("meal is empty");
@@ -190,9 +190,11 @@ const ServingItem: FC<ServingItemProps> = ({
     try {
       event.preventDefault();
       const servingId = mealServ.serving_id;
+      const mealId = mealServ.meal_id
       const { data } = await axios.post("/api/servings/delete-serving-by-id", {
-        servingId,
+        servingId, mealId
       });
+      console.log(data)
       updateMealView();
       // getTodayMeals();
       getMealsByDate();
@@ -213,7 +215,7 @@ const ServingItem: FC<ServingItemProps> = ({
   };
 
   return (
-    <div className="meal-item__serving-item" key={mealServ.food_id}>
+    <div className="meal-item__serving-item" >
       <div>{mealServ.food_name}</div>
       <div>
         <button

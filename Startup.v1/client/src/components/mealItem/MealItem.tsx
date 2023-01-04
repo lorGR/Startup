@@ -38,14 +38,17 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
         throw new Error(
           "Coudln't receive data from axios POST ON FUNCTION handleClickMeal IN FILE MealItem.tsx "
         );
-      const { result } = data;
+        console.log(data)
+      const { allServingsArray } = data;
+      console.log(allServingsArray)
 
       if (!dropDown) {
         setDropDown(!dropDown);
       } else {
         setDropDown(!dropDown);
       }
-      setMealServings(result);
+      setMealServings(allServingsArray);
+      console.log(allServingsArray)
     } catch (error) {
       console.error(error);
     }
@@ -56,10 +59,9 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
       event.preventDefault();
       event.stopPropagation();
       console.log("trying To delete");
-      if (openMeal) {
-        const mealId = openMeal.meal_id;
+        const mealId = meal.meal_id;
         if (mealId) dispatch(deleteLastMeal({ mealId }));
-      }
+      
       handleCloseForm();
     } catch (error) {
       console.error(error);
