@@ -29,9 +29,9 @@ const ServingItem: FC<ServingItemProps> = ({
       const { data } = await axios.post("/api/meals/get-meals-servings", {
         mealId,
       });
-      const { result } = data;
-      if (result.length > 0) {
-        setMealServings(result);
+      const { allServingsArray } = data;
+      if (allServingsArray.length > 0) {
+        setMealServings(allServingsArray);
       } 
       // else if (result.length === 0) {
       //   console.log("meal is empty");
