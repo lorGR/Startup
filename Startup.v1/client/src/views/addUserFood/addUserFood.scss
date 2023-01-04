@@ -1,5 +1,6 @@
 .add-user-food {
     height: 100%;
+    
 }
 
 .user-food {
@@ -13,4 +14,15 @@
 
 .add-portion-type {
     display: none;
+}
+
+.add-food {
+    overflow: hidden;
+    height: 72.5%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(0deg, rgba(242,247,251,1) 0%, rgba(165,225,249,0.8519782913165266) 100%);
+    border-radius: 5px;
+    border: 1px solid rgb(36,92,209);
+    position: relative;
 }

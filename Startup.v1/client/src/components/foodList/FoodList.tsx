@@ -9,6 +9,7 @@ import { userSelector } from "../../features/user/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { UserFoodListItem } from "./foodListItem/UserFoodListItem";
+import { useNavigate } from 'react-router-dom';
 
 export const FoodList = () => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
@@ -20,6 +21,7 @@ export const FoodList = () => {
   const user = useAppSelector(userSelector);
 
   const [userPreference, setUserPreference] = useState<string>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     checkUserPreference();
@@ -104,7 +106,9 @@ export const FoodList = () => {
         dir="rtl"
         type="text"
         placeholder="חפש"
+        className="foodList__search"
       />
+      <button className="add-food-button" onClick={() => {navigate("/add-food")}}>+</button>
       {allFoodArray.length === 0 ||
         (userFoodArray.length === 0 && (
           <div className="loading">

@@ -112,11 +112,6 @@ export async function getMealsServings(
     connection.query(sql, (err, result) => {
       try {
         if (err) throw err;
-        // if (result.affectedRows == 0) {
-        //   res.send({ message: "no servings found" });
-        // } else {
-        //   res.send({ result });
-        // }
         foodArray.push(...result);
         const sql = `SELECT * FROM servings LEFT JOIN user_food ON servings.user_food_id = user_food.user_food_id WHERE servings.meal_id = '${mealId}' AND servings.user_food_id`;
 

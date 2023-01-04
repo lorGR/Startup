@@ -154,7 +154,7 @@ const AddUserFood = () => {
     <div className="home">
       <Header headerType="newItem" />
       <Navbar navbarType="main" disabled={"disabled"} />
-      <div dir="rtl">
+      <div className="add-food" dir="rtl">
         <form onSubmit={handleSubmit(onSubmit)} className="user-food">
           <input
             {...register("foodName")}
