@@ -186,7 +186,7 @@ const Header: React.FC<HeaderProps> = ({
       {headerType === "newItem" && 
        <div className="header__display">
        <div className="header__actions">
-         <button onClick={handleCloseOpenMeal}>
+         <button>
            <img src={fullCheck} alt="Check" />
          </button>
        </div>

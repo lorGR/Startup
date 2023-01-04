@@ -8,10 +8,12 @@ import { foodarraySelector } from "../../features/food/foodArraySlice";
 import { userSelector } from "../../features/user/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-
+import { UserFoodListItem } from "./foodListItem/UserFoodListItem";
+import { useNavigate } from 'react-router-dom';
 
 export const FoodList = () => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
+  const [userFoodArray, setUserFoodArray] = useState<Food[]>([]);
   const foodArray = useAppSelector(foodarraySelector);
   const [foodFavoritesArray, setFoodFavoritesArray] = useState<Food[]>();
   const [userSearch, setUserSearch] = useState<string>("");
@@ -19,6 +21,7 @@ export const FoodList = () => {
   const user = useAppSelector(userSelector);
 
   const [userPreference, setUserPreference] = useState<string>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     checkUserPreference();
@@ -61,10 +64,26 @@ export const FoodList = () => {
 
   const getFoodBySearch = async () => {
     try {
-      const { data } = await axios.post("/api/food/get-food-by-search", { userSearch });
-      if(!data) throw new Error("couldn't receive data from axios POST '/api/food/get-food-by-search' ");
+      const { data } = await axios.post("/api/food/get-food-by-search", {
+        userSearch,
+      });
+      if (!data)
+        throw new Error(
+          "couldn't receive data from axios POST '/api/food/get-food-by-search' "
+        );
       const { result } = data;
       setAllFoodArray(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  async function getUserFood() {
+    try {
+      const { data } = await axios.get("/api/food/get-user-food");
+      const { result } = data;
+      console.log(result);
+      setUserFoodArray(result);
     } catch (error) {
       console.error(error);
     }
@@ -74,6 +93,7 @@ export const FoodList = () => {
     if (userSearch!.length <= 0) {
       getUserFavorites();
       getFood();
+      getUserFood();
     } else {
       getFoodBySearch();
     }
@@ -86,14 +106,38 @@ export const FoodList = () => {
         dir="rtl"
         type="text"
         placeholder="חפש"
+        className="foodList__search"
       />
-      {allFoodArray.length === 0 && 
-        <div className="loading">
-          <FontAwesomeIcon className="fa-spin" icon={faSpinner} size="3x" color="#0f4e9a"/>
-        </div>
-      }
+      <button className="add-food-button" onClick={() => {navigate("/add-food")}}>+</button>
+      {allFoodArray.length === 0 ||
+        (userFoodArray.length === 0 && (
+          <div className="loading">
+            <FontAwesomeIcon
+              className="fa-spin"
+              icon={faSpinner}
+              size="3x"
+              color="#0f4e9a"
+            />
+          </div>
+        ))}
+
+      {userFoodArray.map((foodItem: Food) => {
+        return (
+          <UserFoodListItem
+            key={foodItem.user_food_id}
+            foodItem={foodItem}
+            unit={userPreference!}
+          />
+        );
+      })}
       {allFoodArray.map((foodItem: Food) => {
-        return <FoodListItem key={foodItem.food_id} foodItem={foodItem} unit={userPreference!} />;
+        return (
+          <FoodListItem
+            key={foodItem.food_id}
+            foodItem={foodItem}
+            unit={userPreference!}
+          />
+        );
       })}
     </div>
   );

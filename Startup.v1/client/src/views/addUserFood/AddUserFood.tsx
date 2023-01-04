@@ -26,6 +26,7 @@ const AddUserFood = () => {
   const [calculateValues, setCalculateValues] = useState<boolean>(false);
   const location = useLocation();
   const [foodItem, setFoodItem] = useState<Food>();
+  const [sendNewFood, setSendNewFood] = useState<boolean>(false)
 
   useEffect(() => {
     try {
@@ -41,6 +42,10 @@ const AddUserFood = () => {
     }
   }, []);
 
+  useEffect(() => {
+    handleSubmit(onSubmit)
+  },[sendNewFood])
+
   function handleShowAddSelect() {
     try {
       const formPortionType = document.querySelector(
@@ -54,7 +59,7 @@ const AddUserFood = () => {
 
   function calculateCalories() {
     try {
-      console.log("trying to calculate")
+      console.log("trying to calculate");
       setCalories(carbs * 4 + protein * 4 + fat * 9);
     } catch (error) {
       console.error(error);
@@ -139,9 +144,9 @@ const AddUserFood = () => {
       carbs.value = result[0].carbs;
       setCarbs(result[0].carbs);
       protein.value = result[0].protein;
-      setProtein(result[0].protein)
+      setProtein(result[0].protein);
       fat.value = result[0].fat;
-      setFat(result[0].fat)
+      setFat(result[0].fat);
       calories.value = result[0].calories;
 
       setFoodItem(result[0]);
@@ -152,74 +157,85 @@ const AddUserFood = () => {
 
   return (
     <div className="home">
-      <Header headerType="newItem" />
+      <Header headerType="newItem"/>
       <Navbar navbarType="main" disabled={"disabled"} />
-      <div dir="rtl">
-        <form onSubmit={handleSubmit(onSubmit)} className="user-food">
+      <div className="add-food" dir="rtl">
+        <form onSubmit={handleSubmit(onSubmit)} className="add-food__user-food">
           <input
             {...register("foodName")}
             type="text"
             name="foodName"
             placeholder="הזן שם לפריט"
             id="foodName"
+            className="foodName"
           />
-          <select
-            onChange={handleCalc}
-            className="user-food__select"
-            name="size"
-          >
-            {selectOptions.map((option) => {
-              return (
-                <option value={`${option.value}-${option.size}`}>
-                  {option.name}
-                </option>
-              );
-            })}
-          </select>
-          <span
-            onClick={handleShowAddSelect}
-            className="material-symbols-outlined"
-          >
-            add
-          </span>
-          <input
-            {...register("carbs")}
-            onChange={(e) => {
-              setCarbs(Number(e.target.value));
-            }}
-            type="number"
-            name="carbs"
-            placeholder="פחמימות"
-            id="carbs"
-          />
-          <input
-            {...register("protein")}
-            onChange={(e) => {
-              setProtein(Number(e.target.value));
-            }}
-            type="number"
-            name="protein"
-            placeholder="חלבונים"
-            id="protein"
-          />
-          <input
-            {...register("fat")}
-            onChange={(e) => {
-              setFat(Number(e.target.value));
-              calculateCalories();
-            }}
-            type="number"
-            name="fat"
-            placeholder="שומנים"
-            id="fat"
-          />
-          <input
-            type="number"
-            name="calories"
-            placeholder="קלוריות"
-            value={calories}
-            id="calories"
-          />
+          <div className="add-food__user-food__inputs">
+            <div className="add-food__user-food__inputs__right">
+              <select
+                onChange={handleCalc}
+                className="add-food__user-food__inputs__right__select"
+                name="size"
+              >
+                {selectOptions.map((option) => {
+                  return (
+                    <option value={`${option.value}-${option.size}`}>
+                      {option.name}
+                    </option>
+                  );
+                })}
+              </select>
+              <span
+                onClick={handleShowAddSelect}
+                className="material-symbols-outlined"
+              >
+                add
+              </span>
+            </div>
+            <div className="add-food__user-food__inputs__left">
+              <input
+                {...register("carbs")}
+                onChange={(e) => {
+                  setCarbs(Number(e.target.value));
+                }}
+                type="number"
+                name="carbs"
+                placeholder="פחמימות"
+                id="carbs"
+                className="small_input"
+              />
+              <input
+                {...register("protein")}
+                onChange={(e) => {
+                  setProtein(Number(e.target.value));
+                }}
+                type="number"
+                name="protein"
+                placeholder="חלבונים"
+                id="protein"
+                className="small_input"
+              />
+              <input
+                {...register("fat")}
+                onChange={(e) => {
+                  setFat(Number(e.target.value));
+                  calculateCalories();
+                }}
+                type="number"
+                name="fat"
+                placeholder="שומנים"
+                id="fat"
+                className="small_input"
+              />
+              <input
+                type="number"
+                name="calories"
+                placeholder="קלוריות"
+                value={calories}
+                id="calories"
+                className="small_input"
+              />
+            </div>
+          </div>
           <button type="submit">הוסף אוכל</button>
         </form>
       </div>
