@@ -1,12 +1,13 @@
 .add-user-food {
     height: 100%;
-    
+
 }
 
 .user-food {
     &__select {
         display: block;
     }
+
     &__portion-input {
         display: none;
     }
@@ -17,12 +18,57 @@
 }
 
 .add-food {
+    width: 100%;
     overflow: hidden;
     height: 72.5%;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(0deg, rgba(242,247,251,1) 0%, rgba(165,225,249,0.8519782913165266) 100%);
+    background: linear-gradient(0deg, rgba(242, 247, 251, 1) 0%, rgba(165, 225, 249, 0.8519782913165266) 100%);
     border-radius: 5px;
-    border: 1px solid rgb(36,92,209);
+    border: 1px solid rgb(36, 92, 209);
     position: relative;
+    display: flex;
+
+    &__user-food {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+
+        .foodName {
+            height: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgb(36, 92, 209);
+            background: linear-gradient(0deg, rgba(204, 240, 255, 0.852) 0%, rgba(242, 247, 251, 1) 100%);
+            padding-right: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .small_input {
+            height: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgb(36, 92, 209);
+            background: linear-gradient(0deg, rgba(204, 240, 255, 0.852) 0%, rgba(242, 247, 251, 1) 100%);
+            padding-right: 15px;
+            margin-bottom: 1rem;
+        }
+
+        margin-top: 2rem;
+
+        &__inputs {
+            width: 100%;
+            display: flex;
+
+            &__left {
+                width: 50%;
+
+
+            }
+
+            &__right {
+                width: 50%;
+            }
+        }
+    }
+
 }
