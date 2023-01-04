@@ -22,7 +22,12 @@ export async function addServingToMeal(req: express.Request, res: express.Respon
                     amount = 1;
                 }
                 await foodArray.forEach(async (food) => {
-                    const sql = `INSERT INTO servings(food_id, meal_id, ${amountType}) VALUES ('${food.food_id}', '${mealId}', '${amount}')`;
+                    let sql;
+                    if (food.user_food_id) {
+                        sql = `INSERT INTO servings(user_food_id, meal_id, ${amountType}) VALUES ('${food.user_food_id}', '${mealId}', '${amount}')`;
+                    } else {
+                        sql = `INSERT INTO servings(food_id, meal_id, ${amountType}) VALUES ('${food.food_id}', '${mealId}', '${amount}')`;
+                    }
         
                     await connection.query(sql, (err, result) => {
                         try {

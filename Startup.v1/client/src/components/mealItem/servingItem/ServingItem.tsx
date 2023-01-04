@@ -213,7 +213,7 @@ const ServingItem: FC<ServingItemProps> = ({
   };
 
   return (
-    <div className="meal-item__serving-item" key={mealServ.food_id}>
+    <div className="meal-item__serving-item" >
       <div>{mealServ.food_name}</div>
       <div>
         <button

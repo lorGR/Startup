@@ -105,16 +105,36 @@ export async function getMealsServings(
         "Couldn't receive mealId from req.body ON FUNCTION getMealsServings IN FILE mealsCtrl"
       );
 
-    const sql = `SELECT * FROM servings JOIN food ON servings.food_id = food.food_id WHERE servings.meal_id = '${mealId}'`;
+      const foodArray = [];
+
+    const sql = `SELECT * FROM servings LEFT JOIN food ON servings.food_id = food.food_id WHERE servings.meal_id = '${mealId}' AND servings.food_id`;
 
     connection.query(sql, (err, result) => {
       try {
         if (err) throw err;
-        if (result.affectedRows == 0) {
-          res.send({ message: "no servings found" });
-        } else {
-          res.send({ result });
-        }
+        // if (result.affectedRows == 0) {
+        //   res.send({ message: "no servings found" });
+        // } else {
+        //   res.send({ result });
+        // }
+        foodArray.push(...result);
+        const sql = `SELECT * FROM servings LEFT JOIN user_food ON servings.user_food_id = user_food.user_food_id WHERE servings.meal_id = '${mealId}' AND servings.user_food_id`;
+
+        connection.query(sql, (error, result) => {
+          try {
+            if (error) throw error;
+            const allServingsArray = foodArray.concat(result);
+
+            if(allServingsArray.length >0) {
+              res.send({allServingsArray})
+            } else {
+              res.send({ message: "no servings found" });
+            }
+          } catch (error) {
+            res.status(500).send({error: error.message})
+          }
+        })
+
       } catch (error) {
         res.status(500).send({ error: error.message });
       }
