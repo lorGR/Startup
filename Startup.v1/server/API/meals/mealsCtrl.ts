@@ -105,7 +105,7 @@ export async function getMealsServings(
         "Couldn't receive mealId from req.body ON FUNCTION getMealsServings IN FILE mealsCtrl"
       );
 
-      const foodArray = [];
+    const foodArray = [];
 
     const sql = `SELECT * FROM servings LEFT JOIN food ON servings.food_id = food.food_id WHERE servings.meal_id = '${mealId}' AND servings.food_id`;
 
@@ -125,16 +125,15 @@ export async function getMealsServings(
             if (error) throw error;
             const allServingsArray = foodArray.concat(result);
 
-            if(allServingsArray.length >0) {
-              res.send({allServingsArray})
+            if (allServingsArray.length > 0) {
+              res.send({ allServingsArray });
             } else {
               res.send({ message: "no servings found" });
             }
           } catch (error) {
-            res.status(500).send({error: error.message})
+            res.status(500).send({ error: error.message });
           }
-        })
-
+        });
       } catch (error) {
         res.status(500).send({ error: error.message });
       }
@@ -152,6 +151,7 @@ export async function updateMealServing(
   try {
     const { servingId, amount, mealId } = req.body;
     const totalCarbsArray = [];
+    const foodArray = [];
     if (!servingId || !amount)
       throw new Error(
         "Could'nt receive servingId or amount from client on FUCTION updateMealServing IN mealCtrl"
@@ -172,39 +172,54 @@ export async function updateMealServing(
             if (error) throw error;
 
             if (result.affectedRows > 0) {
-              const sql2 = `SELECT * FROM meals JOIN servings ON servings.meal_id = meals.meal_id JOIN food ON servings.food_id = food.food_id WHERE meals.meal_id = '${mealId}'`;
-              connection.query(sql2, (error, results) => {
+              const sql = `SELECT * FROM meals JOIN servings ON servings.meal_id = meals.meal_id JOIN food ON servings.food_id = food.food_id WHERE meals.meal_id = '${mealId}'`;
+              connection.query(sql, (error, result) => {
                 try {
                   if (error) throw error;
-                  const carbsUnitType =
-                    results[0].carbs_unit_type === "gram"
-                      ? "amount_gram"
-                      : "amount_portion";
-                  if (results[0].carbs_unit_type === "gram") {
-                    results.forEach((result) => {
-                      totalCarbsArray.push(
-                        (result.amount_gram * result.carbs) / 100
-                      );
-                    });
-                  } else if (results[0].carbs_unit_type === "portion") {
-                    results.forEach((result) => {
-                      totalCarbsArray.push(
-                        result[carbsUnitType] * result.carbs_unit
-                      );
-                    });
-                  }
+                  foodArray.push(...result);
+                  const sql = `SELECT * FROM meals JOIN servings ON servings.meal_id = meals.meal_id JOIN user_food ON servings.user_food_id = user_food.user_food_id WHERE meals.meal_id = '${mealId}'`;
 
-                  const totalCarbsNew = totalCarbsArray.reduce(
-                    (accumulator, currentValue) => accumulator + currentValue
-                  );
-                  const sql3 = `UPDATE meals SET carbs = '${totalCarbsNew}' WHERE (meal_id = '${mealId}')`;
+                  connection.query(sql, (error, result) => {
+                    try {
+                      if (error) throw error;
+                      const allServingsArray = foodArray.concat(result);
 
-                  connection.query(sql3, (error, result) => {
-                    if (error) throw error;
-                    res.send({ result });
+                      const carbsUnitType =
+                        allServingsArray[0].carbs_unit_type === "gram"
+                          ? "amount_gram"
+                          : "amount_portion";
+                      if (allServingsArray[0].carbs_unit_type === "gram") {
+                        allServingsArray.forEach((result) => {
+                          totalCarbsArray.push(
+                            (result.amount_gram * result.carbs) / 100
+                          );
+                        });
+                      } else if (
+                        allServingsArray[0].carbs_unit_type === "portion"
+                      ) {
+                        allServingsArray.forEach((result) => {
+                          totalCarbsArray.push(
+                            result[carbsUnitType] * result.carbs_unit
+                          );
+                        });
+                      }
+
+                      const totalCarbsNew = totalCarbsArray.reduce(
+                        (accumulator, currentValue) =>
+                          accumulator + currentValue
+                      );
+                      const sql = `UPDATE meals SET carbs = '${totalCarbsNew}' WHERE (meal_id = '${mealId}')`;
+
+                      connection.query(sql, (error, result) => {
+                        if (error) throw error;
+                        res.send({ result });
+                      });
+                    } catch (error) {
+                      res.status(500).send({ error: error });
+                    }
                   });
                 } catch (error) {
-                  res.status(500).send({ error: error });
+                  res.status(500).send({ error: error.message });
                 }
               });
             }
@@ -362,11 +377,11 @@ export async function deleteLastMeal(
         connection.query(sql, (error, result) => {
           try {
             if (error) throw error;
-            res.send({result})
+            res.send({ result });
           } catch (error) {
-            res.status(500).send({error: error.message})
+            res.status(500).send({ error: error.message });
           }
-        })
+        });
       } catch (error) {
         res.status(500).send({ error: error.message });
       }
@@ -376,10 +391,16 @@ export async function deleteLastMeal(
   }
 }
 
-export async function closeOpenMeal(req:express.Request, res:express.Response) {
+export async function closeOpenMeal(
+  req: express.Request,
+  res: express.Response
+) {
   try {
-    const {mealId} = req.body;
-    if (!mealId) throw new Error("Couldn't receive mealId on FUNCTION closeOpenMeal IN FILE mealsCtrl");
+    const { mealId } = req.body;
+    if (!mealId)
+      throw new Error(
+        "Couldn't receive mealId on FUNCTION closeOpenMeal IN FILE mealsCtrl"
+      );
 
     const sql = `UPDATE meals SET opened_to_edit = '0' WHERE (meal_id = '${mealId}')`;
     connection.query(sql, (error, result) => {
@@ -388,16 +409,16 @@ export async function closeOpenMeal(req:express.Request, res:express.Response) {
         const sql = `SELECT * from meals WHERE meal_id = '${mealId}'`;
         connection.query(sql, (error, result) => {
           try {
-            res.send({result})
+            res.send({ result });
           } catch (error) {
-            res.status(500).send({error: error.message})
+            res.status(500).send({ error: error.message });
           }
-        })
+        });
       } catch (error) {
-        res.status(500).send({error: error.message})
+        res.status(500).send({ error: error.message });
       }
-    })
+    });
   } catch (error) {
-    res.status(500).send({error: error.message})
+    res.status(500).send({ error: error.message });
   }
 }
