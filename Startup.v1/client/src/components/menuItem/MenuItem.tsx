@@ -9,7 +9,10 @@ interface MenuItemProps {
 const MenuItem: React.FC<MenuItemProps> = ({link, icon, text}) => {
   return (
     <Link to={link}>
-        
+        <div className="menu-item">
+            <img src={icon} alt={text} />
+            <p>{text}</p>
+        </div>
     </Link>
   )
 }
