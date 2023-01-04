@@ -6,7 +6,8 @@ export const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: password,
-    database: "sugarbit"
+    database: "sugarbit",
+    multipleStatements: true
 });
 
 connection.connect((error) => {

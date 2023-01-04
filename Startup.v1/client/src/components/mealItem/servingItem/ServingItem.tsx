@@ -190,9 +190,11 @@ const ServingItem: FC<ServingItemProps> = ({
     try {
       event.preventDefault();
       const servingId = mealServ.serving_id;
+      const mealId = mealServ.meal_id
       const { data } = await axios.post("/api/servings/delete-serving-by-id", {
-        servingId,
+        servingId, mealId
       });
+      console.log(data)
       updateMealView();
       // getTodayMeals();
       getMealsByDate();
