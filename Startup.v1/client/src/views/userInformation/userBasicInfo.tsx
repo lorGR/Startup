@@ -5,19 +5,21 @@ import { Language } from "../../features/user/userModel";
 import hebrew from "../../assets/images/settings/flags/israel.svg";
 import { useAppSelector } from "../../app/hooks";
 import { userSelector } from "../../features/user/userSlice";
-import { useAppDispatch } from './../../app/hooks';
-import { getUserByCookie } from './../../features/user/userAPI';
+import { useAppDispatch } from "./../../app/hooks";
+import { getUserByCookie } from "./../../features/user/userAPI";
+import Header from "../../components/header/Header";
+import Navbar from "./../../components/navbar/Navbar";
 
 export const UserBasicInfo = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const user = useAppSelector(userSelector)
-  console.log(user)
+  const user = useAppSelector(userSelector);
+  console.log(user);
 
-  const [firstName, setFirstName] = useState(user?.first_name)
-  const [lastName, setLastName] = useState(user?.last_name)
-  const [identityNumber, setIdentityNumber] = useState(user?.identity_number)
-  
+  const [firstName, setFirstName] = useState(user?.first_name);
+  const [lastName, setLastName] = useState(user?.last_name);
+  const [identityNumber, setIdentityNumber] = useState(user?.identity_number);
+
   async function handleUpdate(event: any) {
     try {
       event.preventDefault();
@@ -34,50 +36,67 @@ export const UserBasicInfo = () => {
     }
   }
 
-  useEffect(()=> {
-    if(user) {
-        setFirstName(user.first_name)
-        setLastName(user.last_name)
-        setIdentityNumber(user.identity_number)
+  useEffect(() => {
+    if (user) {
+      setFirstName(user.first_name);
+      setLastName(user.last_name);
+      setIdentityNumber(user.identity_number);
     }
-  },[user])
+  }, [user]);
 
-  useEffect(()=>{
-    dispatch(getUserByCookie())
-  },[])
-
+  useEffect(() => {
+    dispatch(getUserByCookie());
+  }, []);
 
   return (
-    <div>
-      <form onSubmit={handleUpdate}>
-        <select name="language">
+    <div className="settings">
+      <Header headerType="settings" />
+      <Navbar navbarType="settings" />
+      <form className="container" onSubmit={handleUpdate}>
+        <select className="input_big" name="language">
           <option value={Language.HEBREW}>עברית</option>
           <option disabled value={Language.ENGLISH}>
             English
           </option>
         </select>
-        <input
-          type="text"
-          name="firstNameInput"
-          placeholder="Enter your Name:"
-          value={firstName}
-          onChange={(ev:any) => {setFirstName(ev.target.value)}}
-        />
-        <input
-          type="text"
-          name="lastNameInput"
-          placeholder="Enter your Last Name:"
-          value={lastName}
-          onChange={(ev:any) => {setLastName(ev.target.value)}}
-        />
-        <input
-          type="number"
-          name="identityNumberInput"
-          placeholder="Enter Your ID"
-          value={identityNumber}
-          onChange={(ev:any) => {setIdentityNumber(ev.target.value)}}
-        />
-        <input type="text" name="image" placeholder="Enter Image Url" />
+        <div className="container__up">
+          <div className="container__up__left">
+          <input className="imageInput" type="text" name="image"/>
+          </div>
+          <div className="container__up__right">
+          <input
+              type="text"
+              name="firstNameInput"
+              placeholder="Enter your Name:"
+              value={firstName}
+              onChange={(ev: any) => {
+                setFirstName(ev.target.value);
+              }}
+              className="input_small"
+            />
+            <input
+              type="text"
+              name="lastNameInput"
+              placeholder="Enter your Last Name:"
+              value={lastName}
+              onChange={(ev: any) => {
+                setLastName(ev.target.value);
+              }}
+              className="input_small"
+            />
+            <input
+              type="number"
+              name="identityNumberInput"
+              placeholder="Enter Your ID"
+              value={identityNumber}
+              onChange={(ev: any) => {
+                setIdentityNumber(ev.target.value);
+              }}
+              className="input_small"
+            />
+            
+          </div>
+        </div>
         <button type="submit">עדכן</button>
       </form>
     </div>

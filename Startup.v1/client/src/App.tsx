@@ -19,7 +19,7 @@ import { addFood } from "./features/food/foodArraySlice";
 import AddUserFood from './views/addUserFood/AddUserFood';
 import Graph from "./views/graph/Graph";
 import AddItem from './views/addItem/AddItem';
-import { UserBasicInfo } from './views/userInformation/userBasicInfo';
+import { UserBasicInfo } from './views/userInformation/UserBasicInfo';
 
 function App() {
 

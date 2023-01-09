@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
+import Navbar from './../../components/navbar/Navbar';
 
 export const UserInfo = () => {
   const navigate = useNavigate();
@@ -82,6 +83,7 @@ export const UserInfo = () => {
   return (
     <div className="settings">
       <Header headerType="settings" />
+      <Navbar navbarType="settings"/>
       <form className="container" onSubmit={handleSubmit(onSubmit)}>
         <div className="container__up">
           <div className="container__up__right">
@@ -134,107 +136,116 @@ export const UserInfo = () => {
             />
           </div>
         </div>
-        <label htmlFor="mgdl" className="switch-label switch-label-off">
-          <input
-            {...register("sugar")}
-            type="radio"
-            className="switch-input"
-            name="sugar"
-            value="mgdl"
-            id="mgdl"
-          />
-          mg/dl
-        </label>
-        <div className="blood_sugar">
-          <label htmlFor="american" className="switch-label switch-label-on">
-            <input
-              {...register("sugar")}
-              type="radio"
-              className="switch-input"
-              name="sugar"
-              value="american"
-              id="american"
-            />
-            american units
-          </label>
+        <div className="container__down">
+          <div className="blood_sugar">
+            <div className="checked">
+              <label htmlFor="mgdl" className="switch-label switch-label-off">
+                mg/dl
+              </label>
+              <input
+                {...register("sugar")}
+                type="radio"
+                className=""
+                name="sugar"
+                value="mgdl"
+                id="mgdl"
+              />
+            </div>
+            <div className="checked">
+              <label
+                htmlFor="american"
+                className="switch-label switch-label-on"
+              >
+                american units
+              </label>
+              <input
+                {...register("sugar")}
+                type="radio"
+                className=""
+                name="sugar"
+                value="american"
+                id="american"
+              />
+            </div>
+          </div>
 
-          <label
-            htmlFor="gram"
-            className="switch-count-label switch-count-label-off"
-          >
-            <input
-              {...register("units")}
-              type="radio"
-              className="switch-count-input"
-              name="units"
-              value="gram"
-              id="gram"
-            />
-            גרם
-          </label>
-        </div>
+          <div className="measure">
+            <label
+              htmlFor="gram"
+              className="switch-count-label switch-count-label-off"
+            >
+              <input
+                {...register("units")}
+                type="radio"
+                className="switch-count-input"
+                name="units"
+                value="gram"
+                id="gram"
+              />
+              גרם
+            </label>
 
-        <div className="measure">
-          <label
-            htmlFor="unit"
-            className="switch-count-label switch-count-label-on"
-          >
-            <input
-              {...register("units")}
-              type="radio"
-              className="switch-count-input"
-              name="units"
-              value="portion"
-              id="portion"
-            />
-            מנות
-          </label>
-        </div>
+            <label
+              htmlFor="unit"
+              className="switch-count-label switch-count-label-on"
+            >
+              <input
+                {...register("units")}
+                type="radio"
+                className="switch-count-input"
+                name="units"
+                value="portion"
+                id="portion"
+              />
+              מנות
+            </label>
+          </div>
 
-        <div className="protein_included">
-          <label
-            htmlFor="include"
-            className="switch-protein-label switch-protein-label-off"
-          >
-            <input
-              {...register("protein")}
-              type="radio"
-              className="switch-protein-input"
-              name="protein"
-              value="1"
-              id="include"
-            />
-            כולל
-          </label>
+          <div className="protein_included">
+            <label
+              htmlFor="include"
+              className="switch-protein-label switch-protein-label-off"
+            >
+              <input
+                {...register("protein")}
+                type="radio"
+                className="switch-protein-input"
+                name="protein"
+                value="1"
+                id="include"
+              />
+              כולל
+            </label>
 
-          <label
-            htmlFor="notInclude"
-            className="switch-protein-label switch-protein-label-on"
-          >
+            <label
+              htmlFor="notInclude"
+              className="switch-protein-label switch-protein-label-on"
+            >
+              <input
+                {...register("protein")}
+                type="radio"
+                className="switch-protein-input"
+                name="protein"
+                value="0"
+                id="notInclude"
+              />
+              לא כולל
+            </label>
+          </div>
+          <div className="balance">
             <input
-              {...register("protein")}
-              type="radio"
-              className="switch-protein-input"
-              name="protein"
-              value="0"
-              id="notInclude"
+              {...register("balance_min")}
+              type="number"
+              name="balance_min"
             />
-            לא כולל
-          </label>
+            <input
+              {...register("balance_max")}
+              type="number"
+              name="balance_max"
+            />
+          </div>
+          <button type="submit">check</button>
         </div>
-        <div className="balance">
-          <input
-            {...register("balance_min")}
-            type="number"
-            name="balance_min"
-          />
-          <input
-            {...register("balance_max")}
-            type="number"
-            name="balance_max"
-          />
-        </div>
-        <button type="submit">check</button>
       </form>
     </div>
   );
