@@ -1,24 +1,24 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import Header from "../../components/header/Header";
 
 export const UserInfo = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [date, setDate] = useState<Date>();
   const [age, setAge] = useState<number>();
 
   const { register, handleSubmit } = useForm();
 
-
   const onSubmit = async (info: any) => {
     const formData = JSON.stringify(info);
     const { data } = await axios.post("/api/users/updated-user-info", {
-      formData, 
+      formData,
     });
-    const {result} = data;
+    const { result } = data;
     if (result.affectedRows > 0) {
-        navigate("/home")
+      navigate("/home");
     }
   };
 
@@ -80,41 +80,60 @@ export const UserInfo = () => {
     }
   }
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          {...register("birth_date")}
-          onChange={handleUpdate}
-          name="birth_date"
-          type="date"
-        />
-        <input
-          {...register("height")}
-          type="text"
-          name="height"
-          placeholder="גובה"
-        />
-        <input
-          {...register("weight")}
-          type="text"
-          name="weight"
-          placeholder="משקל"
-        />
-        <select {...register("gender")} name="gender">
-          <option value="male">זכר</option>
-          <option value="female">נקבה</option>
-          <option value="other">אחר</option>
-        </select>
-        <select {...register("diabetes_type")} name="diabetes_type">
-          <option value="1">1</option>
-          <option value="2">2</option>
-        </select>
-        <input
-          {...register("hmo")}
-          type="text"
-          name="hmo"
-          placeholder="קופת חולים"
-        />
+    <div className="settings">
+      <Header headerType="settings" />
+      <form className="container" onSubmit={handleSubmit(onSubmit)}>
+        <div className="container__up">
+          <div className="container__up__right">
+            <input
+              {...register("birth_date")}
+              onChange={handleUpdate}
+              name="birth_date"
+              type="date"
+              className="input_small"
+            />
+            <input
+              {...register("height")}
+              type="text"
+              name="height"
+              placeholder="גובה"
+              className="input_small"
+            />
+            <input
+              {...register("weight")}
+              type="text"
+              name="weight"
+              placeholder="משקל"
+              className="input_small"
+            />
+          </div>
+          <div className="container__up__left">
+            <select
+              className="input_small"
+              {...register("gender")}
+              name="gender"
+            >
+              <option value="male">זכר</option>
+              <option value="female">נקבה</option>
+              <option value="other">אחר</option>
+            </select>
+            <select
+              className="input_small"
+              {...register("diabetes_type")}
+              name="diabetes_type"
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+            <input
+              {...register("hmo")}
+              type="text"
+              name="hmo"
+              placeholder="קופת חולים"
+              className="input_small"
+            />
+          </div>
+        </div>
         <label htmlFor="mgdl" className="switch-label switch-label-off">
           <input
             {...register("sugar")}
