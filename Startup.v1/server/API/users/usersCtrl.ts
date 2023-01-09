@@ -97,7 +97,7 @@ export async function login(req: express.Request, res: express.Response) {
     const { email, password } = req.body;
     if (!email || !password)
       throw new Error(
-        "Couldn't receive email/firstName/lastName/identityNumber/password/confirmPassword from req.body FROM register CNTL"
+        "Couldn't receive email/firstName/password from req.body FROM login CNTL"
       );
 
     const sql = `SELECT * from users WHERE email='${email}'`;
