@@ -19,6 +19,7 @@ import { addFood } from "./features/food/foodArraySlice";
 import AddUserFood from './views/addUserFood/AddUserFood';
 import Graph from "./views/graph/Graph";
 import AddItem from './views/addItem/AddItem';
+import { UserBasicInfo } from './views/userInformation/UserBasicInfo';
 
 function App() {
 
@@ -36,7 +37,8 @@ function App() {
             <Route path="/" element={<Intro />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/user-information" element={<UserInfo />} />
+            <Route path="/user-information-2" element={<UserInfo />} />
+            <Route path="/user-information-1" element={<UserBasicInfo />} />
             <Route path="/home" element={<Home />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/list" element={<List />} />

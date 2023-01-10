@@ -43,6 +43,20 @@ const Navbar: React.FC<NavbarProps> = ({ navbarType }) => {
                     </NavLink>
                 </nav>
             }
+            {navbarType === "settings" &&
+                <nav>
+                    <NavLink style={{pointerEvents: 'none'}} to="/subscription" className={({isActive}) => "nav-link" + (isActive ? " active" : "")}>
+                        <NavItem text="מנויים"/>
+                    </NavLink>
+                    <NavLink to="/user-information-2">
+                        <NavItem text="מעט על עצמי"/>
+                    </NavLink>
+                    <NavLink to="/user-information-1">
+                        <NavItem text="פרטים אישיים"/>
+                    </NavLink>
+                </nav>
+            }
+            
         </div>
     )
 }

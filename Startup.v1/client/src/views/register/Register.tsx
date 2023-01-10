@@ -2,8 +2,9 @@ import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Language } from "../../features/user/userModel";
-import hebrew from "../../assets/images/settings/flags/israel.svg"
-
+import hebrew from "../../assets/images/settings/flags/israel.svg";
+import Header from "../../components/header/Header";
+import Navbar from "./../../components/navbar/Navbar";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export const Register = () => {
         identityNumberInput.value,
       ];
 
-      const language = event.target.elements.language.value
+      const language = event.target.elements.language.value;
 
       const { data } = await axios.post("/api/users/register", {
         email,
@@ -44,54 +45,71 @@ export const Register = () => {
         password,
         confirmPassword,
         identityNumber,
-        language
+        language,
       });
       const { register } = data;
 
-      register ? navigate("/user-information") : console.error("register failed");
+      register
+        ? navigate("/user-information")
+        : console.error("register failed");
     } catch (error) {
       console.error(error);
     }
   }
 
   return (
-    <div>
-      <form onSubmit={handleRegister}>
-        <select name="language">
-            <option value={Language.HEBREW}>עברית</option>
-            <option value={Language.ENGLISH}>English</option>
+    <div className="settings">
+      <Header headerType="settings-register" />
+      <form className="container" onSubmit={handleRegister}>
+        <select className="input_big" name="language">
+          <option value={Language.HEBREW}>עברית</option>
+          <option disabled value={Language.ENGLISH}>English</option>
         </select>
         <input
+          className="input_big"
           type="text"
           name="firstNameInput"
           placeholder="Enter your Name:"
         />
         <input
+          className="input_big"
           type="text"
           name="lastNameInput"
           placeholder="Enter your Last Name:"
         />
         <input
+          className="input_big"
           type="number"
           name="identityNumberInput"
           placeholder="Enter Your ID"
         />
-        <input type="email" name="emailInput" placeholder="Enter Your Email" />
         <input
+          className="input_big"
+          type="email"
+          name="emailInput"
+          placeholder="Enter Your Email"
+        />
+        <input
+          className="input_big"
           type="password"
           name="passwordInput"
           placeholder="Enter Password"
           autoComplete="false"
         />
         <input
+          className="input_big"
           type="password"
           name="confirmPasswordInput"
           placeholder="Please Repeat Password:"
           autoComplete="false"
         />
-        <input type="text" name="image" placeholder="Enter Image Url"/>
-        <button type="submit">SIGN UP</button>
-
+        <input
+          className="input_big"
+          type="text"
+          name="image"
+          placeholder="Enter Image Url"
+        />
+        <button className="button_input" type="submit">SIGN UP</button>
       </form>
     </div>
   );
