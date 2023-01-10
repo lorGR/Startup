@@ -54,7 +54,7 @@ export const UserBasicInfo = () => {
 
   return (
     <div className="settings">
-      <Header showMenu={showMenu} setShowMenu={setShowMenu} headerType="settings1" />
+      <Header showMenu={showMenu} setShowMenu={setShowMenu} headerType="settings" />
       <Navbar navbarType="settings" />
       <form className="container" onSubmit={handleUpdate}>
         <select className="input_big" name="language">
@@ -104,7 +104,7 @@ export const UserBasicInfo = () => {
             />
           </div>
         </div>
-        <button className="button_input" type="submit">עדכן</button>
+        {/* <button className="button_input" type="submit">עדכן</button> */}
       </form>
       {showMenu && <Menu />}
     </div>

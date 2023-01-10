@@ -208,7 +208,7 @@ const Header: React.FC<HeaderProps> = ({
          </button>
        </div>
      </div>}
-     {headerType === "settings1" && 
+     {headerType === "settings" && 
        <div className="header__display">
        <div className="header__actions">
          <button>
@@ -218,27 +218,6 @@ const Header: React.FC<HeaderProps> = ({
               dispatch(updateUser({user}))
             }
            }}/>
-         </button>
-       </div>
-       <div className="circle">
-         <div className="circle__icon">
-           <img src={settings} alt="settings ico" />
-         </div>
-         <div className="circle__title">
-           <p className="circle__title__text">הגדרות</p>
-         </div>
-       </div>
-       <div className="header__actions">
-         <button>
-           <img src={fullCancel} alt="Cancel" />
-         </button>
-       </div>
-     </div>}
-     {headerType === "settings2" && 
-       <div className="header__display">
-       <div className="header__actions">
-         <button>
-           <img src={fullCheck} alt="Check" />
          </button>
        </div>
        <div className="circle">

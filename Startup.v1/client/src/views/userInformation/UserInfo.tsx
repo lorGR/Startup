@@ -3,14 +3,27 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
-import Navbar from './../../components/navbar/Navbar';
-import Menu from './../../components/menu/Menu';
+import Navbar from "./../../components/navbar/Navbar";
+import Menu from "./../../components/menu/Menu";
+import { useAppDispatch } from "../../app/hooks";
+import {
+  updateDiabetesType,
+  updateGender,
+  updateHeight,
+  updateHmo,
+  updateWeight,
+  updateCarbsUnit,
+  updateProteinCalc,
+  updateBalanceMin,
+  updateBalanceMax,
+} from "../../features/user/userSlice";
 
 export const UserInfo = () => {
   const navigate = useNavigate();
   const [date, setDate] = useState<Date>();
   const [age, setAge] = useState<number>();
   const [showMenu, setShowMenu] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const { register, handleSubmit } = useForm();
 
@@ -84,8 +97,12 @@ export const UserInfo = () => {
   }
   return (
     <div className="settings">
-      <Header showMenu={showMenu} setShowMenu={setShowMenu}  headerType="settings" />
-      <Navbar navbarType="settings"/>
+      <Header
+        showMenu={showMenu}
+        setShowMenu={setShowMenu}
+        headerType="settings"
+      />
+      <Navbar navbarType="settings" />
       <form className="container" onSubmit={handleSubmit(onSubmit)}>
         <div className="container__up">
           <div className="container__up__right">
@@ -102,6 +119,9 @@ export const UserInfo = () => {
               name="height"
               placeholder="גובה"
               className="input_small"
+              onChange={(ev) => {
+                dispatch(updateHeight(ev.target.value));
+              }}
             />
             <input
               {...register("weight")}
@@ -109,6 +129,9 @@ export const UserInfo = () => {
               name="weight"
               placeholder="משקל"
               className="input_small"
+              onChange={(ev) => {
+                dispatch(updateWeight(ev.target.value));
+              }}
             />
           </div>
           <div className="container__up__left">
@@ -116,6 +139,9 @@ export const UserInfo = () => {
               className="input_small"
               {...register("gender")}
               name="gender"
+              onChange={(ev) => {
+                dispatch(updateGender(ev.target.value));
+              }}
             >
               <option value="male">זכר</option>
               <option value="female">נקבה</option>
@@ -125,6 +151,9 @@ export const UserInfo = () => {
               className="input_small"
               {...register("diabetes_type")}
               name="diabetes_type"
+              onChange={(ev) => {
+                dispatch(updateDiabetesType(ev.target.value));
+              }}
             >
               <option value="1">1</option>
               <option value="2">2</option>
@@ -135,6 +164,9 @@ export const UserInfo = () => {
               name="hmo"
               placeholder="קופת חולים"
               className="input_small"
+              onChange={(ev) => {
+                dispatch(updateHmo(ev.target.value));
+              }}
             />
           </div>
         </div>
@@ -183,6 +215,9 @@ export const UserInfo = () => {
                 name="units"
                 value="gram"
                 id="gram"
+                onChange={(ev) => {
+                  dispatch(updateCarbsUnit(ev.target.value));
+                }}
               />
               גרם
             </label>
@@ -198,6 +233,9 @@ export const UserInfo = () => {
                 name="units"
                 value="portion"
                 id="portion"
+                onChange={(ev) => {
+                  dispatch(updateCarbsUnit(ev.target.value));
+                }}
               />
               מנות
             </label>
@@ -215,6 +253,9 @@ export const UserInfo = () => {
                 name="protein"
                 value="1"
                 id="include"
+                onChange={(ev) => {
+                  dispatch(updateProteinCalc(ev.target.value));
+                }}
               />
               כולל
             </label>
@@ -230,6 +271,9 @@ export const UserInfo = () => {
                 name="protein"
                 value="0"
                 id="notInclude"
+                onChange={(ev) => {
+                  dispatch(updateProteinCalc(ev.target.value));
+                }}
               />
               לא כולל
             </label>
@@ -239,14 +283,22 @@ export const UserInfo = () => {
               {...register("balance_min")}
               type="number"
               name="balance_min"
+              onChange={(ev) => {
+                dispatch(updateBalanceMin(ev.target.value));
+              }}
             />
             <input
               {...register("balance_max")}
               type="number"
               name="balance_max"
+              onChange={(ev) => {
+                dispatch(updateBalanceMax(ev.target.value));
+              }}
             />
           </div>
-          <button className="button_input" type="submit">check</button>
+          {/* <button className="button_input" type="submit">
+            check
+          </button> */}
         </div>
       </form>
       {showMenu && <Menu />}
