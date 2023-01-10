@@ -24,6 +24,7 @@ import {
 import calendar from "../../assets/images/navbar/calendar.png";
 import apple from "../../assets/images/header/apple.png";
 import addItem from "../../assets/images/header/iconItem.png"
+import settings from "../../assets/images/header/iconSettings.png"
 
 interface HeaderProps {
   headerType: string;
@@ -204,7 +205,49 @@ const Header: React.FC<HeaderProps> = ({
          </button>
        </div>
      </div>}
-      <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} />
+     {headerType === "settings" && 
+       <div className="header__display">
+       <div className="header__actions">
+         <button>
+           <img src={fullCheck} alt="Check" />
+         </button>
+       </div>
+       <div className="circle">
+         <div className="circle__icon">
+           <img src={settings} alt="settings ico" />
+         </div>
+         <div className="circle__title">
+           <p className="circle__title__text">הגדרות</p>
+         </div>
+       </div>
+       <div className="header__actions">
+         <button>
+           <img src={fullCancel} alt="Cancel" />
+         </button>
+       </div>
+     </div>}
+     {headerType === "settings-register" && 
+       <div className="header__display">
+       <div className="header__actions">
+         {/* <button>
+           <img src={fullCheck} alt="Check" />
+         </button> */}
+       </div>
+       <div className="circle">
+         <div className="circle__icon">
+           <img src={settings} alt="settings icon" />
+         </div>
+         <div className="circle__title">
+           <p className="circle__title__text">הרשמה</p>
+         </div>
+       </div>
+       <div className="header__actions">
+         {/* <button>
+           <img src={fullCancel} alt="Cancel" />
+         </button> */}
+       </div>
+     </div>}
+     {headerType !== "settings-register" ? <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} /> : null}
       <AddMealForm displayType={display} setDisplay={setDisplay} />
     </div>
   );
