@@ -149,8 +149,9 @@
             background: linear-gradient(0deg, rgba(204, 240, 255, 0.852) 0%, rgba(242, 247, 251, 1) 100%);
             padding-right: 15px;
             margin-bottom: 1rem;
-            width: 100%;
-            
+            width: 90%;
+            align-self: center;
+            padding-left: 1.5rem;
         }
 
 
@@ -184,6 +185,17 @@
            background-image: url("../../assets/images/settings/camera.png");
            background-repeat: no-repeat;
            background-position: center;
+        }
+
+        .button_input {
+            height: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgb(36, 92, 209);
+            background: linear-gradient(0deg, rgba(204, 240, 255, 0.852) 0%, rgba(242, 247, 251, 1) 100%);
+            padding-right: 15px;
+            margin-bottom: 1rem;
+            width: 40%;
+            align-self: center;
         }
         
     }

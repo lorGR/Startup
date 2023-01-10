@@ -56,6 +56,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarType }) => {
                     </NavLink>
                 </nav>
             }
+            
         </div>
     )
 }

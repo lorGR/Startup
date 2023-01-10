@@ -214,7 +214,7 @@ const Header: React.FC<HeaderProps> = ({
        </div>
        <div className="circle">
          <div className="circle__icon">
-           <img src={settings} alt="plus icon" />
+           <img src={settings} alt="settings ico" />
          </div>
          <div className="circle__title">
            <p className="circle__title__text">הגדרות</p>
@@ -226,7 +226,29 @@ const Header: React.FC<HeaderProps> = ({
          </button>
        </div>
      </div>}
-      <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} />
+     {headerType === "settings-register" && 
+       <div className="header__display">
+       <div className="header__actions">
+         {/* <button>
+           <img src={fullCheck} alt="Check" />
+         </button> */}
+       </div>
+       <div className="circle">
+         <div className="circle__icon">
+           <img src={settings} alt="settings icon" />
+         </div>
+         <div className="circle__title">
+           <p className="circle__title__text">הרשמה</p>
+         </div>
+       </div>
+       <div className="header__actions">
+         {/* <button>
+           <img src={fullCancel} alt="Cancel" />
+         </button> */}
+       </div>
+     </div>}
+     {headerType !== "settings-register" ? <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} /> : null}
+      {/* <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} /> */}
       <AddMealForm displayType={display} setDisplay={setDisplay} />
     </div>
   );
