@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Language } from "../../features/user/userModel";
 import hebrew from "../../assets/images/settings/flags/israel.svg";
 import { useAppSelector } from "../../app/hooks";
-import { userSelector } from "../../features/user/userSlice";
+import { updateFirstName, updateIdentityNumber, updateLastName, updateProfileImage, userSelector } from "../../features/user/userSlice";
 import { useAppDispatch } from "./../../app/hooks";
 import { getUserByCookie } from "./../../features/user/userAPI";
 import Header from "../../components/header/Header";
@@ -15,12 +15,13 @@ export const UserBasicInfo = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector(userSelector);
-  console.log(user);
+  console.log(user)
 
   const [firstName, setFirstName] = useState(user?.first_name);
   const [lastName, setLastName] = useState(user?.last_name);
   const [identityNumber, setIdentityNumber] = useState(user?.identity_number);
   const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [counter, setCounter] = useState(0)
 
   async function handleUpdate(event: any) {
     try {
@@ -39,10 +40,11 @@ export const UserBasicInfo = () => {
   }
 
   useEffect(() => {
-    if (user) {
+    if (user && counter ===0) {
       setFirstName(user.first_name);
       setLastName(user.last_name);
       setIdentityNumber(user.identity_number);
+      setCounter(1)
     }
   }, [user]);
 
@@ -52,7 +54,7 @@ export const UserBasicInfo = () => {
 
   return (
     <div className="settings">
-      <Header showMenu={showMenu} setShowMenu={setShowMenu} headerType="settings" />
+      <Header showMenu={showMenu} setShowMenu={setShowMenu} headerType="settings1" />
       <Navbar navbarType="settings" />
       <form className="container" onSubmit={handleUpdate}>
         <select className="input_big" name="language">
@@ -63,7 +65,7 @@ export const UserBasicInfo = () => {
         </select>
         <div className="container__up">
           <div className="container__up__left">
-            <input className="imageInput" type="text" name="image" />
+            <input onChange={(ev) => {updateProfileImage(ev.target.value)}} className="imageInput" type="text" name="image" />
           </div>
           <div className="container__up__right">
             <input
@@ -73,6 +75,8 @@ export const UserBasicInfo = () => {
               value={firstName}
               onChange={(ev: any) => {
                 setFirstName(ev.target.value);
+                console.log("after set state, before reducer action")
+                dispatch(updateFirstName(ev.target.value))
               }}
               className="input_small"
             />
@@ -83,6 +87,7 @@ export const UserBasicInfo = () => {
               value={lastName}
               onChange={(ev: any) => {
                 setLastName(ev.target.value);
+                dispatch(updateLastName(ev.target.value))
               }}
               className="input_small"
             />
@@ -93,6 +98,7 @@ export const UserBasicInfo = () => {
               value={identityNumber}
               onChange={(ev: any) => {
                 setIdentityNumber(ev.target.value);
+                dispatch(updateIdentityNumber(ev.target.value))
               }}
               className="input_small"
             />

@@ -254,7 +254,9 @@ export function updateUserInformation(
 
 export function updateAllUserInformation(req:express.Request, res:express.Response) {
   try {
+    console.log("updating user")
     const {user} = req.body;
+    console.log(user)
     const { userID } = req.cookies;
     if (!userID)
       throw new Error(

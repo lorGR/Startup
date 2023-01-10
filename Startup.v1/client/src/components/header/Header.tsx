@@ -25,6 +25,8 @@ import calendar from "../../assets/images/navbar/calendar.png";
 import apple from "../../assets/images/header/apple.png";
 import addItem from "../../assets/images/header/iconItem.png"
 import settings from "../../assets/images/header/iconSettings.png"
+import { updateUser } from "../../features/user/userAPI";
+import { userSelector } from './../../features/user/userSlice';
 
 interface HeaderProps {
   headerType: string;
@@ -51,6 +53,7 @@ const Header: React.FC<HeaderProps> = ({
   const openMeal = useAppSelector(openMealSelector);
   const foodArray = useAppSelector(foodarraySelector);
   const carbs = useAppSelector(carbsCounterSelector);
+  const user = useAppSelector(userSelector)
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -205,7 +208,33 @@ const Header: React.FC<HeaderProps> = ({
          </button>
        </div>
      </div>}
-     {headerType === "settings" && 
+     {headerType === "settings1" && 
+       <div className="header__display">
+       <div className="header__actions">
+         <button>
+           <img src={fullCheck} alt="Check" onClick={() => {
+            if (user) {
+              
+              dispatch(updateUser({user}))
+            }
+           }}/>
+         </button>
+       </div>
+       <div className="circle">
+         <div className="circle__icon">
+           <img src={settings} alt="settings ico" />
+         </div>
+         <div className="circle__title">
+           <p className="circle__title__text">הגדרות</p>
+         </div>
+       </div>
+       <div className="header__actions">
+         <button>
+           <img src={fullCancel} alt="Cancel" />
+         </button>
+       </div>
+     </div>}
+     {headerType === "settings2" && 
        <div className="header__display">
        <div className="header__actions">
          <button>
