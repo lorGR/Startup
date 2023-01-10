@@ -219,9 +219,6 @@ export function updateUserInformation(
 ) {
   try {
     const { firstName, lastName, identityNumber } = req.body;
-    console.log(firstName)
-    console.log(lastName)
-    console.log(identityNumber)
     if (!firstName || !lastName || !identityNumber)
       throw new Error(
         "Couldn't receive firstName/lastName/identityNumber from req.body FROM register CNTL"
@@ -255,3 +252,42 @@ export function updateUserInformation(
   }
 }
 
+export function updateAllUserInformation(req:express.Request, res:express.Response) {
+  try {
+    const {user} = req.body;
+    const { userID } = req.cookies;
+    if (!userID)
+      throw new Error(
+        "Couldn't find cookie named userID in updateUserInfo ON FUNCTION updateCarbsGoal IN FILE usersCtrl"
+      );
+
+    const userId = decodeCookie(userID);
+    if (!userId)
+      throw new Error(
+        "Couldn't find userId from decodedUserId ON FUNCTION updateCarbsGoal IN FILE usersCtrl"
+      );
+    if(!user) throw new Error("no user information was received on FUNCTION updateAllUserInformation IN FILE userCtrl");
+
+    const sql = `UPDATE users SET first_name = '${user.first_name}', last_name = '${user.last_name}', identity_number = '${user.identity_number}', gender = '${user.gender}', height = '${user.height}', weight = '${user.weight}', diabetes_type = '${user.diabetes_type}', hmo = '${user.hmo}', balance_min = '${user.balance_min}', balance_max = '${user.balance_max}', carbs_unit = '${user.carbs_unit}', protein_calc = '${user.protein_calc}', profile_image = '${user.profile_image}' WHERE (user_id = '${userId}');`
+
+    connection.query(sql, (error, result) => {
+      try {
+        if (error) throw error;
+        const sql = `SELECT * FROM users WHERE user_id = '${userId}'`;
+
+        connection.query(sql, (error, result) => {
+          try {
+            if(error) throw error;
+            res.send({result})
+          } catch (error) {
+            res.status(500).send({error: error.message})
+          }
+        }) 
+      } catch (error) {
+        res.status(500).send({error: error.message})
+      }
+    })
+  } catch (error) {
+    res.status(500).send({error: error.message})
+  }
+}
