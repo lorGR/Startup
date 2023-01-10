@@ -248,7 +248,6 @@ const Header: React.FC<HeaderProps> = ({
        </div>
      </div>}
      {headerType !== "settings-register" ? <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} /> : null}
-      {/* <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} /> */}
       <AddMealForm displayType={display} setDisplay={setDisplay} />
     </div>
   );

@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import Navbar from './../../components/navbar/Navbar';
+import Menu from './../../components/menu/Menu';
 
 export const UserInfo = () => {
   const navigate = useNavigate();
   const [date, setDate] = useState<Date>();
   const [age, setAge] = useState<number>();
+  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const { register, handleSubmit } = useForm();
 
@@ -82,7 +84,7 @@ export const UserInfo = () => {
   }
   return (
     <div className="settings">
-      <Header headerType="settings" />
+      <Header showMenu={showMenu} setShowMenu={setShowMenu}  headerType="settings" />
       <Navbar navbarType="settings"/>
       <form className="container" onSubmit={handleSubmit(onSubmit)}>
         <div className="container__up">
@@ -244,9 +246,10 @@ export const UserInfo = () => {
               name="balance_max"
             />
           </div>
-          <button type="submit">check</button>
+          <button className="button_input" type="submit">check</button>
         </div>
       </form>
+      {showMenu && <Menu />}
     </div>
   );
 };

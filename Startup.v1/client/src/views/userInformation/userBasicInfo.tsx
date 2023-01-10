@@ -9,6 +9,7 @@ import { useAppDispatch } from "./../../app/hooks";
 import { getUserByCookie } from "./../../features/user/userAPI";
 import Header from "../../components/header/Header";
 import Navbar from "./../../components/navbar/Navbar";
+import Menu from "./../../components/menu/Menu";
 
 export const UserBasicInfo = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export const UserBasicInfo = () => {
   const [firstName, setFirstName] = useState(user?.first_name);
   const [lastName, setLastName] = useState(user?.last_name);
   const [identityNumber, setIdentityNumber] = useState(user?.identity_number);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   async function handleUpdate(event: any) {
     try {
@@ -50,7 +52,7 @@ export const UserBasicInfo = () => {
 
   return (
     <div className="settings">
-      <Header headerType="settings" />
+      <Header showMenu={showMenu} setShowMenu={setShowMenu} headerType="settings" />
       <Navbar navbarType="settings" />
       <form className="container" onSubmit={handleUpdate}>
         <select className="input_big" name="language">
@@ -61,10 +63,10 @@ export const UserBasicInfo = () => {
         </select>
         <div className="container__up">
           <div className="container__up__left">
-          <input className="imageInput" type="text" name="image"/>
+            <input className="imageInput" type="text" name="image" />
           </div>
           <div className="container__up__right">
-          <input
+            <input
               type="text"
               name="firstNameInput"
               placeholder="Enter your Name:"
@@ -94,11 +96,11 @@ export const UserBasicInfo = () => {
               }}
               className="input_small"
             />
-            
           </div>
         </div>
-        <button type="submit">עדכן</button>
+        <button className="button_input" type="submit">עדכן</button>
       </form>
+      {showMenu && <Menu />}
     </div>
   );
 };

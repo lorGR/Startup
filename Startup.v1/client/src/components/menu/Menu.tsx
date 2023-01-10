@@ -27,7 +27,7 @@ const Menu = () => {
           <MenuItem link="" text="דוחות" icon={report} />
         </div>
         <div className="menu__row">
-          <MenuItem link="" text="הגדרות" icon={settings} />
+          <MenuItem link="/user-information-1" text="הגדרות" icon={settings} />
           <MenuItem link="" text="שתף" icon={share} />
 
         </div>
