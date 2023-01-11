@@ -54,6 +54,12 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        &--big{
+            img {
+                width: 4rem;
+            }
+        }
+
         img {
             width: 2.25rem;
         }

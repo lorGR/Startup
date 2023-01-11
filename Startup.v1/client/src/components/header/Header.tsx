@@ -25,6 +25,7 @@ import calendar from "../../assets/images/navbar/calendar.png";
 import apple from "../../assets/images/header/apple.png";
 import addItem from "../../assets/images/header/iconItem.png"
 import settings from "../../assets/images/header/iconSettings.png"
+import dropIcon from "../../assets/images/header/dropIcon.png"
 import { updateUser } from "../../features/user/userAPI";
 import { userSelector } from './../../features/user/userSlice';
 
@@ -255,7 +256,25 @@ const Header: React.FC<HeaderProps> = ({
          </button> */}
        </div>
      </div>}
-     {headerType !== "settings-register" ? <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} /> : null}
+     {headerType === "login" && 
+       <div className="header__display">
+       <div className="header__actions">
+         {/* <button>
+           <img src={fullCheck} alt="Check" />
+         </button> */}
+       </div>
+       <div className="circle">
+         <div className="circle__icon--big">
+           <img src={dropIcon} alt="drop icon" />
+         </div>
+       </div>
+       <div className="header__actions">
+         {/* <button>
+           <img src={fullCancel} alt="Cancel" />
+         </button> */}
+       </div>
+     </div>}
+     {headerType !== "settings-register" && headerType !== "login" ? <Hamburger setShowMenu={setShowMenu!} showMenu={showMenu!} /> : null}
       <AddMealForm displayType={display} setDisplay={setDisplay} />
     </div>
   );
