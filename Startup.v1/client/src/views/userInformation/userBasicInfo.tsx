@@ -5,11 +5,11 @@ import { Language } from "../../features/user/userModel";
 import hebrew from "../../assets/images/settings/flags/israel.svg";
 import { useAppSelector } from "../../app/hooks";
 import { updateFirstName, updateIdentityNumber, updateLastName, updateProfileImage, userSelector } from "../../features/user/userSlice";
-import { useAppDispatch } from "./../../app/hooks";
-import { getUserByCookie } from "./../../features/user/userAPI";
+import { useAppDispatch } from "../../app/hooks";
+import { getUserByCookie } from "../../features/user/userAPI";
 import Header from "../../components/header/Header";
-import Navbar from "./../../components/navbar/Navbar";
-import Menu from "./../../components/menu/Menu";
+import Navbar from "../../components/navbar/Navbar";
+import Menu from "../../components/menu/Menu";
 
 export const UserBasicInfo = () => {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export const UserBasicInfo = () => {
   }
 
   useEffect(() => {
-    if (user && counter ===0) {
+    if (user && counter === 0) {
       setFirstName(user.first_name);
       setLastName(user.last_name);
       setIdentityNumber(user.identity_number);
@@ -65,7 +65,7 @@ export const UserBasicInfo = () => {
         </select>
         <div className="container__up">
           <div className="container__up__left">
-            <input onChange={(ev) => {updateProfileImage(ev.target.value)}} className="imageInput" type="text" name="image" />
+            <input onChange={(ev) => { updateProfileImage(ev.target.value) }} className="imageInput" type="text" name="image" />
           </div>
           <div className="container__up__right">
             <input
