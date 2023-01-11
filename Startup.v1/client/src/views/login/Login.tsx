@@ -2,6 +2,7 @@ import React, { FormEventHandler } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
+import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png"
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -23,7 +24,10 @@ export const Login = () => {
   return (
     <div className="login-page">
       <Header headerType="login"/>
+     
       <form dir="rtl" className="container" onSubmit={handleLogin}>
+        <img src={sugarbitHeader} alt="sugarBit header" />
+        <h2>התחברות</h2>
         <input className="input_big" type="email" name="email" placeholder="הכנס/י כתובת דואר אלקטרוני" />
         <input className="input_big" type="password" name="password" placeholder="הכנס/י סיסמא" autoComplete="false" />
         <button className="button_input" type="submit">התחבר/י</button>

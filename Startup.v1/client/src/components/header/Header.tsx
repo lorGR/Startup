@@ -25,6 +25,7 @@ import calendar from "../../assets/images/navbar/calendar.png";
 import apple from "../../assets/images/header/apple.png";
 import addItem from "../../assets/images/header/iconItem.png"
 import settings from "../../assets/images/header/iconSettings.png"
+import dropIcon from "../../assets/images/header/dropIcon.png"
 import { updateUser } from "../../features/user/userAPI";
 import { userSelector } from './../../features/user/userSlice';
 
@@ -263,11 +264,8 @@ const Header: React.FC<HeaderProps> = ({
          </button> */}
        </div>
        <div className="circle">
-         <div className="circle__icon">
-           <img src={settings} alt="settings icon" />
-         </div>
-         <div className="circle__title">
-           <p className="circle__title__text">התחברות</p>
+         <div className="circle__icon--big">
+           <img src={dropIcon} alt="drop icon" />
          </div>
        </div>
        <div className="header__actions">
