@@ -172,7 +172,18 @@ export const UserInfo = () => {
         </div>
         <div className="container__down">
           <div className="blood_sugar">
-            <div className="checked">
+            <div className="text">
+              <p>חישוב סוכר בדם</p>
+            </div>
+            <div className="fields">
+              <div className="switch-field">
+                <input type="radio" name="blood-sugar" id="blood-sugar-1" />
+                <label htmlFor="blood-sugar-1">mg/dl</label>
+                <input type="radio" name="blood-sugar" id="blood-sugar-2" />
+                <label htmlFor="blood-sugar-2">mmol/lit</label>
+              </div>
+            </div>
+            {/* <div className="checked">
               <label htmlFor="mgdl" className="switch-label switch-label-off">
                 mg/dl
               </label>
@@ -200,11 +211,22 @@ export const UserInfo = () => {
                 value="american"
                 id="american"
               />
-            </div>
+            </div> */}
           </div>
 
           <div className="measure">
-            <label
+            <div className="text">
+              <p>ספירת פחמימות</p>
+            </div>
+            <div className="fields">
+              <div className="switch-field">
+                <input type="radio" name="messure" id="messure-1" />
+                <label htmlFor="messure-1">מנה</label>
+                <input type="radio" name="messure" id="messure-2" />
+                <label htmlFor="messure-2">גרם</label>
+              </div>
+            </div>
+            {/* <label
               htmlFor="gram"
               className="switch-count-label switch-count-label-off"
             >
@@ -276,10 +298,32 @@ export const UserInfo = () => {
                 }}
               />
               לא כולל
-            </label>
+            </label> */}
+          </div>
+          <div className="protien_included">
+            <div className="text">
+              <p>חישוב חלבונים</p>
+            </div>
+            <div className="fields">
+              <div className="switch-field">
+                <input type="radio" name="protien-included" id="protien-included-1" />
+                <label htmlFor="protien-included-1">לא כולל</label>
+                <input type="radio" name="protien-included" id="protien-included-2" />
+                <label htmlFor="protien-included-2">כולל</label>
+              </div>
+            </div>
           </div>
           <div className="balance">
-            <input
+            <div className="text">
+              <p>טווח האיזון שלי</p>
+            </div>
+            <div className="fields">
+              <div className="switch-field">
+                <input type="number" name="" id="" placeholder="מינימום"/>
+                <input type="number" name="" id="" placeholder="מקסימום" />
+              </div>
+            </div>
+            {/* <input
               {...register("balance_min")}
               type="number"
               name="balance_min"
@@ -294,7 +338,7 @@ export const UserInfo = () => {
               onChange={(ev) => {
                 dispatch(updateBalanceMax(ev.target.value));
               }}
-            />
+            /> */}
           </div>
           {/* <button className="button_input" type="submit">
             check
