@@ -8,6 +8,12 @@ import ServingItem from "./servingItem/ServingItem";
 import { useAppDispatch } from "./../../app/hooks";
 import { deleteLastMeal } from "./../../features/openMeal/openMealAPI";
 import { openMealSlice } from "./../../features/openMeal/openMealSlice";
+import insulinIcon from "../../assets/images/home/insulinIcon.png";
+import bloodIcon from "../../assets/images/home/bloodIcon.png";
+import carbsIcon from "../../assets/images/home/carbsIcon.png";
+import XLineIcon from "../../assets/images/home/XLineIcon.png";
+import fullCheck from "../../assets/images/header/fullCheck.png";
+import fullCancel from "../../assets/images/header/fullCancel.png";
 
 interface MealItemProps {
   meal: Meal;
@@ -26,11 +32,12 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
     try {
       console.log("trying to open");
       let mealId = null;
-      if (event.target.nodeName === "P") {
-        mealId = event.target.parentNode.id;
-      } else {
-        mealId = event.target.id;
-      }
+      // if (event.target.nodeName === "P") {
+      //   mealId = event.target.parentNode.id;
+      // } else {
+      //   mealId = event.target.id;
+      // }
+      mealId = meal.meal_id;
       const { data } = await axios.post("/api/meals/get-meals-servings", {
         mealId,
       });
@@ -38,9 +45,9 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
         throw new Error(
           "Coudln't receive data from axios POST ON FUNCTION handleClickMeal IN FILE MealItem.tsx "
         );
-        console.log(data)
+      console.log(data);
       const { allServingsArray } = data;
-      console.log(allServingsArray)
+      console.log(allServingsArray);
 
       if (!dropDown) {
         setDropDown(!dropDown);
@@ -48,7 +55,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
         setDropDown(!dropDown);
       }
       setMealServings(allServingsArray);
-      console.log(allServingsArray)
+      console.log(allServingsArray);
     } catch (error) {
       console.error(error);
     }
@@ -59,9 +66,9 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
       event.preventDefault();
       event.stopPropagation();
       console.log("trying To delete");
-        const mealId = meal.meal_id;
-        if (mealId) dispatch(deleteLastMeal({ mealId }));
-      
+      const mealId = meal.meal_id;
+      if (mealId) dispatch(deleteLastMeal({ mealId }));
+
       handleCloseForm();
     } catch (error) {
       console.error(error);
@@ -74,7 +81,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
       const messege = document.getElementById(
         `${meal.meal_id}message`
       ) as HTMLDivElement;
-      messege.style.display = "block";
+      messege.style.display = "flex";
     } catch (error) {
       console.error(error);
     }
@@ -94,18 +101,25 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
   }, []);
   if (type === "home") {
     return (
-      <div className="meal-item dropbtn">
+      <div className="meal-item  dropbtn">
         <div
           onClick={handleClickMeal}
-          className="meal-item__content"
+          className="meal-item__content green"
           id={meal.meal_id!.toString()}
         >
-          <span onClick={InititeDelete} className="material-symbols-outlined">
-            delete
+          <span onClick={InititeDelete}>
+            <img src={XLineIcon} alt="" />
           </span>
-          <p>אינס׳ {meal.insulin}</p>
-          <p>סוכ' {meal.blood_sugar}</p>
-          <p> פחמ׳ {meal.carbs}</p>
+          <p>
+            אינס׳ {meal.insulin} <img src={insulinIcon} alt="" />
+          </p>
+          <p>
+            סוכ' {meal.blood_sugar} <img src={bloodIcon} alt="" />
+          </p>
+          <p>
+            {" "}
+            פחמ׳ {meal.carbs} <img src={carbsIcon} alt="" />
+          </p>
           <p>{meal.time.slice(0, 5)}</p>
         </div>
         {meal.opened_to_edit === 1 && (
@@ -126,32 +140,48 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
           </div>
         )}
         <form
+          dir="rtl"
           onSubmit={handleDeleteMeal}
           className="messege_container"
           id={`${meal.meal_id}message`}
         >
-          <h5>Are you sure you want to delete this meal?</h5>
-          <button type="submit">V</button>
-          <button onClick={handleCloseForm} type="button">
-            X
-          </button>
+          <h5>את/ה בטוח/ה שברצונך למחוק את הארוחה?</h5>
+          <div className="messege_container__buttons">
+            <button
+              className="messege_container__buttons__button"
+              onClick={handleCloseForm}
+              type="button"
+            >
+              <img src={fullCancel} alt="" />
+            </button>
+            <button className="messege_container__buttons__button" type="submit">
+              <img src={fullCheck} alt="" />
+            </button>
+          </div>
         </form>
       </div>
     );
   } else if (type === "calendar") {
     return (
-      <div className="meal-item dropbtn">
+      <div className="meal-item dropbtn green">
         <div
           onClick={handleClickMeal}
           className="meal-item__content"
           id={meal.meal_id!.toString()}
         >
-          <span onClick={InititeDelete} className="material-symbols-outlined">
-            delete
+          <span onClick={InititeDelete}>
+            <img src={XLineIcon} alt="" />
           </span>
-          <p>אינס׳ {meal.insulin}</p>
-          <p>סוכ' {meal.blood_sugar}</p>
-          <p> פחמ׳ {meal.carbs}</p>
+          <p>
+            אינס׳ {meal.insulin} <img src={insulinIcon} alt="" />
+          </p>
+          <p>
+            סוכ' {meal.blood_sugar} <img src={bloodIcon} alt="" />
+          </p>
+          <p>
+            {" "}
+            פחמ׳ {meal.carbs} <img src={carbsIcon} alt="" />
+          </p>
           <p>{meal.time.slice(0, 5)}</p>
         </div>
         <div className="dropdown-content">
@@ -170,15 +200,24 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
             })}
         </div>
         <form
+          dir="rtl"
           onSubmit={handleDeleteMeal}
           className="messege_container"
           id={`${meal.meal_id}message`}
         >
-          <h5>Are you sure you want to delete this meal?</h5>
-          <button type="submit">V</button>
-          <button onClick={handleCloseForm} type="button">
-            X
-          </button>
+          <h5>את/ה בטוח/ה שברצונך למחוק את הארוחה?</h5>
+          <div className="messege_container__buttons">
+            <button
+              className="messege_container__buttons__button"
+              onClick={handleCloseForm}
+              type="button"
+            >
+              <img src={fullCancel} alt="" />
+            </button>
+            <button className="messege_container__buttons__button" type="submit">
+              <img src={fullCheck} alt="" />
+            </button>
+          </div>
         </form>
       </div>
     );

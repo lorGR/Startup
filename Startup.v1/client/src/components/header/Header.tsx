@@ -195,7 +195,7 @@ const Header: React.FC<HeaderProps> = ({
            <img src={fullCheck} alt="Check" />
          </button>
        </div>
-       <div className="circle" onClick={handleAddMealForm}>
+       <div className="circle">
          <div className="circle__icon">
            <img src={addItem} alt="plus icon" />
          </div>
@@ -217,6 +217,7 @@ const Header: React.FC<HeaderProps> = ({
             if (user) {
               
               dispatch(updateUser({user}))
+              navigate("/home")
             }
            }}/>
          </button>

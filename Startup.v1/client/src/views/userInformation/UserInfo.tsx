@@ -6,7 +6,8 @@ import Header from "../../components/header/Header";
 import Navbar from "./../../components/navbar/Navbar";
 import Menu from "./../../components/menu/Menu";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { userSelector } from "./../../features/user/userSlice";
+import moment from "moment";
+import { updateBirthDate, userSelector } from "./../../features/user/userSlice";
 import {
   updateDiabetesType,
   updateGender,
@@ -41,7 +42,7 @@ export const UserInfo = () => {
   const [proteinCalc, setProteinCalc] = useState<number | boolean>();
   const [balanceMin, setBalanceMin] = useState<number>();
   const [balanceMax, setBalanceMax] = useState<number>();
-  const [birthDate, setBirthDate] = useState<string | Date>()
+  const [birthDate, setBirthDate] = useState<string | Date>();
 
   const { register, handleSubmit } = useForm();
 
@@ -58,12 +59,16 @@ export const UserInfo = () => {
       if (user.balance_max) setBalanceMax(user.balance_max);
       // if(user.birth_date) setBirthDate(user.birth_date)
       
-      console.log(birthDate)
-      if(birthDate) {
-      const formattedBirthday = new Date(birthDate)
-      console.log(formattedBirthday)
-      setBirthDate(formattedBirthday)
-      }
+      // console.log(user.birth_date)
+      const bdFormatted = user.birth_date!.toString().slice(0, 10);
+      // console.log(typeof(bdFormatted))
+      // const bd = new Date(bdFormatted)
+      // // console.log(bd.setDate(bd.getDate() +1))
+      // const finalBd = new Date(bd.setDate(bd.getDate() +1))
+      // const finalFinalBd = finalBd.toISOString().toString().slice(0, 10);
+      // console.log(finalFinalBd)
+      // console.log(finalBd)
+      setBirthDate(bdFormatted)
     }
   }, [user]);
 
@@ -148,10 +153,14 @@ export const UserInfo = () => {
           <div className="container__up__right">
             <input
               {...register("birth_date")}
-              onChange={handleUpdate}
+              onChange={(ev) => {
+                setBirthDate(ev.target.value)
+                dispatch(updateBirthDate(ev.target.value))
+              }}
               name="birth_date"
               type="date"
               className="input_small"
+              value={`${birthDate}`}
             />
             <input
               {...register("height")}
@@ -160,7 +169,7 @@ export const UserInfo = () => {
               placeholder="גובה"
               className="input_small"
               onChange={(ev) => {
-                setHeight(Number(ev.target.value))
+                setHeight(Number(ev.target.value));
                 dispatch(updateHeight(ev.target.value));
               }}
               value={height}
@@ -196,7 +205,8 @@ export const UserInfo = () => {
               {...register("diabetes_type")}
               name="diabetes_type"
               onChange={(ev) => {
-                dispatch(updateDiabetesType(ev.target.value));
+                dispatch(updateDiabetesType(Number(ev.target.value)));
+                console.log(Number(ev.target.value))
               }}
               value={diabetesType}
             >
@@ -244,23 +254,52 @@ export const UserInfo = () => {
               <div className="switch-field">
                 {carbsMeasure === "gram" && (
                   <>
-                    <input onChange={() => {dispatch(updateCarbsUnit("portion"))} } type="radio" name="messure" id="messure-1" />
+                    <input
+                      onChange={() => {
+                        dispatch(updateCarbsUnit("portion"));
+                      }}
+                      type="radio"
+                      name="messure"
+                      id="messure-1"
+                    />
                     <label htmlFor="messure-1">מנה</label>
-                    <input onChange={() => {dispatch(updateCarbsUnit("gram"))} } checked type="radio" name="messure" id="messure-2" />
+                    <input
+                      onChange={() => {
+                        dispatch(updateCarbsUnit("gram"));
+                      }}
+                      checked
+                      type="radio"
+                      name="messure"
+                      id="messure-2"
+                    />
                     <label htmlFor="messure-2">גרם</label>
                   </>
                 )}
                 {carbsMeasure === "portion" && (
                   <>
-                    <input onChange={() => {dispatch(updateCarbsUnit("portion"))} } checked type="radio" name="messure" id="messure-1" />
+                    <input
+                      onChange={() => {
+                        dispatch(updateCarbsUnit("portion"));
+                      }}
+                      checked
+                      type="radio"
+                      name="messure"
+                      id="messure-1"
+                    />
                     <label htmlFor="messure-1">מנה</label>
-                    <input onChange={() => {dispatch(updateCarbsUnit("gram"))} } type="radio" name="messure" id="messure-2" />
+                    <input
+                      onChange={() => {
+                        dispatch(updateCarbsUnit("gram"));
+                      }}
+                      type="radio"
+                      name="messure"
+                      id="messure-2"
+                    />
                     <label htmlFor="messure-2">גרם</label>
                   </>
                 )}
               </div>
             </div>
-          
           </div>
           <div className="protien_included">
             <div className="text">
@@ -290,8 +329,26 @@ export const UserInfo = () => {
             </div>
             <div className="fields">
               <div className="switch-field">
-                <input type="number" name="" id="" placeholder="מינימום" />
-                <input type="number" name="" id="" placeholder="מקסימום" />
+                <input
+                  onChange={(ev) => {
+                    setBalanceMin(Number(ev.target.value));
+                    updateBalanceMin(Number(ev.target.value))
+                  }}
+                  type="number"
+                  name="balance_min"
+                  id=""
+                  placeholder="מינימום"
+                />
+                <input
+                  onChange={(ev) => {
+                    setBalanceMax(Number(ev.target.value));
+                    updateBalanceMax(Number(ev.target.value))
+                  }}
+                  type="number"
+                  name="balance_max"
+                  id=""
+                  placeholder="מקסימום"
+                />
               </div>
             </div>
           </div>

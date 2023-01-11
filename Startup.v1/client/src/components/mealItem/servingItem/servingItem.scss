@@ -1,25 +1,77 @@
 #enterGram {
-    display: none;
+  display: none;
 }
+
 .enterGram {
-    display: none;
+  display: none;
 }
 
 .messege_container {
-    position: absolute;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-    background-color: aliceblue;
-    width: 15rem;
-    height: 5rem;
-    display: none;
+  width: 15rem;
+  height: 7rem;
+  display: none;
+  border: 3px solid #5171a9;
+  border-radius: .5rem;
+  background: linear-gradient(135deg, rgba(183, 214, 242, 1) 0%, rgba(255, 255, 255, 1) 50%, rgba(183, 214, 242, 1) 100%);
+  z-index: 1;
+  flex-direction: column;
+  justify-content: center;
+
+  &__buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+
+    &__button {
+      border: none;
+      background: none;
+
+      img {
+        width: 2rem;
+      }
+    }
+  }
+
+
 }
 
 .none {
-  display:none;
+  display: none;
 }
 
 .inline {
   display: inline;
+}
+
+.amountSetter {
+  display: flex;
+
+  &__button {
+    background: none;
+    border: none;
+
+    img {
+      width: 0.5rem;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.carbs {
+  color: green;
+  font-weight: 600;
+}
+
+.delete {
+  img {
+    width: 1.5rem;
+    opacity: 0.6;
+  }
 }
