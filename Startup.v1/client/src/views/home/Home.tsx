@@ -16,6 +16,7 @@ import { getLastMeal } from "../../features/openMeal/openMealAPI";
 import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
 import { Link } from "react-router-dom";
 import Menu from "../../components/menu/Menu";
+import smilingDrop from "../../assets/images/home/smilingDrop.png";
 
 const Home = () => {
   const [addMealForm, setAddMealForm] = useState(false);
@@ -71,19 +72,28 @@ const Home = () => {
         setAddMealForm={setAddMealForm}
         setShowMenu={setShowMenu}
         showMenu={showMenu}
-
       />
       <Navbar navbarType="main" />
       <div className="home__container">
         {/* {meals.map(meal => <MealItem meal={meal} key={meal.meal_id} setMeals={setMeals} date={date}/>)} */}
         {!openMeal && (
-          <div dir="rtl">שלום {user?.first_name} אנא הזן מדדים</div>
+          <div className="user_message" dir="rtl">
+            <h3>שלום {user?.first_name} אנא הזן מדדים</h3>
+          </div>
         )}
         {openMeal && openMeal.meal_id === 0 && (
-          <div dir="rtl">שלום {user?.first_name} אנא הזן מדדים</div>
+          <div className="user_message" dir="rtl">
+            <h3>שלום {user?.first_name}<br/> אנא הזן מדדים</h3>
+            <img src={smilingDrop} alt="smiling drop" />
+          </div>
         )}
         {openMeal && openMeal.meal_id !== 0 && (
-          <MealItem meal={openMeal!} setMeals={setMeals} date={date} type={"home"}/>
+          <MealItem
+            meal={openMeal!}
+            setMeals={setMeals}
+            date={date}
+            type={"home"}
+          />
         )}
       </div>
       <ProgressBar meals={meals} />
