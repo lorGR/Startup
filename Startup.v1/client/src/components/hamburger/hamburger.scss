@@ -15,21 +15,21 @@
     .hamburger .bar, .hamburger::after, .hamburger::before{
         content: '';
         display: block;
-        width: 100%;
-        height: 5px;
+        width: 85%;
+        height: 4px;
         background-color: black;
         margin: 6px 0px;
         transition: 0.4s;
     }
 
     .hamburger.is-active::before {
-        transform: rotate(-45deg) translate(-8px, 6px);
-        background-color: white;
+        transform: rotate(-45deg) translate(-7px, 6px);
+        // background-color: white;
     }
     
     .hamburger.is-active::after {
-        transform: rotate(45deg) translate(-9px, -8px);
-        background-color: white;
+        transform: rotate(45deg) translate(-8px, -8px);
+        // background-color: white;
     }
 
     .hamburger.is-active .bar {
