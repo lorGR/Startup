@@ -6,7 +6,8 @@ import Header from "../../components/header/Header";
 import Navbar from "./../../components/navbar/Navbar";
 import Menu from "./../../components/menu/Menu";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { userSelector } from "./../../features/user/userSlice";
+import moment from "moment";
+import { updateBirthDate, userSelector } from "./../../features/user/userSlice";
 import {
   updateDiabetesType,
   updateGender,
@@ -58,11 +59,16 @@ export const UserInfo = () => {
       if (user.balance_max) setBalanceMax(user.balance_max);
       // if(user.birth_date) setBirthDate(user.birth_date)
       
-      if (birthDate) {
-        const formattedBirthday = new Date(birthDate);
-        console.log(formattedBirthday);
-        setBirthDate(formattedBirthday);
-      }
+      // console.log(user.birth_date)
+      const bdFormatted = user.birth_date!.toString().slice(0, 10);
+      // console.log(typeof(bdFormatted))
+      // const bd = new Date(bdFormatted)
+      // // console.log(bd.setDate(bd.getDate() +1))
+      // const finalBd = new Date(bd.setDate(bd.getDate() +1))
+      // const finalFinalBd = finalBd.toISOString().toString().slice(0, 10);
+      // console.log(finalFinalBd)
+      // console.log(finalBd)
+      setBirthDate(bdFormatted)
     }
   }, [user]);
 
@@ -147,10 +153,14 @@ export const UserInfo = () => {
           <div className="container__up__right">
             <input
               {...register("birth_date")}
-              onChange={handleUpdate}
+              onChange={(ev) => {
+                setBirthDate(ev.target.value)
+                dispatch(updateBirthDate(ev.target.value))
+              }}
               name="birth_date"
               type="date"
               className="input_small"
+              value={`${birthDate}`}
             />
             <input
               {...register("height")}

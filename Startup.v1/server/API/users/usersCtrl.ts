@@ -270,7 +270,7 @@ export function updateAllUserInformation(req:express.Request, res:express.Respon
       );
     if(!user) throw new Error("no user information was received on FUNCTION updateAllUserInformation IN FILE userCtrl");
 
-    const sql = `UPDATE users SET first_name = '${user.first_name}', last_name = '${user.last_name}', identity_number = '${user.identity_number}', gender = '${user.gender}', height = '${user.height}', weight = '${user.weight}', diabetes_type = '${user.diabetes_type}', hmo = '${user.hmo}', carbs_unit = '${user.carbs_unit}', profile_image = '${user.profile_image}' WHERE (user_id = '${userId}');`
+    const sql = `UPDATE users SET first_name = '${user.first_name}', last_name = '${user.last_name}', birth_date = '${user.birth_date}', identity_number = '${user.identity_number}', gender = '${user.gender}', height = '${user.height}', weight = '${user.weight}', diabetes_type = '${user.diabetes_type}', hmo = '${user.hmo}', carbs_unit = '${user.carbs_unit}', profile_image = '${user.profile_image}' WHERE (user_id = '${userId}');`
 
     connection.query(sql, (error, result) => {
       try {
