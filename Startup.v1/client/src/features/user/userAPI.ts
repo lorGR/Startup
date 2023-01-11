@@ -22,7 +22,7 @@ export const updateUser = createAsyncThunk(
         try {
             console.log(user)
             const {data} = await axios.post("/api/users/update-all-user-information", {user});
-            if(!data) throw new Error("could not receive data from axios POST '/update user' from: userAPI")
+            if(!data) throw new Error("could not receive data from axios POST '/update-user' from: userAPI")
             const {result} = data;
             return result[0]
         } catch (error) {
