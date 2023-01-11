@@ -43,8 +43,8 @@ function App() {
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/list" element={<List />} />
             <Route path="/foodlist" element={<FoodList />} />
-            <Route path="/calendar" element={<Calendar />}/>
-            <Route path="/add-food" element={<AddUserFood/>}/>
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/add-food" element={<AddUserFood />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/graph" element={<Graph />} />
           </Routes>
