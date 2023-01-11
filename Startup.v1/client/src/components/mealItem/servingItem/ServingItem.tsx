@@ -3,6 +3,9 @@ import { FC, useEffect, useState } from "react";
 import { Food } from "./../../../features/food/foodModel";
 import plus from "../../../assets/images/home/plus.png";
 import minus from "../../../assets/images/home/minus.png";
+import XLineIcon from "../../../assets/images/home/XLineIcon.png";
+import fullCheck from "../../../assets/images/header/fullCheck.png";
+import fullCancel from "../../../assets/images/header/fullCancel.png";
 
 interface ServingItemProps {
   mealServ: Food;
@@ -103,7 +106,7 @@ const ServingItem: FC<ServingItemProps> = ({
           servingId = mealServ.serving_id;
           amount++;
           setUnitCounter(amount);
-        } else if (buttonValue === ("-")) {
+        } else if (buttonValue === "-") {
           servingId = mealServ.serving_id;
           amount--;
           setUnitCounter(amount);
@@ -269,13 +272,15 @@ const ServingItem: FC<ServingItemProps> = ({
       </div>
 
       {mealServ.amount_gram ? (
-        <div>{(mealServ.carbs * mealCarbsUnit!) / 100}</div>
+        <div className="carbs">
+          {(mealServ.carbs * mealCarbsUnit!) / 100} ג'
+        </div>
       ) : (
-        <div>ג' {mealServ.carbs_unit * mealCarbsUnit!}</div>
+        <div className="carbs">ג' {mealServ.carbs_unit * mealCarbsUnit!}</div>
       )}
 
-      <span onClick={InititeDelete} className="material-symbols-outlined">
-        close
+      <span className="delete" onClick={InititeDelete}>
+        <img src={XLineIcon} alt="" />
       </span>
 
       <form
@@ -283,12 +288,20 @@ const ServingItem: FC<ServingItemProps> = ({
         className="messege_container"
         id={`${mealServ.serving_id}`}
       >
-        <h5>Are you sure you want to delete this item?</h5>
+        <h5>את/ה בטוח/ה ששברצונך למחוק פריט זה?</h5>
         <h5>{mealServ.food_name}</h5>
-        <button type="submit">V</button>
-        <button onClick={handleCloseForm} type="button">
-          X
-        </button>
+        <div className="messege_container__buttons">
+          <button
+            className="messege_container__buttons__button"
+            onClick={handleCloseForm}
+            type="button"
+          >
+            <img src={fullCancel} alt="" />
+          </button>
+          <button className="messege_container__buttons__button" type="submit">
+            <img src={fullCheck} alt="" />
+          </button>
+        </div>
       </form>
     </div>
   );
