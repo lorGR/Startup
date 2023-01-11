@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import Navbar from "./../../components/navbar/Navbar";
 import Menu from "./../../components/menu/Menu";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { userSelector } from './../../features/user/userSlice';
 import {
   updateDiabetesType,
   updateGender,
@@ -17,6 +18,7 @@ import {
   updateBalanceMin,
   updateBalanceMax,
 } from "../../features/user/userSlice";
+import { DiabetesTypes, Gender } from "../../features/user/userModel";
 
 export const UserInfo = () => {
   const navigate = useNavigate();
@@ -24,8 +26,32 @@ export const UserInfo = () => {
   const [age, setAge] = useState<number>();
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const user = useAppSelector(userSelector)
+
+  const [gender, setGender] = useState<Gender>();
+  const [height, setHeight] = useState<number>();
+  const [diabetesType, setDiabetesType] = useState<DiabetesTypes>();
+  const [weight, setWeight] = useState<number>();
+  const [hmo, setHmo] = useState<string>();
+  const [bloodSugae, setBloodSugar] = useState();
+  const [carbsMeasure, setCarbsMeasure] = useState();
+  const [proteinCalc, setProteinCalc] = useState();
+  const [balanceMin, setBalanceMin] = useState<number>();
+  const [balanceMax, setBalanceMax] = useState<number>();
 
   const { register, handleSubmit } = useForm();
+
+  useEffect(() => {
+    if (user) {
+      setGender(user.gender);
+      setHeight(user.height);
+      setDiabetesType(user.diabetes_type);
+      setWeight(user.weight);
+      setHmo(user.hmo);
+
+
+    }
+  },[user])
 
   const onSubmit = async (info: any) => {
     const formData = JSON.stringify(info);
