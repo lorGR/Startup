@@ -1,6 +1,7 @@
 import React, { FormEventHandler } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import Header from "../../components/header/Header";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -20,11 +21,12 @@ export const Login = () => {
     }
 
   return (
-    <div>
-      <form onSubmit={handleLogin}>
-        <input type="email" name="email" placeholder="Enter Email" />
-        <input type="password" name="password" placeholder="Enter Password" autoComplete="false" />
-        <button type="submit">LOG IN</button>
+    <div className="login-page">
+      <Header headerType="login"/>
+      <form dir="rtl" className="container" onSubmit={handleLogin}>
+        <input className="input_big" type="email" name="email" placeholder="הכנס/י כתובת דואר אלקטרוני" />
+        <input className="input_big" type="password" name="password" placeholder="הכנס/י סיסמא" autoComplete="false" />
+        <button className="button_input" type="submit">התחבר/י</button>
       </form>
     </div>
   );
