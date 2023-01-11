@@ -8,6 +8,10 @@ import ServingItem from "./servingItem/ServingItem";
 import { useAppDispatch } from "./../../app/hooks";
 import { deleteLastMeal } from "./../../features/openMeal/openMealAPI";
 import { openMealSlice } from "./../../features/openMeal/openMealSlice";
+import insulinIcon from "../../assets/images/home/insulinIcon.png";
+import bloodIcon from "../../assets/images/home/bloodIcon.png";
+import carbsIcon from "../../assets/images/home/carbsIcon.png";
+import XLineIcon from "../../assets/images/home/XLineIcon.png";
 
 interface MealItemProps {
   meal: Meal;
@@ -26,11 +30,12 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
     try {
       console.log("trying to open");
       let mealId = null;
-      if (event.target.nodeName === "P") {
-        mealId = event.target.parentNode.id;
-      } else {
-        mealId = event.target.id;
-      }
+      // if (event.target.nodeName === "P") {
+      //   mealId = event.target.parentNode.id;
+      // } else {
+      //   mealId = event.target.id;
+      // }
+      mealId = meal.meal_id
       const { data } = await axios.post("/api/meals/get-meals-servings", {
         mealId,
       });
@@ -94,18 +99,18 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
   }, []);
   if (type === "home") {
     return (
-      <div className="meal-item dropbtn">
+      <div className="meal-item  dropbtn">
         <div
           onClick={handleClickMeal}
-          className="meal-item__content"
+          className="meal-item__content green"
           id={meal.meal_id!.toString()}
         >
-          <span onClick={InititeDelete} className="material-symbols-outlined">
-            delete
+          <span onClick={InititeDelete}>
+            <img src={XLineIcon} alt="" />
           </span>
-          <p>אינס׳ {meal.insulin}</p>
-          <p>סוכ' {meal.blood_sugar}</p>
-          <p> פחמ׳ {meal.carbs}</p>
+          <p>אינס׳ {meal.insulin} <img src={insulinIcon} alt="" /></p>
+          <p>סוכ' {meal.blood_sugar} <img src={bloodIcon} alt="" /></p>
+          <p> פחמ׳ {meal.carbs} <img src={carbsIcon} alt="" /></p>
           <p>{meal.time.slice(0, 5)}</p>
         </div>
         {meal.opened_to_edit === 1 && (
