@@ -1,19 +1,21 @@
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
 import { Food } from "./../../../features/food/foodModel";
+import plus from "../../../assets/images/home/plus.png";
+import minus from "../../../assets/images/home/minus.png";
 
 interface ServingItemProps {
   mealServ: Food;
   setMealServings: CallableFunction;
   setMeals: CallableFunction;
-  date: string
+  date: string;
 }
 
 const ServingItem: FC<ServingItemProps> = ({
   mealServ,
   setMealServings,
   setMeals,
-  date
+  date,
 }) => {
   const [unitCounter, setUnitCounter] = useState<number>(1);
   const mealCarbsUnit = getMealTypeUnit();
@@ -32,33 +34,38 @@ const ServingItem: FC<ServingItemProps> = ({
       const { allServingsArray } = data;
       if (allServingsArray.length > 0) {
         setMealServings(allServingsArray);
-      } 
+      }
       // else if (result.length === 0) {
       //   console.log("meal is empty");
       //   const mealId = mealServ.meal_id;
       //   const { data } = await axios.post("/api/meals/delete-meal-by-id", {
       //     mealId
       //   });
-        // console.log("this is after delete axios post")
-        // console.log(data);
-        // const { result } = data;
-        // setMeals(result);
+      // console.log("this is after delete axios post")
+      // console.log(data);
+      // const { result } = data;
+      // setMeals(result);
       // }
     } catch (error) {
       console.error(error);
     }
   }
 
-  const getMealsByDate =  async () => {
+  const getMealsByDate = async () => {
     try {
-        const { data } = await axios.post("/api/meals/get-meals-by-date", {date});
-        if(!data) throw new Error("Couldn't receive date from axios POST 'get-meals-by-date' ");
-        const { result } = data;
-        setMeals(result); 
+      const { data } = await axios.post("/api/meals/get-meals-by-date", {
+        date,
+      });
+      if (!data)
+        throw new Error(
+          "Couldn't receive date from axios POST 'get-meals-by-date' "
+        );
+      const { result } = data;
+      setMeals(result);
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-}
+  };
 
   function getMealTypeUnit() {
     try {
@@ -86,17 +93,18 @@ const ServingItem: FC<ServingItemProps> = ({
   //TODO: edit servingId = mealServ.serving_id; and edit to make function look better
   const handleChangeCounter = async (event: any) => {
     try {
-      const buttonValue = event.target.value.toString();
+      console.log(event.target.id);
+      const buttonValue = event.target.id;
       let servingId;
       let amount = mealCarbsUnit;
       const mealId = mealServ.meal_id;
       if (amount) {
-        if (buttonValue.search("add") != -1) {
-          servingId = event.target.value.replace("add", "");
+        if (buttonValue === "+") {
+          servingId = mealServ.serving_id;
           amount++;
           setUnitCounter(amount);
-        } else if (buttonValue.search("remove") != -1) {
-          servingId = event.target.value.replace("remove", "");
+        } else if (buttonValue === ("-")) {
+          servingId = mealServ.serving_id;
           amount--;
           setUnitCounter(amount);
           if (amount === 0) {
@@ -190,11 +198,12 @@ const ServingItem: FC<ServingItemProps> = ({
     try {
       event.preventDefault();
       const servingId = mealServ.serving_id;
-      const mealId = mealServ.meal_id
+      const mealId = mealServ.meal_id;
       const { data } = await axios.post("/api/servings/delete-serving-by-id", {
-        servingId, mealId
+        servingId,
+        mealId,
       });
-      console.log(data)
+      console.log(data);
       updateMealView();
       // getTodayMeals();
       getMealsByDate();
@@ -215,14 +224,15 @@ const ServingItem: FC<ServingItemProps> = ({
   };
 
   return (
-    <div className="meal-item__serving-item" >
+    <div className="meal-item__serving-item">
       <div>{mealServ.food_name}</div>
-      <div>
+      <div className="amountSetter">
         <button
+          className="amountSetter__button"
           onClick={handleChangeCounter}
           value={`add${mealServ.serving_id}`}
         >
-          +
+          <img id="+" src={plus} alt="" />
         </button>
 
         {mealServ.amount_gram ? (
@@ -250,10 +260,11 @@ const ServingItem: FC<ServingItemProps> = ({
         )}
 
         <button
+          className="amountSetter__button"
           onClick={handleChangeCounter}
           value={`remove${mealServ.serving_id}`}
         >
-          -
+          <img id="-" src={minus} alt="" />
         </button>
       </div>
 

@@ -23,3 +23,16 @@
 .inline {
   display: inline;
 }
+
+.amountSetter {
+  display: flex;
+
+  &__button {
+    background: none;
+    border: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
