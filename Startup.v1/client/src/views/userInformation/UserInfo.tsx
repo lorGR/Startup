@@ -6,7 +6,7 @@ import Header from "../../components/header/Header";
 import Navbar from "./../../components/navbar/Navbar";
 import Menu from "./../../components/menu/Menu";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { userSelector } from './../../features/user/userSlice';
+import { userSelector } from "./../../features/user/userSlice";
 import {
   updateDiabetesType,
   updateGender,
@@ -18,7 +18,11 @@ import {
   updateBalanceMin,
   updateBalanceMax,
 } from "../../features/user/userSlice";
-import { DiabetesTypes, Gender } from "../../features/user/userModel";
+import {
+  CarbsUnit,
+  DiabetesTypes,
+  Gender,
+} from "../../features/user/userModel";
 
 export const UserInfo = () => {
   const navigate = useNavigate();
@@ -26,32 +30,42 @@ export const UserInfo = () => {
   const [age, setAge] = useState<number>();
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const user = useAppSelector(userSelector)
+  const user = useAppSelector(userSelector);
 
   const [gender, setGender] = useState<Gender>();
   const [height, setHeight] = useState<number>();
   const [diabetesType, setDiabetesType] = useState<DiabetesTypes>();
   const [weight, setWeight] = useState<number>();
   const [hmo, setHmo] = useState<string>();
-  const [bloodSugae, setBloodSugar] = useState();
-  const [carbsMeasure, setCarbsMeasure] = useState();
-  const [proteinCalc, setProteinCalc] = useState();
+  const [carbsMeasure, setCarbsMeasure] = useState<CarbsUnit>();
+  const [proteinCalc, setProteinCalc] = useState<number | boolean>();
   const [balanceMin, setBalanceMin] = useState<number>();
   const [balanceMax, setBalanceMax] = useState<number>();
+  const [birthDate, setBirthDate] = useState<string | Date>()
 
   const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     if (user) {
-      setGender(user.gender);
-      setHeight(user.height);
-      setDiabetesType(user.diabetes_type);
-      setWeight(user.weight);
-      setHmo(user.hmo);
-
-
+      if (user.gender) setGender(user.gender);
+      if (user.height) setHeight(user.height);
+      if (user.diabetes_type) setDiabetesType(user.diabetes_type);
+      if (user.weight) setWeight(user.weight);
+      if (user.hmo) setHmo(user.hmo);
+      if (user.carbs_unit) setCarbsMeasure(user.carbs_unit);
+      if (user.protein_calc) setProteinCalc(user.protein_calc);
+      if (user.balance_min) setBalanceMin(user.balance_min);
+      if (user.balance_max) setBalanceMax(user.balance_max);
+      // if(user.birth_date) setBirthDate(user.birth_date)
+      
+      console.log(birthDate)
+      if(birthDate) {
+      const formattedBirthday = new Date(birthDate)
+      console.log(formattedBirthday)
+      setBirthDate(formattedBirthday)
+      }
     }
-  },[user])
+  }, [user]);
 
   const onSubmit = async (info: any) => {
     const formData = JSON.stringify(info);
@@ -146,8 +160,10 @@ export const UserInfo = () => {
               placeholder="גובה"
               className="input_small"
               onChange={(ev) => {
+                setHeight(Number(ev.target.value))
                 dispatch(updateHeight(ev.target.value));
               }}
+              value={height}
             />
             <input
               {...register("weight")}
@@ -158,6 +174,7 @@ export const UserInfo = () => {
               onChange={(ev) => {
                 dispatch(updateWeight(ev.target.value));
               }}
+              value={weight}
             />
           </div>
           <div className="container__up__left">
@@ -168,6 +185,7 @@ export const UserInfo = () => {
               onChange={(ev) => {
                 dispatch(updateGender(ev.target.value));
               }}
+              value={gender}
             >
               <option value="male">זכר</option>
               <option value="female">נקבה</option>
@@ -180,6 +198,7 @@ export const UserInfo = () => {
               onChange={(ev) => {
                 dispatch(updateDiabetesType(ev.target.value));
               }}
+              value={diabetesType}
             >
               <option value="1">1</option>
               <option value="2">2</option>
@@ -193,6 +212,7 @@ export const UserInfo = () => {
               onChange={(ev) => {
                 dispatch(updateHmo(ev.target.value));
               }}
+              value={hmo}
             />
           </div>
         </div>
@@ -203,41 +223,17 @@ export const UserInfo = () => {
             </div>
             <div className="fields">
               <div className="switch-field">
-                <input type="radio" name="blood-sugar" id="blood-sugar-1" />
+                <input
+                  checked
+                  type="radio"
+                  name="blood-sugar"
+                  id="blood-sugar-1"
+                />
                 <label htmlFor="blood-sugar-1">mg/dl</label>
                 <input type="radio" name="blood-sugar" id="blood-sugar-2" />
                 <label htmlFor="blood-sugar-2">mmol/lit</label>
               </div>
             </div>
-            {/* <div className="checked">
-              <label htmlFor="mgdl" className="switch-label switch-label-off">
-                mg/dl
-              </label>
-              <input
-                {...register("sugar")}
-                type="radio"
-                className=""
-                name="sugar"
-                value="mgdl"
-                id="mgdl"
-              />
-            </div>
-            <div className="checked">
-              <label
-                htmlFor="american"
-                className="switch-label switch-label-on"
-              >
-                american units
-              </label>
-              <input
-                {...register("sugar")}
-                type="radio"
-                className=""
-                name="sugar"
-                value="american"
-                id="american"
-              />
-            </div> */}
           </div>
 
           <div className="measure">
@@ -246,85 +242,25 @@ export const UserInfo = () => {
             </div>
             <div className="fields">
               <div className="switch-field">
-                <input type="radio" name="messure" id="messure-1" />
-                <label htmlFor="messure-1">מנה</label>
-                <input type="radio" name="messure" id="messure-2" />
-                <label htmlFor="messure-2">גרם</label>
+                {carbsMeasure === "gram" && (
+                  <>
+                    <input onChange={() => {dispatch(updateCarbsUnit("portion"))} } type="radio" name="messure" id="messure-1" />
+                    <label htmlFor="messure-1">מנה</label>
+                    <input onChange={() => {dispatch(updateCarbsUnit("gram"))} } checked type="radio" name="messure" id="messure-2" />
+                    <label htmlFor="messure-2">גרם</label>
+                  </>
+                )}
+                {carbsMeasure === "portion" && (
+                  <>
+                    <input onChange={() => {dispatch(updateCarbsUnit("portion"))} } checked type="radio" name="messure" id="messure-1" />
+                    <label htmlFor="messure-1">מנה</label>
+                    <input onChange={() => {dispatch(updateCarbsUnit("gram"))} } type="radio" name="messure" id="messure-2" />
+                    <label htmlFor="messure-2">גרם</label>
+                  </>
+                )}
               </div>
             </div>
-            {/* <label
-              htmlFor="gram"
-              className="switch-count-label switch-count-label-off"
-            >
-              <input
-                {...register("units")}
-                type="radio"
-                className="switch-count-input"
-                name="units"
-                value="gram"
-                id="gram"
-                onChange={(ev) => {
-                  dispatch(updateCarbsUnit(ev.target.value));
-                }}
-              />
-              גרם
-            </label>
-
-            <label
-              htmlFor="unit"
-              className="switch-count-label switch-count-label-on"
-            >
-              <input
-                {...register("units")}
-                type="radio"
-                className="switch-count-input"
-                name="units"
-                value="portion"
-                id="portion"
-                onChange={(ev) => {
-                  dispatch(updateCarbsUnit(ev.target.value));
-                }}
-              />
-              מנות
-            </label>
-          </div>
-
-          <div className="protein_included">
-            <label
-              htmlFor="include"
-              className="switch-protein-label switch-protein-label-off"
-            >
-              <input
-                {...register("protein")}
-                type="radio"
-                className="switch-protein-input"
-                name="protein"
-                value="1"
-                id="include"
-                onChange={(ev) => {
-                  dispatch(updateProteinCalc(ev.target.value));
-                }}
-              />
-              כולל
-            </label>
-
-            <label
-              htmlFor="notInclude"
-              className="switch-protein-label switch-protein-label-on"
-            >
-              <input
-                {...register("protein")}
-                type="radio"
-                className="switch-protein-input"
-                name="protein"
-                value="0"
-                id="notInclude"
-                onChange={(ev) => {
-                  dispatch(updateProteinCalc(ev.target.value));
-                }}
-              />
-              לא כולל
-            </label> */}
+          
           </div>
           <div className="protien_included">
             <div className="text">
@@ -332,9 +268,18 @@ export const UserInfo = () => {
             </div>
             <div className="fields">
               <div className="switch-field">
-                <input type="radio" name="protien-included" id="protien-included-1" />
+                <input
+                  type="radio"
+                  name="protien-included"
+                  id="protien-included-1"
+                  checked
+                />
                 <label htmlFor="protien-included-1">לא כולל</label>
-                <input type="radio" name="protien-included" id="protien-included-2" />
+                <input
+                  type="radio"
+                  name="protien-included"
+                  id="protien-included-2"
+                />
                 <label htmlFor="protien-included-2">כולל</label>
               </div>
             </div>
@@ -345,26 +290,10 @@ export const UserInfo = () => {
             </div>
             <div className="fields">
               <div className="switch-field">
-                <input type="number" name="" id="" placeholder="מינימום"/>
+                <input type="number" name="" id="" placeholder="מינימום" />
                 <input type="number" name="" id="" placeholder="מקסימום" />
               </div>
             </div>
-            {/* <input
-              {...register("balance_min")}
-              type="number"
-              name="balance_min"
-              onChange={(ev) => {
-                dispatch(updateBalanceMin(ev.target.value));
-              }}
-            />
-            <input
-              {...register("balance_max")}
-              type="number"
-              name="balance_max"
-              onChange={(ev) => {
-                dispatch(updateBalanceMax(ev.target.value));
-              }}
-            /> */}
           </div>
           {/* <button className="button_input" type="submit">
             check
