@@ -17,7 +17,22 @@ const initialState:FavoriteFoodArrayState = {
 export const foodListArraySlice = createSlice({
     name:"foodListArray",
     initialState,
-    reducers: {},
+    reducers: {
+        addFavoriteFood: (state, action) => {
+            const foodId = action.payload;
+            const index = state.value.findIndex((food) => food.food_id === foodId);
+            const newArray = [...state.value];
+            newArray[index].favorite = true;
+            state.value = newArray;
+        },
+        removeFavoriteFood: (state, action) => {
+            const foodId = action.payload;
+            const index = state.value.findIndex((food) => food.food_id === foodId);
+            const newArray = [...state.value];
+            newArray[index].favorite = false;
+            state.value = newArray;
+        } 
+    },
     extraReducers: (builder) => {
         builder
         .addCase(getAllFood.pending, (state) => {
@@ -33,6 +48,7 @@ export const foodListArraySlice = createSlice({
     }
 });
 
+export const {addFavoriteFood, removeFavoriteFood} = foodListArraySlice.actions
 export const foodListArraySelector = (state:RootState) => state.foodListArray.value;
 
 export default foodListArraySlice.reducer;

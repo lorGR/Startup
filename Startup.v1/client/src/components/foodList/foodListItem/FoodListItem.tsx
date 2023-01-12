@@ -15,6 +15,7 @@ import { CarbsUnit } from "../../../features/user/userModel";
 import { openMealSelector } from "../../../features/openMeal/openMealSlice";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { foodListArraySelector, addFavoriteFood, removeFavoriteFood } from './../../../features/foodListArray/foodListArraySlice';
 
 interface FoodItemProps {
   foodItem: Food;
@@ -28,6 +29,7 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
   const FavoriteFoodArray = useAppSelector(favoriteFoodarraySelector);
   const user = useAppSelector(userSelector);
   const openMeal = useAppSelector(openMealSelector);
+  const foodListArray = useAppSelector(foodListArraySelector)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -104,25 +106,23 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
     try {
       event.preventDefault();
       event.stopPropagation();
-      const foodId = event.target.id.replace("span", "");
-      console.log(foodId);
+      const foodId = foodItem.food_id
       const star = event.target.className;
-      if (star.includes("fill")) {
-        event.target.classList.remove("fill");
-      } else {
-        event.target.classList.add("fill");
-      }
 
-      if (FavoriteFoodArray) {
-        const exist = FavoriteFoodArray.find(
-          (food) => foodItem.food_id === food.food_id
+      if(foodItem.favorite) {
+        event.target.classList.remove("fill");
+        dispatch(removeFavoriteFood(foodId));
+        const { data } = await axios.post(
+          "/api/user-favorites/delete-from-favorites",
+          { foodId }
         );
-        if (exist) {
-          const foodId = foodItem.food_id;
-          dispatch(removeFoodToUserFavorite({ foodId }));
-        } else if (!exist) {
-          dispatch(addFoodToUserFavorites({ foodId }));
-        }
+      }else {
+        event.target.classList.add("fill");
+        dispatch(addFavoriteFood(foodId))
+        const { data } = await axios.post(
+          `/api/user-favorites/add-to-favorites`,
+          { foodId }
+        );
       }
     } catch (error) {
       console.error(error);
