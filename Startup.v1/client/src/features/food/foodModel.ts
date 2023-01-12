@@ -13,5 +13,6 @@ export interface Food {
   amount_gram?:number,
   amount_portion?:number,
   meal_id?:number,
-  user_food_id?:number
+  user_food_id?:number,
+  favorite?: boolean
 }

@@ -6,6 +6,7 @@ import carbsCounterSlice from './../features/carbs/carbsSlice';
 import favoriteFoodArraySlice from '../features/favoriteFood/favoriteFoodArraySlice';
 import barProgressFormReducer from "../features/barProgressForm/barProgressFormSlice";
 import openMealSlice from '../features/openMeal/openMealSlice';
+import foodListArraySlice from '../features/foodListArray/foodListArraySlice';
 
 
 export const store = configureStore({
@@ -16,7 +17,8 @@ export const store = configureStore({
     favoriteFoodArray: favoriteFoodArraySlice,
     carbsCounter: carbsCounterSlice,
     barProgressForm : barProgressFormReducer,
-    openMeal: openMealSlice
+    openMeal: openMealSlice,
+    foodListArray: foodListArraySlice
   },
 });
 

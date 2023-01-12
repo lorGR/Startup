@@ -17,6 +17,7 @@ import sugarbitHeader from "../../assets/images/logo/sugarbitHeader.png";
 import { Link } from "react-router-dom";
 import Menu from "../../components/menu/Menu";
 import smilingDrop from "../../assets/images/home/smilingDrop.png";
+import { getAllFood } from '../../features/foodListArray/foodListArrayApi';
 
 const Home = () => {
   const [addMealForm, setAddMealForm] = useState(false);
@@ -47,22 +48,18 @@ const Home = () => {
   };
 
   useEffect(() => {
-    dispatch(getUserByCookie());
     getTodayMeals();
+    console.log("open meal")
   }, [openMeal]);
 
   useEffect(() => {
     dispatch(getLastMeal());
-    // console.log(openMeal);
-    // if (openMeal !== null && openMeal !== undefined) {
-    //   setOpenMealIsOpend(true);
-    // } else if (openMeal === undefined) {
-    //   setOpenMealIsOpend(false);
-    // } else {
-    //   setOpenMealIsOpend(false);
-    // }
-    // dispatch(getLastMeal());
+    console.log("user changed")
   }, [user]);
+
+  useEffect(() => {
+    dispatch(getUserByCookie());
+  },[])
 
   return (
     <div className="home">

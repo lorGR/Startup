@@ -10,6 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { UserFoodListItem } from "./foodListItem/UserFoodListItem";
 import { useNavigate } from "react-router-dom";
+import { foodListArraySelector } from './../../features/foodListArray/foodListArraySlice';
+import { useAppDispatch } from './../../app/hooks';
+import { getAllFood } from './../../features/foodListArray/foodListArrayApi';
 
 export const FoodList = () => {
   const [allFoodArray, setAllFoodArray] = useState<Food[]>([]);
@@ -17,15 +20,21 @@ export const FoodList = () => {
   const foodArray = useAppSelector(foodarraySelector);
   const [foodFavoritesArray, setFoodFavoritesArray] = useState<Food[]>();
   const [userSearch, setUserSearch] = useState<string>("");
+  const foodListArray = useAppSelector(foodListArraySelector)
 
   const user = useAppSelector(userSelector);
 
   const [userPreference, setUserPreference] = useState<string>();
+  const dispatch = useAppDispatch()
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   checkUserPreference();
+  // }, []);
+
   useEffect(() => {
-    checkUserPreference();
-  }, []);
+    dispatch(getAllFood())
+  },[])
 
   function checkUserPreference() {
     try {
@@ -89,15 +98,15 @@ export const FoodList = () => {
     }
   }
 
-  useEffect(() => {
-    if (userSearch!.length <= 0) {
-      getUserFavorites();
-      getFood();
-      getUserFood();
-    } else {
-      getFoodBySearch();
-    }
-  }, [userSearch]);
+  // useEffect(() => {
+  //   if (userSearch!.length <= 0) {
+  //     getUserFavorites();
+  //     getFood();
+  //     getUserFood();
+  //   } else {
+  //     getFoodBySearch();
+  //   }
+  // }, [userSearch]);
 
   return (
     <div dir="rtl" className="foodList">
@@ -116,8 +125,7 @@ export const FoodList = () => {
       >
         +
       </button>
-      {allFoodArray.length === 0 ||
-        (userFoodArray.length === 0 && (
+      {foodListArray.length === 0  && (
           <div className="loading">
             <FontAwesomeIcon
               className="fa-spin"
@@ -126,9 +134,9 @@ export const FoodList = () => {
               color="#0f4e9a"
             />
           </div>
-        ))}
+        )}
 
-      {userFoodArray.map((foodItem: Food) => {
+      {/* {userFoodArray.map((foodItem: Food) => {
         return (
           <UserFoodListItem
             key={foodItem.user_food_id}
@@ -136,8 +144,8 @@ export const FoodList = () => {
             unit={userPreference!}
           />
         );
-      })}
-      {allFoodArray.map((foodItem: Food) => {
+      })} */}
+      {foodListArray.map((foodItem: Food) => {
         return (
           <FoodListItem
             key={foodItem.food_id}

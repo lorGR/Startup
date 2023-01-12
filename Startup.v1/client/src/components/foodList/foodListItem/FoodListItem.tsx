@@ -32,8 +32,8 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
 
   useEffect(() => {
     checkIfFoodIsAdded();
-    checkIfFoodIsfavorite();
-    handleGetUserFood();
+    // checkIfFoodIsfavorite();
+    // handleGetUserFood();
   }, []);
 
   function handleAddFoodToArray() {
@@ -79,18 +79,18 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
     }
   }
 
-  function checkIfFoodIsfavorite() {
-    try {
-      FavoriteFoodArray?.forEach((favFood) => {
-        if (favFood.food_id === foodItem.food_id) {
-          const starSpan = document.getElementById(`span${foodItem.food_id}`);
-          starSpan?.classList.add("fill");
-        }
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // function checkIfFoodIsfavorite() {
+  //   try {
+  //     FavoriteFoodArray?.forEach((favFood) => {
+  //       if (favFood.food_id === foodItem.food_id) {
+  //         const starSpan = document.getElementById(`span${foodItem.food_id}`);
+  //         starSpan?.classList.add("fill");
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   function handelEditItem() {
     try {
@@ -159,7 +159,7 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
             >
               <div className="foodList__item">
                 <span
-                  onClick={handletoggleFavorite}
+                  // onClick={handletoggleFavorite}
                   id={`span${foodItem.food_id}`}
                   className={`material-symbols-outlined`}
                 >
@@ -214,13 +214,27 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
               htmlFor={`${foodItem.food_id}`}
             >
               <div className="foodList__item">
-                <span
-                  onClick={handletoggleFavorite}
+                {/* <span
+                  // onClick={handletoggleFavorite}
                   id={`span${foodItem.food_id}`}
                   className={`material-symbols-outlined`}
                 >
                   star
-                </span>
+                </span> */}
+                {foodItem.favorite === true && <span
+                  // onClick={handletoggleFavorite}
+                  id={`span${foodItem.food_id}`}
+                  className={`material-symbols-outlined fill`}
+                >
+                  star
+                </span>}
+                {foodItem.favorite === false && <span
+                  // onClick={handletoggleFavorite}
+                  id={`span${foodItem.food_id}`}
+                  className={`material-symbols-outlined`}
+                >
+                  star
+                </span>}
                 <p className="foodList__item__start">{foodItem.food_name}</p>
                 <p className="foodList__item__center">100 ג</p>
                 <p className="foodList__item__end">{foodItem.carbs} ג</p>
@@ -242,13 +256,27 @@ export const FoodListItem: FC<FoodItemProps> = ({ foodItem, unit }) => {
               htmlFor={`${foodItem.food_id}`}
             >
               <div className="foodList__item">
-                <span
+                {/* <span
+                  // onClick={handletoggleFavorite}
+                  id={`span${foodItem.food_id}`}
+                  className={`material-symbols-outlined`}
+                >
+                  star
+                </span> */}
+                {foodItem.favorite === true && <span
+                  onClick={handletoggleFavorite}
+                  id={`span${foodItem.food_id}`}
+                  className={`material-symbols-outlined fill`}
+                >
+                  star
+                </span>}
+                {foodItem.favorite === false && <span
                   onClick={handletoggleFavorite}
                   id={`span${foodItem.food_id}`}
                   className={`material-symbols-outlined`}
                 >
                   star
-                </span>
+                </span>}
                 <p className="foodList__item__start">{foodItem.food_name}</p>
                 <p className="foodList__item__center">100 ג</p>
                 <p className="foodList__item__end">{foodItem.carbs} ג</p>
