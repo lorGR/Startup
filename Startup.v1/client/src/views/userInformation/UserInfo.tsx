@@ -60,7 +60,7 @@ export const UserInfo = () => {
       // if(user.birth_date) setBirthDate(user.birth_date)
       
       // console.log(user.birth_date)
-      const bdFormatted = user.birth_date!.toString().slice(0, 10);
+      const bdFormatted = user.birth_date?.toString().slice(0, 10);
       // console.log(typeof(bdFormatted))
       // const bd = new Date(bdFormatted)
       // // console.log(bd.setDate(bd.getDate() +1))

@@ -49,7 +49,9 @@ export const UserBasicInfo = () => {
   }, [user]);
 
   useEffect(() => {
-    dispatch(getUserByCookie());
+    setTimeout(() => {
+      dispatch(getUserByCookie());
+    }, 1000)
   }, []);
 
   return (

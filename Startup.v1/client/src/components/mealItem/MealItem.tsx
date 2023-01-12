@@ -186,7 +186,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
         </div>
         <div className="dropdown-content">
           {dropDown &&
-            mealServings.length > 0 &&
+            mealServings?.length > 0 &&
             mealServings.map((mealServ) => {
               return (
                 <ServingItem

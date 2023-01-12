@@ -215,7 +215,6 @@ const Header: React.FC<HeaderProps> = ({
          <button>
            <img src={fullCheck} alt="Check" onClick={() => {
             if (user) {
-              
               dispatch(updateUser({user}))
               navigate("/home")
             }
