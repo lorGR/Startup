@@ -59,7 +59,10 @@ const Header: React.FC<HeaderProps> = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getLastMeal());
+    if(headerType === "home") {
+      dispatch(getLastMeal());
+    }
+    
   }, []);
 
   const handleAddMealForm = () => {

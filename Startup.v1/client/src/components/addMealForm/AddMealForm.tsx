@@ -35,11 +35,9 @@ export const AddMealForm: FC<AddMealFormProps> = ({
 
   useEffect(() => {
     const dateTime = new Date();
-    console.log(dateTime)
 
     let day: string | number = dateTime.getDate();
 
-    console.log(day)
 
     if (day.toString().length < 2) {
       day = `0${day}`
@@ -52,10 +50,6 @@ export const AddMealForm: FC<AddMealFormProps> = ({
     }
 
     let year = dateTime.getFullYear();
-
-    console.log(day)
-    console.log(month)
-    console.log(year)
 
     const fullDate = `${year}-${month}-${day}`;
     setCurrentDate(fullDate);

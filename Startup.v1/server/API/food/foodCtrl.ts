@@ -111,21 +111,27 @@ export async function getAllFoodWithFavorite(req:express.Request, res:express.Re
     const userId = decodeCookie(userID);
     if (!userId) throw new Error("Couldn't find userId from decodedUserId ON FUNCTION updateCarbsGoal IN FILE usersCtrl");
 
-    const sql = `SELECT f.food_id, f.food_name, f.carbs, f.protein, f.fat, f.calories, f.unit, f.weight, f.carbs_unit, f.carbs_unit_protein, uf.user_favorite_id, uf.user_id FROM sugarbit.food as f LEFT JOIN user_favorite as uf on f.food_id = uf.food_id WHERE uf.user_id = '${userId}' OR uf.user_id IS NULL;`;
+    const sql = `SELECT f.food_id, f.food_name, f.carbs, f.protein, f.fat, f.calories, f.unit, f.weight, f.carbs_unit, f.carbs_unit_protein, uf.user_favorite_id, uf.user_id FROM sugarbit.food as f LEFT JOIN user_favorite as uf on f.food_id = uf.food_id WHERE uf.user_id = '${userId}' OR uf.user_id IS NULL`;
 
     connection.query(sql, (error, result) => {
       try {
         if (error) throw error;
         const foodListArray = []
         result.map((food) => {
+          if(food.food_id === 1) {
+            console.log("this is watermelon")
+            console.log(food)
+          }
           if(!food.user_id) {
             food.favorite = false;
             foodListArray.push(food)
+            
           } else {
             food.favorite = true;
             foodListArray.push(food)
           }
         })
+        console.log(foodListArray[0])
         res.send({foodListArray})
       } catch (error) {
         res.status(500).send({error: error.message})

@@ -6,7 +6,7 @@ import { Meal } from "../../features/openMeal/mealModel";
 import { openMealSelector } from "../../features/openMeal/openMealSlice";
 import ServingItem from "./servingItem/ServingItem";
 import { useAppDispatch } from "./../../app/hooks";
-import { deleteLastMeal } from "./../../features/openMeal/openMealAPI";
+import { deleteLastMeal, getLastMeal } from "./../../features/openMeal/openMealAPI";
 import { openMealSlice } from "./../../features/openMeal/openMealSlice";
 import insulinIcon from "../../assets/images/home/insulinIcon.png";
 import bloodIcon from "../../assets/images/home/bloodIcon.png";
@@ -68,7 +68,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal, setMeals, date, type }) => {
       console.log("trying To delete");
       const mealId = meal.meal_id;
       if (mealId) dispatch(deleteLastMeal({ mealId }));
-
+      dispatch(getLastMeal())
       handleCloseForm();
     } catch (error) {
       console.error(error);
